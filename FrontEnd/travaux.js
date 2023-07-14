@@ -3,7 +3,6 @@ let gal = document.querySelector(".gallery");
 let wors = "";
 let cats = "";
 let docs = "";
-let wmax = 0;
 let cmax = 0;
 let curcat = "0";
 let precat = "";
@@ -11,8 +10,7 @@ let precat = "";
 let urls = `http://localhost:5678/api/works`
 let response = await fetch(urls);
 wors = await response.json();
-wmax = wors.length -1;
-console.log(wors);
+//console.log(wors);
 
 urls = `http://localhost:5678/api/categories`
 response = await fetch(urls);

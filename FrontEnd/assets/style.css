@@ -34,6 +34,9 @@ body {
 ol, ul {
 	list-style: none;
 }
+a {
+	text-decoration: none;
+}
 blockquote, q {
 	quotes: none;
 }
@@ -214,4 +217,17 @@ footer nav ul {
 	justify-content: flex-end;
 	margin: 2em
 }
-
+#login {
+	margin-top: 50px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	height: 200px;
+}
+.loginf {
+	margin: 10px 0 25px 0;
+}
+#login h2 {
+	margin-bottom: 40px;
+}
