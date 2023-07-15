@@ -18,6 +18,20 @@ cats = await response.json();
 cmax = cats.length -1;
 //console.log(cats);
 
+/* let logbodjson = {
+    "email": "sophie.bluel@test.tld",
+    "password": "S0phie"
+}
+let resfetch = await fetch("http://localhost:5678/api/users/login", {
+    method: "POST", 
+    headers: { "Content-Type": "application/json" }, 
+    body: logbodjson
+}); */
+/* resjson = await resfetch.json();
+console.log(resjson);
+ */
+
+
 function removeFigures() {
     try {
         console.log("Début removeFigures");

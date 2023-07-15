@@ -25,16 +25,18 @@
 </header>
 <main>
 	<section id="login">
-        <form method="post">
+        <form class="loginform">
             <h2>Log In</h2>
             <div><label for="login__email">E-mail</label></div>
-            <div><input type="text" id="login__email" name="login__email" class="loginf"/></div>
+            <div><input type="text" id="login__email" name="login-email" class="loginf" required/></div>
             <div><label for="login__pwd">Mot de passe</label></div>
-            <div><input type="text" id="login__pwd" name="login__pwd" class="loginf"/></div>
-            <div><button type="button" id="login__connect" class="porcatbtn__btnsel">Se connecter</button></div>
+            <div><input type="password" id="login__pwd" name="login-pwd" class="loginf" required/></div>
+            <div><button type="submit"  id="login__connect" class="porcatbtn__btnsel">Se connecter</button></div>
             <div><a href="" id="login__pwdf">Mot de passe oublié</a></div>
         </form>
 
     </section>
 </main>
+</body>
+</html>
 
