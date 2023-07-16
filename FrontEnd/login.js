@@ -1,8 +1,10 @@
 const logf = document.querySelector(".loginform");
 //console.log(logf);
+const resp = document.getElementById("presult");
 let result = "";
 
 async function postLogin(pbodjson) {
+    resp.innerHTML = "";
     const res = await fetch("http://localhost:5678/api/users/login", {
         method: "POST", 
         headers: {"Content-Type": "application/json"}, 
@@ -10,10 +12,11 @@ async function postLogin(pbodjson) {
     });
     console.log(res);
     if (res.ok === false) {
-        alert("email ou mot de passe non valables");
+        resp.innerHTML = "Erreur : Email ou mot de passe non valables";
     } else {
         result = await res.json();
         console.log(result);
+        window.location.href="index.html";
     }
 };
 
@@ -31,6 +34,5 @@ logf.addEventListener("submit", function(event) {
 });
 let resbtn = document.getElementById("showresult");
 resbtn.addEventListener("click", () => {
-    let resp = document.getElementById("presult");
     resp.innerHTML = "Résultat : " + result.token + " - " + result.userId;
 });
