@@ -1,5 +1,5 @@
 const logf = document.querySelector(".loginform");
-console.log(logf);
+//console.log(logf);
 let result = "";
 
 async function postLogin(pbodjson) {
@@ -8,8 +8,13 @@ async function postLogin(pbodjson) {
         headers: {"Content-Type": "application/json"}, 
         body: pbodjson
     });
-    const resjson = await res.json();
-    return resjson;
+    console.log(res);
+    if (res.ok === false) {
+        alert("email ou mot de passe non valables");
+    } else {
+        result = await res.json();
+        console.log(result);
+    }
 };
 
 logf.addEventListener("submit", function(event) {
@@ -21,7 +26,11 @@ logf.addEventListener("submit", function(event) {
     }
     const logbodjson = JSON.stringify(logbodobj);
     console.log("logbodjson : " + logbodjson);
-    result = postLogin(logbodjson);
-    console.log(result);
+//    result = postLogin(logbodjson);
+    postLogin(logbodjson);
 });
-
+let resbtn = document.getElementById("showresult");
+resbtn.addEventListener("click", () => {
+    let resp = document.getElementById("presult");
+    resp.innerHTML = "Résultat : " + result.token + " - " + result.userId;
+});
