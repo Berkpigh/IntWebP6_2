@@ -37,6 +37,9 @@ ol, ul {
 a {
 	text-decoration: none;
 }
+a:hover {
+	font-weight: 700;
+}
 blockquote, q {
 	quotes: none;
 }
@@ -97,9 +100,16 @@ nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
 }
-
 li:hover {
 	color: #B1663C;
+}
+.navenabled {
+	pointer-events: auto;
+	font-weight: 400;
+}
+.navdisabled {
+	pointer-events: none;
+	font-weight: 300;
 }
 #introduction {
 	display: flex;
@@ -113,20 +123,32 @@ li:hover {
 	margin: auto;
 	width: 80%;
 }
-
 #introduction article {
 	flex: 1
 }
 #introduction h2 {
 	margin-bottom: 1em;
 }
-
 #introduction p {
 	margin-bottom: 0.5em;
 }
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
+}
+#mesprojets {
+	display: flex;
+	justify-content:center;
+	align-items: center;
+}
+.modifier {
+	margin: 0 0 22px 30px;
+}
+.modinvisible {
+	display: none;
+}
+.modvisible {
+	display: inline;
 }
 .porcatbtn {
 	margin: 1em 0 1.5em 350px;

@@ -10,11 +10,7 @@ function storeResult() {
         timenow: Date.now()
     }
     const loginfo = JSON.stringify(stores);
-    //console.log(loginfo);
     window.localStorage.setItem("loginfo", loginfo);
-    const getinfo = window.localStorage.getItem("loginfo");
-    const gijson = JSON.parse(getinfo);
-    console.log(gijson.timenow);
 }
 
 async function postLogin(pbodjson) {
@@ -31,7 +27,7 @@ async function postLogin(pbodjson) {
         result = await res.json();
         console.log(result);
         storeResult();
-        //window.location.href="index.html";
+        window.location.href="index.html";
     }
 };
 

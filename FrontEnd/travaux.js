@@ -1,8 +1,10 @@
 const por = document.getElementById("portfolio");
 let gal = document.querySelector(".gallery");
+let apro = document.querySelector(".apro");
+let alog = document.querySelector(".alog");
+let modifier = document.querySelector(".modifier");
 let wors = "";
 let cats = "";
-let docs = "";
 let cmax = 0;
 let curcat = "0";
 let precat = "";
@@ -18,19 +20,40 @@ cats = await response.json();
 cmax = cats.length -1;
 //console.log(cats);
 
-/* let logbodjson = {
-    "email": "sophie.bluel@test.tld",
-    "password": "S0phie"
+function swapModifier(pswap) {
+    if (pswap > 0) {
+        alog.classList.remove("navenabled");
+        alog.classList.add("navdisabled");
+        modifier.classList.remove("modinvisible");
+        modifier.classList.add("modvisible");
+    } else {
+        alog.classList.remove("navdisabled");
+        alog.classList.add("navenabled");
+        modifier.classList.remove("modvisible");
+        modifier.classList.add("modinvisible");        
+    }
 }
-let resfetch = await fetch("http://localhost:5678/api/users/login", {
-    method: "POST", 
-    headers: { "Content-Type": "application/json" }, 
-    body: logbodjson
-}); */
-/* resjson = await resfetch.json();
-console.log(resjson);
- */
 
+function getLSInfo() {
+    const getinfo = window.localStorage.getItem("loginfo");
+    if (getinfo === null) {
+        console.log("getinfo : null")
+        swapModifier(-1);
+        return;
+    }
+    const gijson = JSON.parse(getinfo);
+    let dt = Date.now();
+    let dtlog = gijson.timenow;
+    let minutes = (dt - dtlog) / 60000;
+    if (minutes > 10) {
+        console.log("getinfo : > 10")
+        window.localStorage.removeItem("loginfo");
+        swapModifier(-1);
+    } else {
+        console.log("getinfo : < 10")
+        swapModifier(1);
+    };
+}
 
 function removeFigures() {
     try {
@@ -127,6 +150,7 @@ function main(pwors) {
                      b = createFigures(pwors)};
     if (b === true) {console.log("createFigures Ok")};
 }
+getLSInfo();
 createCatBtns();
 addListenerCatBtns();
 main(wors);
