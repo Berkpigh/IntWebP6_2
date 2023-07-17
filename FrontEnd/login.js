@@ -3,6 +3,20 @@ const logf = document.querySelector(".loginform");
 const resp = document.getElementById("presult");
 let result = "";
 
+function storeResult() {
+    const stores = {
+        userid: result.userId,
+        token: result.token,
+        timenow: Date.now()
+    }
+    const loginfo = JSON.stringify(stores);
+    //console.log(loginfo);
+    window.localStorage.setItem("loginfo", loginfo);
+    const getinfo = window.localStorage.getItem("loginfo");
+    const gijson = JSON.parse(getinfo);
+    console.log(gijson.timenow);
+}
+
 async function postLogin(pbodjson) {
     resp.innerHTML = "";
     const res = await fetch("http://localhost:5678/api/users/login", {
@@ -16,7 +30,8 @@ async function postLogin(pbodjson) {
     } else {
         result = await res.json();
         console.log(result);
-        window.location.href="index.html";
+        storeResult();
+        //window.location.href="index.html";
     }
 };
 
