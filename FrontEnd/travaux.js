@@ -1,13 +1,13 @@
-const por = document.getElementById("portfolio");
+const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");
-let apro = document.querySelector(".apro");
-let alog = document.querySelector(".alog");
+let amod = document.getElementById("amod");
 let modifier = document.querySelector(".modifier");
 let wors = "";
 let cats = "";
 let cmax = 0;
 let curcat = "0";
 let precat = "";
+let testlog = 0;
 
 let urls = `http://localhost:5678/api/works`
 let response = await fetch(urls);
@@ -22,24 +22,19 @@ cmax = cats.length -1;
 
 function swapModifier(pswap) {
     if (pswap > 0) {
-        alog.classList.remove("navenabled");
-        alog.classList.add("navdisabled");
         modifier.classList.remove("modinvisible");
         modifier.classList.add("modvisible");
     } else {
-        alog.classList.remove("navdisabled");
-        alog.classList.add("navenabled");
         modifier.classList.remove("modvisible");
         modifier.classList.add("modinvisible");        
     }
 }
-
 function getLSInfo() {
     const getinfo = window.localStorage.getItem("loginfo");
     if (getinfo === null) {
         console.log("getinfo : null")
         swapModifier(-1);
-        return;
+        return 0;
     }
     const gijson = JSON.parse(getinfo);
     let dt = Date.now();
@@ -49,12 +44,12 @@ function getLSInfo() {
         console.log("getinfo : > 10")
         window.localStorage.removeItem("loginfo");
         swapModifier(-1);
-    } else {
-        console.log("getinfo : < 10")
-        swapModifier(1);
-    };
+        return -1;
+    }
+    console.log("getinfo : < 10")
+    swapModifier(1);
+    return 1;
 }
-
 function removeFigures() {
     try {
         console.log("Début removeFigures");
@@ -144,13 +139,28 @@ function addListenerCatBtns() {
         })
     }
 }
+/* function addListenerModifier() {
+    amod.addEventListener("click", (event) =>{
+        event.preventDefault();
+        testlog = getLSInfo();
+        console.log("testlog modifier: " + testlog);
+        if (testlog < 1) {
+            window.location.href="login.html";
+            return;
+        }
+        let modal = document.querySelector(".modal-wrapper");
+        modal.parentNode.removeChild(modal);
+        window.location.href="#modal-modifier";
+    });
+} */
 function main(pwors) {
     let b = removeFigures();
     if (b === true) {console.log("removeFigures Ok");
                      b = createFigures(pwors)};
     if (b === true) {console.log("createFigures Ok")};
 }
-getLSInfo();
+testlog = getLSInfo();
+console.log("testlog : " + testlog);
 createCatBtns();
 addListenerCatBtns();
 main(wors);
