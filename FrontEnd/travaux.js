@@ -3,6 +3,8 @@ let gal = document.querySelector(".gallery");
 let alog = document.getElementById("alog");
 let amod = document.getElementById("amod");
 let modifier = document.querySelector(".modifier");
+const modcontent = document.querySelector(".modal-content")
+let modgal = document.querySelector(".modal-gallery");
 /*
 document.querySelectorAll(".js-modal").forEach(a => {
     a.addEventListener('click', openModal);
@@ -151,6 +153,43 @@ function addListenerCatBtns() {
         })
     }
 }
+
+function removeModalFigures() {
+    try {
+        console.log("Début removeModalFigures");
+        let figs = document.querySelector(".modal-gallery");
+        figs.parentNode.removeChild(figs);
+        return true;
+    } catch (error) {
+        console.log("Erreur removeModalFigures " + error.message);
+    }
+}
+function createModalFigures(pwors)  {
+    try {
+        console.log("Début createModalFigures");
+        modgal = document.createElement("div");
+        modgal.classList.add("modal-gallery");
+        for (let w = 0; w < pwors.length; w++) {
+            let fig = document.createElement("figure");
+            let ima = document.createElement("img");
+            let fic = document.createElement("figcaption");
+            ima.src = pwors[w].imageUrl;
+            ima.alt = pwors[w].title;
+            fic.innerHTML  = "éditer";
+            fig.appendChild(ima);
+            fig.appendChild(fic);
+            modgal.appendChild(fig);
+            //console.log(gal);
+        }
+        modcontent.appendChild(modgal);
+        console.log(modcontent);
+        return true;
+    } catch (error) {
+        console.log("Erreur createModalFigures " + error.message);
+    }
+}
+
+
 /* function addListenerModifier() {
     amod.addEventListener("click", (event) =>{
         event.preventDefault();
@@ -171,8 +210,11 @@ function main(pwors) {
                      b = createFigures(pwors)};
     if (b === true) {console.log("createFigures Ok")};
 }
-function cl() {
-    console.log("j'ai clické");
+function mainModal(pwors) {
+    let b = removeModalFigures();
+    if (b === true) {console.log("removeModalFigures Ok");
+                     b = createModalFigures(pwors)};
+    if (b === true) {console.log("createModalFigures Ok")};
 }
 /* --- gestion fenêtre modale ---*/
 const focusableSelector = 'button, a, input, textarea'
@@ -185,14 +227,8 @@ let previouslyFocusedElement = null
 const openModal = async function (e) {
     e.preventDefault()
     const target = e.target.getAttribute('href')
-/*     if (target.startsWith('#')) {
-        modal = document.querySelector(target)
-    } else {
-        modal = await loadModal(target)
-    }
- */
     modal = document.querySelector(target);
-    console.log(modal);
+    //console.log(modal);
     focusables = Array.from(modal.querySelectorAll(focusableSelector))
     previouslyFocusedElement = document.querySelector(':focus')
     modal.style.display = null
@@ -202,6 +238,7 @@ const openModal = async function (e) {
     modal.addEventListener('click', closeModal)
     modal.querySelector('.js-modal-close').addEventListener('click', closeModal)
     modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation)
+    mainModal(wors);
 }
 
 const closeModal = function (e) {
