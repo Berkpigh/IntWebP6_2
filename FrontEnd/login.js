@@ -43,7 +43,9 @@ logf.addEventListener("submit", function(event) {
 //    result = postLogin(logbodjson);
     postLogin(logbodjson);
 });
+/*
 let resbtn = document.getElementById("showresult");
 resbtn.addEventListener("click", () => {
     resp.innerHTML = "Résultat : " + result.token + " - " + result.userId;
 });
+*/

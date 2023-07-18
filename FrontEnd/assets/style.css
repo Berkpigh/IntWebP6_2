@@ -41,9 +41,6 @@ a {
 }
 */
  
-a {
-	font-weight: 700;
-}
 blockquote, q {
 	quotes: none;
 }
@@ -107,7 +104,12 @@ nav li {
 li:hover {
 	color: #B1663C;
 }
-
+.navenabled {
+	pointer-events: auto;
+}
+.navdisabled {
+	pointer-events: none;
+}
 #introduction {
 	display: flex;
 	align-items: center;
@@ -139,10 +141,10 @@ li:hover {
 	align-items: center;
 }
 .modifier {
-	margin: 0 0 22px 30px;
+	margin: 0 0 0 30px;
 }
 .modinvisible {
-	display: none;
+	display: inline;
 }
 .modvisible {
 	display: inline;

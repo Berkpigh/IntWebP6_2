@@ -1,7 +1,14 @@
 const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");
+let alog = document.getElementById("alog");
 let amod = document.getElementById("amod");
 let modifier = document.querySelector(".modifier");
+/*
+document.querySelectorAll(".js-modal").forEach(a => {
+    a.addEventListener('click', openModal);
+})
+*/
+
 let wors = "";
 let cats = "";
 let cmax = 0;
@@ -22,9 +29,13 @@ cmax = cats.length -1;
 
 function swapModifier(pswap) {
     if (pswap > 0) {
+        alog.classList.remove("navenabled");
+        alog.classList.add("navdisabled");
         modifier.classList.remove("modinvisible");
         modifier.classList.add("modvisible");
     } else {
+        alog.classList.remove("navdisabled");
+        alog.classList.add("navenabled");
         modifier.classList.remove("modvisible");
         modifier.classList.add("modinvisible");        
     }
@@ -34,7 +45,7 @@ function getLSInfo() {
     if (getinfo === null) {
         console.log("getinfo : null")
         swapModifier(-1);
-        return 0;
+        return true;
     }
     const gijson = JSON.parse(getinfo);
     let dt = Date.now();
@@ -44,12 +55,13 @@ function getLSInfo() {
         console.log("getinfo : > 10")
         window.localStorage.removeItem("loginfo");
         swapModifier(-1);
-        return -1;
+        return true;
     }
     console.log("getinfo : < 10")
     swapModifier(1);
-    return 1;
+    return false;
 }
+
 function removeFigures() {
     try {
         console.log("Début removeFigures");
@@ -159,6 +171,109 @@ function main(pwors) {
                      b = createFigures(pwors)};
     if (b === true) {console.log("createFigures Ok")};
 }
+function cl() {
+    console.log("j'ai clické");
+}
+/* --- gestion fenêtre modale ---*/
+const focusableSelector = 'button, a, input, textarea'
+let modal = null
+let focusables = []
+let previouslyFocusedElement = null
+
+
+
+const openModal = async function (e) {
+    e.preventDefault()
+    const target = e.target.getAttribute('href')
+/*     if (target.startsWith('#')) {
+        modal = document.querySelector(target)
+    } else {
+        modal = await loadModal(target)
+    }
+ */
+    modal = document.querySelector(target);
+    console.log(modal);
+    focusables = Array.from(modal.querySelectorAll(focusableSelector))
+    previouslyFocusedElement = document.querySelector(':focus')
+    modal.style.display = null
+    focusables[0].focus()
+    modal.removeAttribute('aria-hidden')
+    modal.setAttribute('aria-modal', 'true')
+    modal.addEventListener('click', closeModal)
+    modal.querySelector('.js-modal-close').addEventListener('click', closeModal)
+    modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation)
+}
+
+const closeModal = function (e) {
+    console.log(modal);
+    if (modal === null) return 
+    if (previouslyFocusedElement !== null) previouslyFocusedElement.focus()
+    e.preventDefault()
+    /* Animation-direction reversed
+    modal.style.display = "none"
+    modal.offsetWidth
+    modal.style.display = null
+     */
+    modal.setAttribute('aria-hidden', 'true')
+    modal.removeAttribute('aria-modal')
+    modal.removeEventListener('click', closeModal)
+    modal.querySelector('.js-modal-close').removeEventListener('click', closeModal)
+    modal.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation)
+    const hideModal = function () {
+        modal.style.display = "none"
+        modal.removeEventListener('animationend', hideModal)
+        modal = null
+    }
+    modal.addEventListener('animationend', hideModal)
+}
+
+const stopPropagation = function (e) {
+    e.stopPropagation()
+}
+
+const focusInModal = function (e) {
+    e.preventDefault()
+    let index = focusables.findIndex(f => f === modal.querySelector(':focus'))
+    if (e.shiftKey === true) {
+        index--
+    } else {
+        index++
+    }
+    if (index >= focusables.length) {
+        index = 0
+    }
+    if (index < 0) {
+        index = focusables.length - 1
+    }
+    focusables[index].focus()
+}
+
+const loadModal = async function (url) {
+    // TODO : Afficher un loader
+    const target = '#' + url.split('#')[1]
+    const exitingModal = document.querySelector(target)
+    if (exitingModal !== null) return exitingModal
+    const html = await fetch(url).then(response => response.text())
+    const element = document.createRange().createContextualFragment(html).querySelector(target)
+    if (element === null) throw `L'élément ${target} n'a pas été trouvé dans la page ${url}`
+    document.body.append(element)
+    return element
+}
+/* 
+document.querySelectorAll(".js-modal").forEach(a => {
+    a.addEventListener('click', openModal)});
+ */    
+document.querySelector(".js-modal").addEventListener('click', openModal);
+
+window.addEventListener('keydown', function (e) {
+    if (e.key === "Escape" || e.key === "Esc") {
+        closeModal(e)
+    }
+    if (e.key === 'Tab' && modal !== null) {
+        focusInModal(e)
+    }
+})
+/* --- Fin de la gestion de la fenêtre modale --- */
 testlog = getLSInfo();
 console.log("testlog : " + testlog);
 createCatBtns();
