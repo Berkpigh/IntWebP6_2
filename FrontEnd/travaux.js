@@ -153,19 +153,60 @@ function addListenerCatBtns() {
     }
 }
 
-function removeModalFigures() {
+function removeModal() {
     try {
-        console.log("Début removeModalFigures");
+        console.log("Début removeModal");
         let figs = document.querySelector(".modal-gallery");
+        figs.parentNode.removeChild(figs);
+        figs = document.querySelector(".modal-svg");
+        figs.parentNode.removeChild(figs);
+        figs = document.getElementById("modal-btns");
         figs.parentNode.removeChild(figs);
         return true;
     } catch (error) {
-        console.log("Erreur removeModalFigures " + error.message);
+        console.log("Erreur removeModal " + error.message);
     }
 }
-function createModalFigures(pwors)  {
+function createModalBtns() {
+    console.log("Début createModalBtns");
+    const modcontent = document.querySelector(".modal-wrapper");
+/* --- Ligne --- */
+    let div = document.createElement("div");
+    div.classList.add("modal-svg");
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    svg.setAttribute("width", "420");
+    svg.setAttribute("height", "1");
+    svg.setAttribute("viewBox", "0 0 420 1");
+    svg.setAttribute("fill", "none");
+    line.setAttribute("x1", "-4.37114e-08");
+    line.setAttribute("y1", "0.5");
+    line.setAttribute("x2", "420");
+    line.setAttribute("y2", "0.499963");
+    line.setAttribute("stroke", "#B3B3B3");
+    svg.appendChild(line);
+    div.appendChild(svg);
+    modcontent.appendChild(div);
+/* --- Boutons --- */
+    div = document.createElement("div");
+    div.id = "modal-btns";
+    let btn = document.createElement("button");
+    btn.id = "modal-add";
+    btn.classList.add("porcatbtn__btnsel");
+    btn.type = "button";
+    btn.innerHTML = "Ajouter une photo";
+    div.appendChild(btn);
+    btn = document.createElement("button");
+    btn.id = "modal-del";
+    btn.type = "button";
+    btn.innerHTML = "Supprimer la galerie";
+    div.appendChild(btn);
+    modcontent.appendChild(div);
+    console.log("createModalBtns Ok");
+}
+function createModal(pwors)  {
     try {
-        console.log("Début createModalFigures");
+        console.log("Début createModal");
         modgal = document.createElement("div");
         modgal.classList.add("modal-gallery");
         for (let w = 0; w < pwors.length; w++) {
@@ -181,12 +222,13 @@ function createModalFigures(pwors)  {
             //console.log(gal);
         }
         const modcontent = document.querySelector(".modal-wrapper");
-        console.log("modcontent avant : " + modcontent);
+        //console.log("modcontent avant : " + modcontent);
         modcontent.appendChild(modgal);
-        console.log(modcontent);
+        //console.log(modcontent);
+        createModalBtns();
         return true;
     } catch (error) {
-        console.log("Erreur createModalFigures " + error.message);
+        console.log("Erreur createModal " + error.message);
     }
 }
 
@@ -212,10 +254,10 @@ function main(pwors) {
     if (b === true) {console.log("createFigures Ok")};
 }
 function mainModal(pwors) {
-    let b = removeModalFigures();
-    if (b === true) {console.log("removeModalFigures Ok");
-                     b = createModalFigures(pwors)};
-    if (b === true) {console.log("createModalFigures Ok")};
+    let b = removeModal();
+    if (b === true) {console.log("removeModal Ok");
+                     b = createModal(pwors)};
+    if (b === true) {console.log("createModal Ok")};
 }
 /* --- gestion fenêtre modale ---*/
 const focusableSelector = 'button, a, input, textarea'

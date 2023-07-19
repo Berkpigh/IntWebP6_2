@@ -291,7 +291,7 @@ footer nav ul {
 .modal-wrapper {
     overflow: auto;
     width: 631px;
-/*	height: 731px; */ 
+	height: 731px;
 
     max-width: calc(100vw - 20px);
     max-height: calc(100vh - 20px);
@@ -299,10 +299,11 @@ footer nav ul {
  	padding: 0px;
     background-color: #FFF;
     animation: slideFromTop .3s both;
-	border-radius: 20px 20px;
+	border-radius: 10px 10px;
+	padding: 0 105px 50px 105px;
 }
 #modal-btnclose {
-	margin: 20px 0 0 580px;
+	margin: 20px 0 0 470px;
 	border-width: 0;
 	width: 24px;
 	height: 24px;
@@ -313,22 +314,17 @@ footer nav ul {
 	text-align: center;
 	margin: 20px 0 30px 0;
 }
-.modal-content {
-	margin: 0 82.86px 0 82.86px;
-/*
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-*/
-}
 #modal-add {
-	width: 20.789%;
+	width: 40%;
 }
 #modal-del {
 	border-width: 0;
 	color: red;
-	background: #FFF		;
+	background: #FFF;
+	padding-left: 25px;
+}
+.modal-svg {
+	margin: 30px 0 20px 0;
 }
 #modal-btns {
 	height: 80px;
@@ -339,7 +335,7 @@ footer nav ul {
 }
 .modal-gallery {
 	width: 100%;
-	height: 100%;
+	/*height: 100%;*/
 	display: grid;
 	grid-template-columns: 76.86px 76.86px 76.86px 76.86px 76.86px;
 	grid-template-rows: 102.57px 102.57px 102.57px;
@@ -347,7 +343,7 @@ footer nav ul {
 	grid-template-columns: 18% 18% 18% 18% 18%;
 	grid-template-rows: 30% 30% 30%;
  */	
- 	grid-column-gap: 20px;
+ 	grid-column-gap: 8.925px;
 	grid-row-gap: 20px;
 }
 .modal-gallery img {
