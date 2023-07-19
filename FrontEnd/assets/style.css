@@ -271,7 +271,7 @@ footer nav ul {
 * { box-sizing: border-box; }
 .modal-invisible { display: none; }
 .modal-visible { display: inline; }
-*:focus { box-shadow: 0 0 5cappx #fefefe	; }
+*:focus { box-shadow: 0 0 4px rgb(50, 50, 50); }
 
 .modal {
     position: fixed;
@@ -305,6 +305,7 @@ footer nav ul {
 	border-width: 0;
 	width: 24px;
 	height: 24px;
+	padding: 0;
 }
 #modal-title {
 	font-size: 26px;
@@ -319,12 +320,12 @@ footer nav ul {
 	border-width: 0;
 	color: red;
 	background: #FFF;
-	padding-left: 25px;
+	padding	: 25px;
 }
 .modal-svg {
 	margin: 30px 0 20px 0;
 }
-#modal-btns {
+.modal-btns {
 	height: 80px;
 	display: flex;
 	flex-direction: column;
@@ -372,6 +373,11 @@ footer nav ul {
 .figsvg {
 	border-radius: 2px 2px;
 	margin-left: 5px;
+}
+.figcap {
+	position: absolute;
+	top: 108px;
+
 }
 @keyframes fadeIn {
     from { opacity: 0; }

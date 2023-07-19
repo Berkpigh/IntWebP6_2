@@ -9,13 +9,13 @@ document.querySelectorAll(".js-modal").forEach(a => {
     a.addEventListener('click', openModal);
 })
 */
-
 let wors = "";
 let cats = "";
 let cmax = 0;
 let curcat = "0";
 let precat = "";
 let testlog = 0;
+let session = 5;
 
 let urls = `http://localhost:5678/api/works`
 let response = await fetch(urls);
@@ -52,13 +52,13 @@ function getLSInfo() {
     let dt = Date.now();
     let dtlog = gijson.timenow;
     let minutes = (dt - dtlog) / 60000;
-    if (minutes > 10) {
-        console.log("getinfo : > 10")
+    if (minutes > session) {
+        console.log("getinfo : > " + session);
         window.localStorage.removeItem("loginfo");
         swapModifier(-1);
         return true;
     }
-    console.log("getinfo : < 10")
+    console.log("getinfo : < " + session);
     swapModifier(1);
     return false;
 }
@@ -152,13 +152,18 @@ function addListenerCatBtns() {
         })
     }
 }
-
+amod.addEventListener("mouseover", (event) => {
+    testlog = getLSInfo();
+    console.log("testlog modifier: " + testlog);
+    if (testlog === true) { window.location.href="login.html"; };
+});
 function main(pwors) {
     let b = removeFigures();
     if (b === true) {console.log("removeFigures Ok");
                      b = createFigures(pwors)};
     if (b === true) {console.log("createFigures Ok")};
 }
+
 /* --- gestion fenêtre modale ---*/
 const focusableSelector = 'button, a, input, textarea'
 let modal = null
@@ -243,7 +248,7 @@ function generateSVGLine() {
 };
 function createModalBtns() {
     console.log("Début createModalBtns");
-    const modcontent = document.querySelector(".modal-wrapper");
+    const modcontent = modal.querySelector(".modal-wrapper");
 /* --- Ligne --- */
     let div = document.createElement("div");
     div.classList.add("modal-svg");
@@ -252,7 +257,7 @@ function createModalBtns() {
     modcontent.appendChild(div);
 /* --- Boutons --- */
     div = document.createElement("div");
-    div.id = "modal-btns";
+    div.classList.add("modal-btns");
     let btn = document.createElement("button");
     btn.id = "modal-add";
     btn.classList.add("porcatbtn__btnsel");
@@ -293,6 +298,7 @@ function createModal(pwors)  {
             ima.alt = pwors[w].title;
             let afic = document.createElement("a");
             afic.href = "#figbtn" + w.toString();
+            afic.classList.add("figcap");
             let fic = document.createElement("figcaption");
             fic.innerHTML  = "éditer";
 // --- rattachement au parent
@@ -313,22 +319,6 @@ function createModal(pwors)  {
         console.log("Erreur createModal " + error.message);
     }
 }
-/*
- function addListenerModifier() {
-    amod.addEventListener("click", (event) =>{
-        event.preventDefault();
-        testlog = getLSInfo();
-        console.log("testlog modifier: " + testlog);
-        if (testlog < 1) {
-            window.location.href="login.html";
-            return;
-        }
-        let modal = modal.querySelector(".modal-wrapper");
-        modal.parentNode.removeChild(modal);
-        window.location.href="#modal-modifier";
-    });
-}
-*/
 
 function mainModal(pwors) {
     let b = removeModal();
