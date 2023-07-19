@@ -278,46 +278,49 @@ footer nav ul {
 .modal {
     position: fixed;
     display: flex;
+	/*flex-direction: column;*/
     align-items: center;
     justify-content: center;
-    top: 0;
+    top: 0px;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.3);
     animation: fadeIn .3s both;
 }
 .modal-wrapper {
     overflow: auto;
-    width: 630px;
-    max-width: calc(1140px - 20px);
-    max-height: calc(1140px - 20px);
-/*     max-width: calc(100vw - 20px);
+    width: 631px;
+/*	height: 731px; */ 
+
+    max-width: calc(100vw - 20px);
     max-height: calc(100vh - 20px);
- */    padding: 20px;
+   
+ 	padding: 0px;
     background-color: #FFF;
     animation: slideFromTop .3s both;
-	border-radius: 20px;
+	border-radius: 20px 20px;
 }
 #modal-btnclose {
-	margin-left: 920px;
+	margin: 20px 0 0 580px;
 	border-width: 0;
 	width: 24px;
 	height: 24px;
 }
 #modal-title {
-	top: 65px;
 	font-size: 26px;
 	font-weight: 400;
 	text-align: center;
-	margin-bottom: 30px;
+	margin: 20px 0 30px 0;
 }
 .modal-content {
 	margin: 0 82.86px 0 82.86px;
+/*
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
+*/
 }
 #modal-add {
 	width: 20.789%;

@@ -3,7 +3,6 @@ let gal = document.querySelector(".gallery");
 let alog = document.getElementById("alog");
 let amod = document.getElementById("amod");
 let modifier = document.querySelector(".modifier");
-const modcontent = document.querySelector(".modal-content")
 let modgal = document.querySelector(".modal-gallery");
 /*
 document.querySelectorAll(".js-modal").forEach(a => {
@@ -181,6 +180,8 @@ function createModalFigures(pwors)  {
             modgal.appendChild(fig);
             //console.log(gal);
         }
+        const modcontent = document.querySelector(".modal-wrapper");
+        console.log("modcontent avant : " + modcontent);
         modcontent.appendChild(modgal);
         console.log(modcontent);
         return true;
