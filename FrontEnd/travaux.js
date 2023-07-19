@@ -167,24 +167,51 @@ function removeModal() {
         console.log("Erreur removeModal " + error.message);
     }
 }
-function createModalBtns() {
-    console.log("Début createModalBtns");
-    const modcontent = document.querySelector(".modal-wrapper");
-/* --- Ligne --- */
-    let div = document.createElement("div");
-    div.classList.add("modal-svg");
+function generateSVGDel() {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    svg.setAttribute("width", "17");
+    svg.setAttribute("height", "17");
+    svg.setAttribute("viewBox", "0 0 17 17");
+    svg.setAttribute("fill", "none");
+
+    rect.setAttribute("width", "17");
+    rect.setAttribute("height", "17");
+    rect.setAttribute("rx", "2");
+    rect.setAttribute("fill", "black");
+
+    path.setAttribute("d", "M6.71607 3.35558C6.82455 3.13661 7.04754 3 7.29063 3H9.70938C9.95246 3 10.1754 3.13661 10.2839 3.35558L10.4286 3.64286H12.3571C12.7127 3.64286 13 3.93013 13 4.28571C13 4.64129 12.7127 4.92857 12.3571 4.92857H4.64286C4.28728 4.92857 4 4.64129 4 4.28571C4 3.93013 4.28728 3.64286 4.64286 3.64286H6.57143L6.71607 3.35558ZM4.64286 5.57143H12.3571V12C12.3571 12.7092 11.7806 13.2857 11.0714 13.2857H5.92857C5.21942 13.2857 4.64286 12.7092 4.64286 12V5.57143ZM6.57143 6.85714C6.39464 6.85714 6.25 7.00179 6.25 7.17857V11.6786C6.25 11.8554 6.39464 12 6.57143 12C6.74821 12 6.89286 11.8554 6.89286 11.6786V7.17857C6.89286 7.00179 6.74821 6.85714 6.57143 6.85714ZM8.5 6.85714C8.32321 6.85714 8.17857 7.00179 8.17857 7.17857V11.6786C8.17857 11.8554 8.32321 12 8.5 12C8.67679 12 8.82143 11.8554 8.82143 11.6786V7.17857C8.82143 7.00179 8.67679 6.85714 8.5 6.85714ZM10.4286 6.85714C10.2518 6.85714 10.1071 7.00179 10.1071 7.17857V11.6786C10.1071 11.8554 10.2518 12 10.4286 12C10.6054 12 10.75 11.8554 10.75 11.6786V7.17857C10.75 7.00179 10.6054 6.85714 10.4286 6.85714Z");
+    path.setAttribute("fill", "white");
+
+    svg.appendChild(rect);
+    svg.appendChild(path);
+    return svg;
+};
+function generateSVGLine() {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
     svg.setAttribute("width", "420");
     svg.setAttribute("height", "1");
     svg.setAttribute("viewBox", "0 0 420 1");
     svg.setAttribute("fill", "none");
+
     line.setAttribute("x1", "-4.37114e-08");
     line.setAttribute("y1", "0.5");
     line.setAttribute("x2", "420");
     line.setAttribute("y2", "0.499963");
     line.setAttribute("stroke", "#B3B3B3");
+
     svg.appendChild(line);
+    return svg;
+};
+function createModalBtns() {
+    console.log("Début createModalBtns");
+    const modcontent = document.querySelector(".modal-wrapper");
+/* --- Ligne --- */
+    let div = document.createElement("div");
+    div.classList.add("modal-svg");
+    const svg = generateSVGLine();
     div.appendChild(svg);
     modcontent.appendChild(div);
 /* --- Boutons --- */
@@ -211,13 +238,22 @@ function createModal(pwors)  {
         modgal.classList.add("modal-gallery");
         for (let w = 0; w < pwors.length; w++) {
             let fig = document.createElement("figure");
+            fig.classList.add("figs");
             let ima = document.createElement("img");
-            let fic = document.createElement("figcaption");
             ima.src = pwors[w].imageUrl;
             ima.alt = pwors[w].title;
+            let afic = document.createElement("a");
+            afic.href = "#figbtn" + w.toString();
+            let fic = document.createElement("figcaption");
             fic.innerHTML  = "éditer";
+            let div = document.createElement("div");
+            div.id = "figbtn" + w.toString();
+            let svg = generateSVGDel();
+            div.appendChild(svg);
+            afic.appendChild(fic);
             fig.appendChild(ima);
-            fig.appendChild(fic);
+            fig.appendChild(afic);
+            fig.appendChild(div);
             modgal.appendChild(fig);
             //console.log(gal);
         }
