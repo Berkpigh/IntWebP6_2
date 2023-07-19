@@ -34,13 +34,11 @@ body {
 ol, ul {
 	list-style: none;
 }
-/*
 a {
-	pointer-events: auto;
 	text-decoration: none;
+	color: black;
 }
-*/
- 
+
 blockquote, q {
 	quotes: none;
 }
@@ -344,7 +342,7 @@ footer nav ul {
 	grid-template-rows: 30% 30% 30%;
  */	
  	grid-column-gap: 8.925px;
-	grid-row-gap: 20px;
+	grid-row-gap: 35px;
 }
 .modal-gallery img {
 	width: 100%;
@@ -353,12 +351,27 @@ footer nav ul {
     animation-name: fadeOut; 
     /* animation-direction: reverse; */
 }
-
 .modal[aria-hidden="true"] .modal-wrapper {
     animation-name: slideToBottom;
     /* animation-direction: reverse; */
 }
-
+.figs {
+	position: relative;
+}
+.figimg {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.figbtns {
+	position: absolute;
+	top: 8px;
+	right: 6px;
+}
+.figsvg {
+	border-radius: 2px 2px;
+	margin-left: 5px;
+}
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
