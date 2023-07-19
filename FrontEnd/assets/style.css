@@ -367,6 +367,7 @@ footer nav ul {
 	position: absolute;
 	top: 8px;
 	right: 6px;
+	z-index: 1;
 }
 .figsvg {
 	border-radius: 2px 2px;

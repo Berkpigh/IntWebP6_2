@@ -153,19 +153,32 @@ function addListenerCatBtns() {
     }
 }
 
+function main(pwors) {
+    let b = removeFigures();
+    if (b === true) {console.log("removeFigures Ok");
+                     b = createFigures(pwors)};
+    if (b === true) {console.log("createFigures Ok")};
+}
+/* --- gestion fenêtre modale ---*/
+const focusableSelector = 'button, a, input, textarea'
+let modal = null
+let focusables = []
+let previouslyFocusedElement = null
+
 function removeModal() {
-    try {
+    //try {
         console.log("Début removeModal");
-        let figs = document.querySelector(".modal-gallery");
-        figs.parentNode.removeChild(figs);
-        figs = document.querySelector(".modal-svg");
-        figs.parentNode.removeChild(figs);
-        figs = document.getElementById("modal-btns");
-        figs.parentNode.removeChild(figs);
+        let modwrap = modal.querySelector(".modal-wrapper");
+        let figs = modal.querySelector(".modal-gallery");
+        modwrap.removeChild(figs);
+        figs = modal.querySelector(".modal-svg");
+        modwrap.removeChild(figs);
+        figs = modal.querySelector(".modal-btns");
+        modwrap.removeChild(figs);
         return true;
-    } catch (error) {
+/*    } catch (error) {
         console.log("Erreur removeModal " + error.message);
-    }
+    } */
 }
 function generateSVGMove() {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -264,7 +277,6 @@ function createModal(pwors)  {
             fig.classList.add("figs");
 // --- div avec les boutons
             let div = document.createElement("div");
-            div.id = "figbtn" + w.toString();
             div.classList.add("figbtns");
             let svg = "";
             if (w === 0) {
@@ -272,9 +284,11 @@ function createModal(pwors)  {
                 div.appendChild(svg);
             }
             svg = generateSVGDel();
+            svg.id = "figbtn" + w.toString();
             div.appendChild(svg);
 // --- image et caption
             let ima = document.createElement("img");
+            ima.classList.add("figimg");
             ima.src = pwors[w].imageUrl;
             ima.alt = pwors[w].title;
             let afic = document.createElement("a");
@@ -289,7 +303,7 @@ function createModal(pwors)  {
             modgal.appendChild(fig);
             //console.log(gal);
         }
-        const modcontent = document.querySelector(".modal-wrapper");
+        const modcontent = modal.querySelector(".modal-wrapper");
         //console.log("modcontent avant : " + modcontent);
         modcontent.appendChild(modgal);
         //console.log(modcontent);
@@ -299,9 +313,8 @@ function createModal(pwors)  {
         console.log("Erreur createModal " + error.message);
     }
 }
-
-
-/* function addListenerModifier() {
+/*
+ function addListenerModifier() {
     amod.addEventListener("click", (event) =>{
         event.preventDefault();
         testlog = getLSInfo();
@@ -310,46 +323,36 @@ function createModal(pwors)  {
             window.location.href="login.html";
             return;
         }
-        let modal = document.querySelector(".modal-wrapper");
+        let modal = modal.querySelector(".modal-wrapper");
         modal.parentNode.removeChild(modal);
         window.location.href="#modal-modifier";
     });
-} */
-function main(pwors) {
-    let b = removeFigures();
-    if (b === true) {console.log("removeFigures Ok");
-                     b = createFigures(pwors)};
-    if (b === true) {console.log("createFigures Ok")};
 }
+*/
+
 function mainModal(pwors) {
     let b = removeModal();
     if (b === true) {console.log("removeModal Ok");
                      b = createModal(pwors)};
     if (b === true) {console.log("createModal Ok")};
 }
-/* --- gestion fenêtre modale ---*/
-const focusableSelector = 'button, a, input, textarea'
-let modal = null
-let focusables = []
-let previouslyFocusedElement = null
-
-
 
 const openModal = async function (e) {
     e.preventDefault()
     const target = e.target.getAttribute('href')
     modal = document.querySelector(target);
     //console.log(modal);
-    focusables = Array.from(modal.querySelectorAll(focusableSelector))
     previouslyFocusedElement = document.querySelector(':focus')
     modal.style.display = null
-    focusables[0].focus()
     modal.removeAttribute('aria-hidden')
     modal.setAttribute('aria-modal', 'true')
     modal.addEventListener('click', closeModal)
     modal.querySelector('.js-modal-close').addEventListener('click', closeModal)
     modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation)
     mainModal(wors);
+    focusables = Array.from(modal.querySelectorAll(focusableSelector))
+    console.log(focusables);
+    focusables[0].focus()
 }
 
 const closeModal = function (e) {
