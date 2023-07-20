@@ -21,13 +21,13 @@ let session = 5;
 let urls = `http://localhost:5678/api/works`
 let response = await fetch(urls);
 wors = await response.json();
-console.log(wors);
+//console.log(wors);
 
 urls = `http://localhost:5678/api/categories`
 response = await fetch(urls);
 cats = await response.json();
 cmax = cats.length -1;
-//console.log(cats);
+console.log(cats);
 
 function swapModifier(pswap) {
     if (pswap > 0) {
@@ -287,34 +287,83 @@ function removeAPModal() {
         console.log("Erreur removeModal " + error.message);
     } */
 }
+function createAPModalBtns() {
+    console.log("Début createAPModalBtns");
+    const modcontent = modal.querySelector(".modal-wrapper");
+/* --- Ligne --- */
+    let div = document.createElement("div");
+    div.classList.add("modal-svg");
+    const svg = generateSVGLine();
+    div.appendChild(svg);
+    modcontent.appendChild(div);
+/* --- Boutons --- */
+    let apbval = document.createElement("button");
+    apbval.classList.add("apbval");
+    apbval.type = "button";
+    modcontent.appendChild(apbval);
+};
 function createAjoutPhotoModal(pwors, pcats)  {
     //try {
         console.log("Début createAjoutPhotoModal");
         const modtit = modal.querySelector(".modal-title");
         modtit.innerHTML = "Ajout photo";
+// --- div principale        
         modgal = document.createElement("div");
         modgal.classList.add("APmodal-content");
-
+// --- div ajout
         let div = document.createElement("div");
         div.classList.add("apdiv");
         const svg = generateSVGAP();
+        svg.classList.add("apsvg");
         div.appendChild(svg);
-
+//
         let btn = document.createElement("button");
         btn.type="button";
         btn.innerHTML = "+ Ajouter photo"
         btn.classList.add("apbtnadd");
         div.appendChild(btn);
-
+//
         let par = document.createElement("p");
         par.innerHTML = "jpg, png : 4mo max"
         par.classList.add("appar");
         div.appendChild(par);
-
+// 
         modgal.appendChild(div);
+// --- zones input
+        let aptlab = document.createElement("label");
+        aptlab.classList.add("aptlab");
+        aptlab.for = "aptinp";
+        aptlab.innerHTML = "Titre";
+        modgal.appendChild(aptlab);
+//
+        let aptinp = document.createElement("input");
+        aptinp.id = "aptinp";
+        aptinp.type = "text";
+        aptinp.name = "aptinp";
+        aptinp.classList.add("aptinp");
+        modgal.appendChild(aptinp);
+// --- liste déroulante
+        let apllab = document.createElement("label");
+        apllab.classList.add("apllab");
+        apllab.for = "aplist";
+        apllab.innerHTML = "Catégorie";
+        modgal.appendChild(apllab);
+//
+        let aplist = document.createElement("select");
+        aplist.classList.add("aptinp");
+        aplist.id = "aplist";
+        aplist.name = "aplist";
+        for (let c = 0; c < pcats.length; c++) {
+            let aplopt = document.createElement("option");
+            aplopt.value = pcats[c].id;
+            aplopt.innerHTML = pcats[c].name;
+            aplist.appendChild(aplopt);
+        }
+        modgal.appendChild(aplist);
 
         const modcontent = modal.querySelector(".modal-wrapper");
         modcontent.appendChild(modgal);
+        createAPModalBtns();
         //createModalBtns();
         //addListenerDelBtns();
         return true;
