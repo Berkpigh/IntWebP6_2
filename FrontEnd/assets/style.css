@@ -307,7 +307,7 @@ footer nav ul {
 	height: 24px;
 	padding: 0;
 }
-#modal-title {
+.modal-title {
 	font-size: 26px;
 	font-weight: 400;
 	text-align: center;
