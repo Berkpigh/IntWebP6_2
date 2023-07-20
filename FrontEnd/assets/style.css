@@ -374,10 +374,17 @@ footer nav ul {
 	border-radius: 2px 2px;
 	margin-left: 5px;
 }
+.figdelbtn {
+	box-sizing: unset;
+	padding: 0 0;
+	border-width: 0;
+	background-color: rgb(185, 134, 134);
+	opacity: 0.8;
+	height: 13px;
+}
 .figcap {
 	position: absolute;
 	top: 108px;
-
 }
 @keyframes fadeIn {
     from { opacity: 0; }

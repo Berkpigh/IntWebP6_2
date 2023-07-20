@@ -272,6 +272,20 @@ function createModalBtns() {
     modcontent.appendChild(div);
     console.log("createModalBtns Ok");
 }
+function addListenerDelBtns() {
+    let alldelbtns = modal.querySelectorAll(".figdelbtn");
+    for (let i = 0; i < alldelbtns.length; i++) {
+        
+        alldelbtns[i].addEventListener("click", (event) => {
+            let b = event.target.parentNode;
+            //let b2 = b.parentNode;
+            //let b3 = b2.parentNode;
+            console.log(b.id);
+        });
+
+         //console.log(alldelbtns[i].id);       
+    }
+};
 function createModal(pwors)  {
     try {
         console.log("Début createModal");
@@ -288,9 +302,13 @@ function createModal(pwors)  {
                 svg = generateSVGMove();
                 div.appendChild(svg);
             }
+            let bdel = document.createElement("button");
+            bdel.type = "button";
+            bdel.classList.add("figdelbtn");
             svg = generateSVGDel();
             svg.id = "figbtn" + w.toString();
-            div.appendChild(svg);
+            bdel.appendChild(svg);
+            div.appendChild(bdel);
 // --- image et caption
             let ima = document.createElement("img");
             ima.classList.add("figimg");
@@ -314,6 +332,7 @@ function createModal(pwors)  {
         modcontent.appendChild(modgal);
         //console.log(modcontent);
         createModalBtns();
+        addListenerDelBtns();
         return true;
     } catch (error) {
         console.log("Erreur createModal " + error.message);
