@@ -9,6 +9,7 @@ document.querySelectorAll(".js-modal").forEach(a => {
     a.addEventListener('click', openModal);
 })
 */
+let token = "";
 let wors = "";
 let cats = "";
 let cmax = 0;
@@ -20,7 +21,7 @@ let session = 5;
 let urls = `http://localhost:5678/api/works`
 let response = await fetch(urls);
 wors = await response.json();
-//console.log(wors);
+console.log(wors);
 
 urls = `http://localhost:5678/api/categories`
 response = await fetch(urls);
@@ -58,6 +59,7 @@ function getLSInfo() {
         swapModifier(-1);
         return true;
     }
+    token = gijson.token;
     console.log("getinfo : < " + session);
     swapModifier(1);
     return false;
@@ -272,15 +274,21 @@ function createModalBtns() {
     modcontent.appendChild(div);
     console.log("createModalBtns Ok");
 }
+function deleteWork(pwid) {
+
+}
 function addListenerDelBtns() {
     let alldelbtns = modal.querySelectorAll(".figdelbtn");
     for (let i = 0; i < alldelbtns.length; i++) {
         
         alldelbtns[i].addEventListener("click", (event) => {
-            let b = event.target.parentNode;
+            let b = event.target.parentNode.id;
             //let b2 = b.parentNode;
             //let b3 = b2.parentNode;
-            console.log(b.id);
+            console.log(b);
+            let wid = parseInt(b.substring(6));
+            console.log(wid);
+            console.log(token);
         });
 
          //console.log(alldelbtns[i].id);       
