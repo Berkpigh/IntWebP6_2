@@ -278,7 +278,7 @@ async function deleteWork(pworkid) {
     const urls = "http://localhost:5678/api/works/" + pworkid;
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY4OTg2ODEwNCwiZXhwIjoxNjg5OTU0NTA0fQ.PtjgVSTZIur8fs1vpTdcWloOEXhyzp8KmlW6ciQllrQ');
+    myHeaders.append('Authorization', `Bearer ${token}`);
     const res = await fetch(urls, {
         method: "DELETE", 
         headers: myHeaders 
