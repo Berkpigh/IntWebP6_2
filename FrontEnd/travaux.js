@@ -274,8 +274,16 @@ function createModalBtns() {
     modcontent.appendChild(div);
     console.log("createModalBtns Ok");
 }
-function deleteWork(pwid) {
-
+async function deleteWork(pworkid) {
+    const urls = "http://localhost:5678/api/works/" + pworkid;
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY4OTg2ODEwNCwiZXhwIjoxNjg5OTU0NTA0fQ.PtjgVSTZIur8fs1vpTdcWloOEXhyzp8KmlW6ciQllrQ');
+    const res = await fetch(urls, {
+        method: "DELETE", 
+        headers: myHeaders 
+    });
+    return res;
 }
 function addListenerDelBtns() {
     let alldelbtns = modal.querySelectorAll(".figdelbtn");
@@ -285,10 +293,17 @@ function addListenerDelBtns() {
             let b = event.target.parentNode.id;
             //let b2 = b.parentNode;
             //let b3 = b2.parentNode;
-            console.log(b);
-            let wid = parseInt(b.substring(6));
-            console.log(wid);
+            //console.log(b);
+            let figid = parseInt(b.substring(6));
+            let figs = modal.querySelectorAll(".figs");
+            let fig = figs[figid];
+            let cn = fig.childNodes;
+            let imgx = cn[1];
+            let workid = parseInt(imgx.id);
+            console.log(workid);
             console.log(token);
+            const res = deleteWork(workid);
+            //mainModal(wors);
         });
 
          //console.log(alldelbtns[i].id);       
@@ -320,6 +335,7 @@ function createModal(pwors)  {
 // --- image et caption
             let ima = document.createElement("img");
             ima.classList.add("figimg");
+            ima.id = pwors[w].id;
             ima.src = pwors[w].imageUrl;
             ima.alt = pwors[w].title;
             let afic = document.createElement("a");
