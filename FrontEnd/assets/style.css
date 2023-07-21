@@ -289,7 +289,6 @@ footer nav ul {
 .modal-wrapper {
     overflow: auto;
     width: 631px;
-	height: 731px;
 
     max-width: calc(100vw - 20px);
     max-height: calc(100vh - 20px);
@@ -299,6 +298,12 @@ footer nav ul {
     animation: slideFromTop .3s both;
 	border-radius: 10px 10px;
 	padding: 0 105px 50px 105px;
+}
+.modal-modal {
+	height: 731px;
+}
+.modal-APmodal {
+	height: 670px;
 }
 #modal-btnclose {
 	margin: 20px 0 0 470px;
@@ -391,7 +396,6 @@ footer nav ul {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	/*align-items: center;*/
 }
 .apdiv {
 	width: 420px;
@@ -416,6 +420,44 @@ footer nav ul {
 	margin-bottom: 25px;
 	font-size: 10px;
 	font-weight: 400;
+}
+.aptlab {
+	font-size: 14px;
+	font-weight: 500;
+	margin: 15px 0 5px 0;
+}
+.aptinp {
+	width: 420px;
+	height: 51px;
+	border-width: 0;
+	background: #FFFFFF;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+.apllab {
+	font-size: 14px;
+	font-weight: 500;	
+	margin: 15px 0 5px 0;
+}
+.aplinp {
+	width: 420px;
+	height: 51px;
+	border-width: 0;
+	background: #FFFFFF;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);	
+}
+.apbval {
+	width: 237px;
+	height: 36px;
+	margin: 15px 91.5px 0 91.5px;
+}
+.apbval_unsel {
+	font-size: 1em;
+	font-weight: 500;
+	color: #FFF;
+	border-width: 0;
+	border-radius: 35px;
+	background: grey;
+	padding: 10px;
 }
 @keyframes fadeIn {
     from { opacity: 0; }

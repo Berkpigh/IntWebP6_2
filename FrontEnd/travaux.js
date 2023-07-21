@@ -298,8 +298,9 @@ function createAPModalBtns() {
     modcontent.appendChild(div);
 /* --- Boutons --- */
     let apbval = document.createElement("button");
-    apbval.classList.add("apbval");
+    apbval.classList.add("apbval", "apbval_unsel");
     apbval.type = "button";
+    apbval.innerHTML = "Valider";
     modcontent.appendChild(apbval);
 };
 function createAjoutPhotoModal(pwors, pcats)  {
@@ -350,7 +351,7 @@ function createAjoutPhotoModal(pwors, pcats)  {
         modgal.appendChild(apllab);
 //
         let aplist = document.createElement("select");
-        aplist.classList.add("aptinp");
+        aplist.classList.add("aplinp");
         aplist.id = "aplist";
         aplist.name = "aplist";
         for (let c = 0; c < pcats.length; c++) {
@@ -362,6 +363,8 @@ function createAjoutPhotoModal(pwors, pcats)  {
         modgal.appendChild(aplist);
 
         const modcontent = modal.querySelector(".modal-wrapper");
+        modcontent.classList.remove("modal-modal");
+        modcontent.classList.add("modal-APmodal");
         modcontent.appendChild(modgal);
         createAPModalBtns();
         //createModalBtns();
@@ -487,6 +490,8 @@ function createMainModal(pwors)  {
             //console.log(gal);
         }
         const modcontent = modal.querySelector(".modal-wrapper");
+        modcontent.classList.remove("modal-APmodal");
+        modcontent.classList.add("modal-modal");
         //console.log("modcontent avant : " + modcontent);
         modcontent.appendChild(modgal);
         //console.log(modcontent);
