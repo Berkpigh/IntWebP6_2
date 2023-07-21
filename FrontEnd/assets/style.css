@@ -410,11 +410,22 @@ footer nav ul {
 	margin: 15px 0 5px 0;
 }
 .apbtnadd {
+	position: relative;
 	width: 173px;
 	height: 36px;
 	border-radius: 50px 50px;
 	background-color: rgba(174, 197, 214, 0.6);
 	border-width: 0;
+	z-index: 1;
+}
+.inpfil {
+	position: absolute;
+	top: 12px;
+	left: 30px;
+	width: 18px;
+	height: 12px;
+	color: transparent;
+	/*z-index: -1;*/
 }
 .appar {
 	margin-bottom: 25px;

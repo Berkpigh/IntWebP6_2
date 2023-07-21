@@ -286,50 +286,50 @@ function removeAPModal() {
 /*    } catch (error) {
         console.log("Erreur removeModal " + error.message);
     } */
-}
-function createAPModalBtns() {
-    console.log("Début createAPModalBtns");
-    const modcontent = modal.querySelector(".modal-wrapper");
-/* --- Ligne --- */
-    let div = document.createElement("div");
-    div.classList.add("modal-svg");
-    const svg = generateSVGLine();
-    div.appendChild(svg);
-    modcontent.appendChild(div);
-/* --- Boutons --- */
-    let apbval = document.createElement("button");
-    apbval.classList.add("apbval", "apbval_unsel");
-    apbval.type = "button";
-    apbval.innerHTML = "Valider";
-    modcontent.appendChild(apbval);
 };
+function apbtnaddListener() {
+    const btn = modal.querySelector(".apbtnadd");
+    const fpath = "D:\Documents\_OPENCLASSROOMS\_INTEGRATEUR_WEB\Projet_6\P6_Backend-Frontend\Portfolio-architecte-sophie-bluel\Backend\images"
+    btn.addEventListener("click", (event) => {
+        console.log(event.target);
+        //event.preventDefault();
+    })
+}
 function createAjoutPhotoModal(pwors, pcats)  {
     //try {
         console.log("Début createAjoutPhotoModal");
         const modtit = modal.querySelector(".modal-title");
         modtit.innerHTML = "Ajout photo";
-// --- div principale        
-        modgal = document.createElement("div");
+// --- Form
+        modgal = document.createElement("form");
         modgal.classList.add("APmodal-content");
 // --- div ajout
-        let div = document.createElement("div");
-        div.classList.add("apdiv");
-        const svg = generateSVGAP();
+        let div2 = document.createElement("div");
+        div2.classList.add("apdiv");
+        let svg = generateSVGAP();
         svg.classList.add("apsvg");
-        div.appendChild(svg);
+        div2.appendChild(svg);
 //
         let btn = document.createElement("button");
         btn.type="button";
         btn.innerHTML = "+ Ajouter photo"
         btn.classList.add("apbtnadd");
-        div.appendChild(btn);
+//
+        let inpfil = document.createElement("input");
+        inpfil.classList.add("inpfil");
+        inpfil.id = "upload";
+        inpfil.name = "upload";
+        inpfil.type = "file";
+        inpfil.style = ("visibility", "hidden");
+        btn.appendChild(inpfil);
+        div2.appendChild(btn);
 //
         let par = document.createElement("p");
         par.innerHTML = "jpg, png : 4mo max"
         par.classList.add("appar");
-        div.appendChild(par);
+        div2.appendChild(par);
 // 
-        modgal.appendChild(div);
+        modgal.appendChild(div2);
 // --- zones input
         let aptlab = document.createElement("label");
         aptlab.classList.add("aptlab");
@@ -362,11 +362,25 @@ function createAjoutPhotoModal(pwors, pcats)  {
         }
         modgal.appendChild(aplist);
 
+/* --- Ligne --- */
+        let div = document.createElement("div");
+        div.classList.add("modal-svg");
+        svg = generateSVGLine();
+        div.appendChild(svg);
+        modgal.appendChild(div);
+/* --- Bouton valider --- */
+        let apbval = document.createElement("button");
+        apbval.classList.add("apbval", "apbval_unsel");
+        apbval.type = "button";
+        apbval.innerHTML = "Valider";
+        modgal.appendChild(apbval); 
+//               
         const modcontent = modal.querySelector(".modal-wrapper");
         modcontent.classList.remove("modal-modal");
         modcontent.classList.add("modal-APmodal");
+//
         modcontent.appendChild(modgal);
-        createAPModalBtns();
+        apbtnaddListener();
         //createModalBtns();
         //addListenerDelBtns();
         return true;
