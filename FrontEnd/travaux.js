@@ -60,6 +60,7 @@ function getLSInfo() {
         return true;
     }
     token = gijson.token;
+    console.log(token);
     console.log("getinfo : < " + session);
     swapModifier(1);
     return false;
@@ -312,15 +313,21 @@ function createAjoutPhotoModal(pwors, pcats)  {
 //
         let btn = document.createElement("button");
         btn.type="button";
-        btn.innerHTML = "+ Ajouter photo"
+        //btn.innerHTML = "+ Ajouter photo"
         btn.classList.add("apbtnadd");
 //
+        let labfil = document.createElement("label");
+        labfil.for = "upload";
+        labfil.innerHTML = "+ Ajouter photo"
+        btn.appendChild(labfil);
+
         let inpfil = document.createElement("input");
         inpfil.classList.add("inpfil");
         inpfil.id = "upload";
         inpfil.name = "upload";
         inpfil.type = "file";
-        inpfil.style = ("visibility", "hidden");
+        //inpfil.style.visibility = "hidden";
+        //div2.appendChild(inpfil);
         btn.appendChild(inpfil);
         div2.appendChild(btn);
 //
@@ -395,7 +402,7 @@ function addModalBtnsListener() {
     madd.addEventListener("click", (event) => {
         ajoutPhotoModal();
     });
-    const mdeé = modal.querySelector(".modal-del");
+    const mdel = modal.querySelector(".modal-del");
     mdel.addEventListener("click", (event) => {
         //ajoutPhotoModal();
     });
@@ -536,7 +543,7 @@ const openModal = async function (e) {
     modal = document.querySelector(target);
     //console.log(modal);
     previouslyFocusedElement = document.querySelector(':focus')
-    modal.style.display = null
+    modal.style.display = "flex";
     modal.removeAttribute('aria-hidden')
     modal.setAttribute('aria-modal', 'true')
     modal.addEventListener('click', closeModal)
