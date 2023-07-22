@@ -1,3 +1,4 @@
+import { anyPar } from "./utilitaires.js";
 const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");
 let alog = document.getElementById("alog");
@@ -17,6 +18,7 @@ let curcat = "0";
 let precat = "";
 let testlog = 0;
 let session = 5;
+let ModNum = 0;
 
 let urls = `http://localhost:5678/api/works`
 let response = await fetch(urls);
@@ -172,10 +174,19 @@ const focusableSelector = 'button, a, input, textarea'
 let modal = null
 let focusables = []
 let previouslyFocusedElement = null
-
 function removeModal() {
+    console.log("Début removeModal - " + ModNum);
+    let b = false;
+    if (ModNum === 1) {
+        b = removeMainModal();
+    } else {
+        b = removeAPModal();
+    }
+    return b;
+}
+function removeMainModal() {
     //try {
-        console.log("Début removeModal");
+        console.log("Début removeMainModal");
         let modwrap = modal.querySelector(".modal-wrapper");
         let figs = modal.querySelector(".modal-gallery");
         modwrap.removeChild(figs);
@@ -185,7 +196,7 @@ function removeModal() {
         modwrap.removeChild(figs);
         return true;
 /*    } catch (error) {
-        console.log("Erreur removeModal " + error.message);
+        console.log("Erreur removeMainModal " + error.message);
     } */
 }
 function generateSVGMove() {
@@ -279,10 +290,12 @@ function removeAPModal() {
         let modwrap = modal.querySelector(".modal-wrapper");
         let cont = modal.querySelector(".APmodal-content");
         modwrap.removeChild(cont);
+/*
         cont = modal.querySelector(".APmodal-svg");
         modwrap.removeChild(cont);
         cont = modal.querySelector(".APmodal-btn");
         modwrap.removeChild(cont);
+*/
         return true;
 /*    } catch (error) {
         console.log("Erreur removeModal " + error.message);
@@ -299,6 +312,10 @@ function apbtnaddListener() {
 function createAjoutPhotoModal(pwors, pcats)  {
     //try {
         console.log("Début createAjoutPhotoModal");
+        ModNum = 2;
+        const bback = modal.querySelector(".js-modal-back");
+        bback.classList.remove("js-modal-back-nodis");
+        bback.classList.add("js-modal-back-dis");
         const modtit = modal.querySelector(".modal-title");
         modtit.innerHTML = "Ajout photo";
 // --- Form
@@ -331,9 +348,10 @@ function createAjoutPhotoModal(pwors, pcats)  {
         btn.appendChild(inpfil);
         div2.appendChild(btn);
 //
-        let par = document.createElement("p");
-        par.innerHTML = "jpg, png : 4mo max"
-        par.classList.add("appar");
+        let par = anyPar(null, "appar", "jpg, png : 4mo max");
+        //let par = document.createElement("p");
+        //par.innerHTML = "jpg, png : 4mo max"
+        //par.classList.add("appar");
         div2.appendChild(par);
 // 
         modgal.appendChild(div2);
@@ -469,6 +487,10 @@ function addListenerDelBtns() {
 function createMainModal(pwors)  {
     try {
         console.log("Début createMainModal");
+        ModNum = 1;
+        const bback = modal.querySelector(".js-modal-back");
+        bback.classList.remove("js-modal-back-dis");
+        bback.classList.add("js-modal-back-nodis");
         const modtit = modal.querySelector(".modal-title");
         modtit.innerHTML = "Galerie photo";
         modgal = document.createElement("div");
@@ -531,8 +553,8 @@ function mainModal(pwors) {
     if (b === true) {console.log("createMainModal Ok")};
 }
 function ajoutPhotoModal() {
-    let b = removeModal();
-    if (b === true) {console.log("removeModal Ok");
+    let b = removeMainModal();
+    if (b === true) {console.log("removeMainModal Ok");
                      b = createAjoutPhotoModal(wors, cats)};
     if (b === true) {console.log("createAjoutPhotoModal Ok")};
 }
@@ -629,4 +651,5 @@ testlog = getLSInfo();
 console.log("testlog : " + testlog);
 createCatBtns();
 addListenerCatBtns();
+ModNum = 1;
 main(wors);

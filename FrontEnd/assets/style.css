@@ -305,6 +305,19 @@ footer nav ul {
 .modal-APmodal {
 	height: 670px;
 }
+#modal-btnback {
+	margin: 20px 0 0 20px;
+	border-width: 0;
+	width: 21px;
+	height: 21px;
+	padding: 0;
+}
+.js-modal-back-nodis {
+	display: none;
+}
+.js-modal-back-dis {
+	display: inline;
+}
 #modal-btnclose {
 	margin: 20px 0 0 470px;
 	border-width: 0;
