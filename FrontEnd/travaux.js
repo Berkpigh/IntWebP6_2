@@ -1,5 +1,6 @@
 import { anyFor, anyDiv, anyPar, anyBtn, anyLab, anyInp, anyImg, anySel, anyOpt, swapClass,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP  } from "./utilitaires.js";
+import { deleteWork, addWork } from "./apifunctions.js";
 const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");
 let alog = document.getElementById("alog");
@@ -216,21 +217,45 @@ function removeAPModal() {
         console.log("Erreur removeModal " + error.message);
     } */
 };
+function createJsonObj(pimg) {
+    const lh = "http://localhost:5678/images/" + pimg; 
+    const jo = {
+        id: 0,
+        title: "test1",
+        imageUrl: lh,
+        categoryId: "1",
+        userId: 0
+    }
+    return JSON.stringify(jo);
+}
 function addListenerAPBtn() {
     const apimg = modal.querySelector(".apimg");
     const apifi = modal.querySelector(".apifi");
     const apilab = modal.querySelector(".apilab");
     apifi.onchange = function() {
-        APUrl = apifi.files[0].name;
+        const APFil = apifi.files[0];
+        APUrl = APFil.name;
         apimg.src = URL.createObjectURL(apifi.files[0]);
         swapClass(apilab, "apilab", "apilab-nodis");
         swapClass(apimg, "apzer", "appho");
         console.log("file = " + apifi.files[0].type);
         console.log("file = " + APUrl);
         console.log("file = " + apifi.files[0].size);
-        let ff = apifi.files[0];
-        console.log("file = " + ff);
-        console.log("file = " + ff.value);
+
+        const tit = modal.querySelector(".aptinp").value;
+        const lis = modal.querySelector(".aplinp").value;
+        console.log("categoryId: " + lis);
+        const fd = new FormData();
+        const lh = "http://localhost:5678/images/" + APUrl;
+        const bl = apimg.src.substring(27);
+        console.log(tit + " - " + bl + " - " + APUrl + " - " + lis + " - " + apimg.src); 
+        fd.append('id', 12);
+        fd.append('title', tit);
+        fd.append('imageUrl', apimg.src.substring(27), APUrl);
+        fd.append('categoryId', lis);
+        fd.append('userId', 1);
+
+        addWork(fd, token);
     }
 }
 function createAjoutPhotoModal(pwors, pcats)  {
@@ -318,17 +343,6 @@ function createModalBtns() {
     addModalBtnsListener();
     console.log("createModalBtns Ok");
 };
-async function deleteWork(pworkid) {
-    const urls = "http://localhost:5678/api/works/" + pworkid;
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${token}`);
-    const res = await fetch(urls, {
-        method: "DELETE", 
-        headers: myHeaders 
-    });
-    return;
-};
 function addListenerDelBtns() {
     let alldelbtns = modal.querySelectorAll(".figdelbtn");
     for (let i = 0; i < alldelbtns.length; i++) {
@@ -346,7 +360,7 @@ function addListenerDelBtns() {
             let workid = parseInt(imgx.id);
             console.log(workid);
             console.log(token);
-            deleteWork(workid);
+            deleteWork(workid, token);
             //mainModal(wors);
         });
     }
