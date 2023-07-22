@@ -214,6 +214,14 @@ function removeAPModal() {
         console.log("Erreur removeModal " + error.message);
     } */
 };
+function addListenerAPBtn() {
+    const apimg = modal.querySelector(".apimg");
+    const apifi = modal.querySelector(".apifi");
+    apifi.onchange = function() {
+        apimg.src = URL.createObjectURL(apifi.files[0]);
+        swapClass(apimg, "apzer", "appho");
+    }
+}
 function createAjoutPhotoModal(pwors, pcats)  {
     //try {
         console.log("Début createAjoutPhotoModal");
@@ -228,12 +236,12 @@ function createAjoutPhotoModal(pwors, pcats)  {
         let div2 = anyDiv(null, "apdiv");
 //
         let img = anyImg(null, null, "/Backend/images/kyswqmsva7nlkdxhpgl.svg");
-        img.classList.add("apimg","apzer","appho");
+        img.classList.add("apimg","apzer");
         div2.appendChild(img);
 //
-        div2.appendChild(anyLab("aplab", "aplab", "apinp", "+ Ajouter photo"));
+        div2.appendChild(anyLab(null, "apilab", "apinp", "+ Ajouter photo"));
 //
-        div2.appendChild(anyInp("apinp", "apinp", "file"));
+        div2.appendChild(anyInp("apinp", "apifi", "file"));
 //
         div2.appendChild(anyPar(null, "appar", "jpg, png : 4mo max"));
 // 
@@ -241,7 +249,7 @@ function createAjoutPhotoModal(pwors, pcats)  {
 // --- zones input
         let aptlab = document.createElement("label");
         aptlab.classList.add("aptlab");
-        aptlab.for = "aptinp";
+        aptlab.htmlFor = "aptinp";
         aptlab.innerHTML = "Titre";
         modgal.appendChild(aptlab);
 //
@@ -250,11 +258,12 @@ function createAjoutPhotoModal(pwors, pcats)  {
         aptinp.type = "text";
         aptinp.name = "aptinp";
         aptinp.classList.add("aptinp");
+        aptinp.required = true;
         modgal.appendChild(aptinp);
 // --- liste déroulante
         let apllab = document.createElement("label");
         apllab.classList.add("apllab");
-        apllab.for = "aplist";
+        apllab.htmlFor = "aplist";
         apllab.innerHTML = "Catégorie";
         modgal.appendChild(apllab);
 //
@@ -284,12 +293,10 @@ function createAjoutPhotoModal(pwors, pcats)  {
         modgal.appendChild(apbval); 
 //               
         const modcontent = modal.querySelector(".modal-wrapper");
-        modcontent.classList.remove("modal-modal");
-        modcontent.classList.add("modal-APmodal");
+        swapClass(modcontent, "modal-modal", "modal-APmodal");
 //
         modcontent.appendChild(modgal);
-        //createModalBtns();
-        //addListenerDelBtns();
+        addListenerAPBtn();
         return true;
 /*
     } catch (error) {

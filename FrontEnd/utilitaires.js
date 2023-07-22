@@ -18,11 +18,13 @@ export function anyPar(pid,pclass,phtml) {
     return x;
 }
 export function anyLab(pid,pclass,pfor,phtml) {
-    let x = document.createElement("input");
+    let x = document.createElement("label");
     if (!(pid === null)) {x.id = pid;}
     if (!(pclass === null)) {x.classList.add(pclass);}
-    if (!(pfor === null)) {x.for = pfor;}
+    if (!(pfor === null)) {x.htmlFor = pfor;}
+    console.log("pfor " + pfor);
     if (!(phtml === null)) {x.innerHTML = phtml;}
+    console.log(x)
     return x;
 }
 export function anyInp(pid,pclass,ptype) {

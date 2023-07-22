@@ -267,9 +267,9 @@ footer nav ul {
 	margin-top: 20px;
 	color: red;
 }
-/* --- modal-modifier --- */
+/* ---------------------------------------- modal-modifier --- */
+/* ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  */
 * { box-sizing: border-box; }
-/*.modal-invisible { display: none; }*/
 .modal-visible { display: inline; }
 *:focus { box-shadow: 0 0 4px rgb(50, 50, 50); }
 
@@ -417,21 +417,50 @@ footer nav ul {
 	justify-content: space-between;
 }
 .apdiv {
+	position: relative;
 	width: 420px;
 	height: 169px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
 	background-color: rgba(232, 241, 246, 1);
 }
 .apimg {
-	margin: 15px 0 5px 0;
-	background: red;
+	position: absolute;
+	top: 0;
 }
-
-
+.appho {
+	position: absolute;
+	top: 0;	width: 420px;
+	height: 169px;
+	object-fit: cover;
+}
+.apzer {
+	position: absolute;
+	top: 20px;
+	left: 181px;
+	width: 58px;
+	height: 58px;
+}
+.apilab {
+	position: absolute;
+	top: 80px;
+	left: 123.5px;
+    display: block;
+    width: 173px;
+	height: 36px;
+    background: grey;
+    color: #000;
+    padding: 12px;
+    margin: 10px auto;
+    border-radius: 50px;
+	text-align: center;
+    cursor: pointer;
+}
+#apinp {
+	display: none;
+}
 .appar {
+	position: absolute;
+	top: 140px;
+	left: 163px;
 	margin-bottom: 25px;
 	font-size: 10px;
 	font-weight: 400;
