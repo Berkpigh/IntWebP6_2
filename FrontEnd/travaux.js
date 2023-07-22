@@ -1,4 +1,4 @@
-import { anyFor, anyDiv, anyPar, anyLab, anyInp, anyImg, swapClass,
+import { anyFor, anyDiv, anyPar, anyBtn, anyLab, anyInp, anyImg, anySel, anyOpt, swapClass,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP  } from "./utilitaires.js";
 const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");
@@ -20,6 +20,8 @@ let precat = "";
 let testlog = 0;
 let session = 15;
 let ModNum = 0;
+let APUrl = "";
+
 
 let urls = `http://localhost:5678/api/works`
 let response = await fetch(urls);
@@ -217,92 +219,68 @@ function removeAPModal() {
 function addListenerAPBtn() {
     const apimg = modal.querySelector(".apimg");
     const apifi = modal.querySelector(".apifi");
+    const apilab = modal.querySelector(".apilab");
     apifi.onchange = function() {
+        APUrl = apifi.files[0].name;
         apimg.src = URL.createObjectURL(apifi.files[0]);
+        swapClass(apilab, "apilab", "apilab-nodis");
         swapClass(apimg, "apzer", "appho");
+        console.log("file = " + apifi.files[0].type);
+        console.log("file = " + APUrl);
+        console.log("file = " + apifi.files[0].size);
+        let ff = apifi.files[0];
+        console.log("file = " + ff);
+        console.log("file = " + ff.value);
     }
 }
 function createAjoutPhotoModal(pwors, pcats)  {
-    //try {
-        console.log("Début createAjoutPhotoModal");
-        ModNum = 2;
-        const bback = modal.querySelector(".js-modal-back");
-        swapClass(bback, "js-modal-back-nodis", "js-modal-back-dis");
-        const modtit = modal.querySelector(".modal-title");
-        modtit.innerHTML = "Ajout photo";
+    console.log("Début createAjoutPhotoModal");
+    ModNum = 2;
+    APUrl = "";
+    const bback = modal.querySelector(".js-modal-back");
+    swapClass(bback, "js-modal-back-nodis", "js-modal-back-dis");
+    const modtit = modal.querySelector(".modal-title");
+    modtit.innerHTML = "Ajout photo";
 // --- Form
-        modgal = anyFor(null, "APmodal-content");
+    modgal = anyFor(null, "APmodal-content");
 // --- div ajout
-        let div2 = anyDiv(null, "apdiv");
+    let div2 = anyDiv(null, "apdiv");
 //
-        let img = anyImg(null, null, "/Backend/images/kyswqmsva7nlkdxhpgl.svg");
-        img.classList.add("apimg","apzer");
-        div2.appendChild(img);
+    let img = anyImg(null, null, "/Backend/images/kyswqmsva7nlkdxhpgl.svg");
+    img.classList.add("apimg","apzer");
+    div2.appendChild(img);
 //
-        div2.appendChild(anyLab(null, "apilab", "apinp", "+ Ajouter photo"));
+    div2.appendChild(anyLab(null, "apilab", "apinp", "+ Ajouter photo"));
 //
-        div2.appendChild(anyInp("apinp", "apifi", "file"));
+    div2.appendChild(anyInp("apinp", "apifi", "file", null, null));
 //
-        div2.appendChild(anyPar(null, "appar", "jpg, png : 4mo max"));
+    div2.appendChild(anyPar(null, "appar", "jpg, png : 4mo max"));
 // 
-        modgal.appendChild(div2);
+    modgal.appendChild(div2);
 // --- zones input
-        let aptlab = document.createElement("label");
-        aptlab.classList.add("aptlab");
-        aptlab.htmlFor = "aptinp";
-        aptlab.innerHTML = "Titre";
-        modgal.appendChild(aptlab);
-//
-        let aptinp = document.createElement("input");
-        aptinp.id = "aptinp";
-        aptinp.type = "text";
-        aptinp.name = "aptinp";
-        aptinp.classList.add("aptinp");
-        aptinp.required = true;
-        modgal.appendChild(aptinp);
+    modgal.appendChild(anyLab(null, "aptlab", "aptinp", "Titre"));
+    modgal.appendChild(anyInp("aptinp", "aptinp", "aptinp", "text", true));
 // --- liste déroulante
-        let apllab = document.createElement("label");
-        apllab.classList.add("apllab");
-        apllab.htmlFor = "aplist";
-        apllab.innerHTML = "Catégorie";
-        modgal.appendChild(apllab);
+    modgal.appendChild(anyLab(null, "apllab", "aplist", "Catégorie"));
 //
-        let aplist = document.createElement("select");
-        aplist.classList.add("aplinp");
-        aplist.id = "aplist";
-        aplist.name = "aplist";
-        for (let c = 0; c < pcats.length; c++) {
-            let aplopt = document.createElement("option");
-            aplopt.value = pcats[c].id;
-            aplopt.innerHTML = pcats[c].name;
-            aplist.appendChild(aplopt);
-        }
-        modgal.appendChild(aplist);
-
-/* --- Ligne --- */
-        let div = document.createElement("div");
-        div.classList.add("modal-svg");
-        let svg = generateSVGLine();
-        div.appendChild(svg);
-        modgal.appendChild(div);
-/* --- Bouton valider --- */
-        let apbval = document.createElement("button");
-        apbval.classList.add("apbval", "apbval_unsel");
-        apbval.type = "button";
-        apbval.innerHTML = "Valider";
-        modgal.appendChild(apbval); 
-//               
-        const modcontent = modal.querySelector(".modal-wrapper");
-        swapClass(modcontent, "modal-modal", "modal-APmodal");
-//
-        modcontent.appendChild(modgal);
-        addListenerAPBtn();
-        return true;
-/*
-    } catch (error) {
-        console.log("Erreur createAjoutPhotoModal " + error.message);
+    let aplist = anySel("aplist","aplinp", "aplist", true);
+    for (let c = 0; c < pcats.length; c++) {
+        aplist.appendChild(anyOpt(pcats[c].id, pcats[c].name));
     }
-*/
+    modgal.appendChild(aplist);
+/* --- Ligne --- */
+    modgal.appendChild(generateSVGLine("modal-svg"));
+/* --- Bouton valider --- */
+    let apbval = anyBtn(null, "apbval", "button", "Valider");
+    apbval.classList.add("apbval_unsel");
+    modgal.appendChild(apbval); 
+//               
+    const modcontent = modal.querySelector(".modal-wrapper");
+    swapClass(modcontent, "modal-modal", "modal-APmodal");
+//
+    modcontent.appendChild(modgal);
+    addListenerAPBtn();
+    return true;
 };
 function addModalBtnsListener() {
     const madd = modal.querySelector(".modal-add");

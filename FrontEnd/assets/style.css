@@ -430,7 +430,7 @@ footer nav ul {
 	position: absolute;
 	top: 0;	width: 420px;
 	height: 169px;
-	object-fit: cover;
+	object-fit: contain;
 }
 .apzer {
 	position: absolute;
@@ -453,6 +453,9 @@ footer nav ul {
     border-radius: 50px;
 	text-align: center;
     cursor: pointer;
+}
+.apilab-nodis {
+	display: none;
 }
 #apinp {
 	display: none;

@@ -1,37 +1,71 @@
-export function anyFor(pid,pclass) {
+export function anyFor(pid, pclass) {
     let x = document.createElement("form");
-    if (!(pid === null)) {x.id = pid;}
-    if (!(pclass === null)) {x.classList.add(pclass);}
+    if (!(pid === null)) { x.id = pid; }
+    if (!(pclass === null)) { x.classList.add(pclass); }
     return x;
 }
-export function anyDiv(pid,pclass) {
+export function anyDiv(pid, pclass) {
     let x = document.createElement("div");
-    if (!(pid === null)) {x.id = pid;}
-    if (!(pclass === null)) {x.classList.add(pclass);}
+    if (!(pid === null)) { x.id = pid; }
+    if (!(pclass === null)) { x.classList.add(pclass); }
     return x;
 }
-export function anyPar(pid,pclass,phtml) {
+export function anyPar(pid, pclass, phtml) {
     let x = document.createElement("p");
-    if (!(pid === null)) {x.id = pid;}
-    if (!(pclass === null)) {x.classList.add(pclass);}
-    if (!(phtml === null)) {x.innerHTML = phtml;}
+    if (!(pid === null)) { x.id = pid; }
+    if (!(pclass === null)) { x.classList.add(pclass); }
+    if (!(phtml === null)) { x.innerHTML = phtml; }
     return x;
 }
-export function anyLab(pid,pclass,pfor,phtml) {
+export function anyBtn(pid, pclass, ptype, phtml) {
+    let x = document.createElement("button");
+    if (!(pid === null)) { x.id = pid; }
+    if (!(pclass === null)) { x.classList.add(pclass); }
+    if (!(ptype === null)) { x.type = ptype; }
+    if (!(phtml === null)) { x.innerHTML = phtml; }
+    return x;
+}
+export function anyLab(pid, pclass, pfor, phtml) {
     let x = document.createElement("label");
-    if (!(pid === null)) {x.id = pid;}
-    if (!(pclass === null)) {x.classList.add(pclass);}
-    if (!(pfor === null)) {x.htmlFor = pfor;}
+    if (!(pid === null)) { x.id = pid; }
+    if (!(pclass === null)) { x.classList.add(pclass); }
+    if (!(pfor === null)) { x.htmlFor = pfor; }
     console.log("pfor " + pfor);
-    if (!(phtml === null)) {x.innerHTML = phtml;}
+    if (!(phtml === null)) { x.innerHTML = phtml; }
     console.log(x)
     return x;
 }
-export function anyInp(pid,pclass,ptype) {
+export function anyInp(pid, pclass, ptype, pname, preq) {
     let x = document.createElement("input");
-    if (!(pid === null)) {x.id = pid;}
-    if (!(pclass === null)) {x.classList.add(pclass);}
-    if (!(ptype === null)) {x.type = ptype;}
+    if (!(pid === null)) { x.id = pid; }
+    if (!(pclass === null)) { x.classList.add(pclass); }
+    if (!(ptype === null)) { x.type = ptype; }
+    if (!(pname === null)) { x.name = pname; }
+    if (!(preq === null)) { x.req = preq; }
+    return x;
+}
+export function anyImg(pid, pclass, psrc, palt) {
+    console.log(psrc);
+    let x = document.createElement("img");
+    if (!(pid === null)) { x.id = pid; }
+    if (!(pclass === null)) { x = addClass(x, pclass); }
+    if (!(psrc === null)) { x.src = psrc; }
+    if (!(palt === null)) { x.alt = palt; }
+    //console.log(x)
+    ; return x;
+}
+export function anySel(pid, pclass, pname, preq) {
+    let x = document.createElement("select");
+    if (!(pid === null)) { x.id = pid; }
+    if (!(pclass === null)) { x.classList.add(pclass); }
+    if (!(pname === null)) { x.name = pname; }
+    if (!(preq === null)) { x.req = preq; }
+    return x;
+}
+export function anyOpt(pval, phtml) {
+    let x = document.createElement("option");
+    if (!(pval === null)) { x.value = pval; }
+    if (!(phtml === null)) { x.innerHTML = phtml; }
     return x;
 }
 function addClass(pelem, classarray) {
@@ -39,16 +73,7 @@ function addClass(pelem, classarray) {
         pelem.classList.add(classarray[c]);
     }
 }
-export function anyImg(pid,pclass,psrc,palt) {
-    console.log(psrc);
-    let x = document.createElement("img");
-    if (!(pid === null)) {x.id = pid;}
-    if (!(pclass === null)) {x = addClass(x, pclass);}
-    if (!(psrc === null)) {x.src = psrc;}
-    if (!(palt === null)) {x.alt = palt;}
-    //console.log(x)
-;   return x;
-}
+
 
 export function swapClass(pelem, prem, padd) {
     pelem.classList.remove(prem);
@@ -75,7 +100,7 @@ export function generateSVGMove(pclass) {
 
     svg.appendChild(rect);
     svg.appendChild(path);
-    if (!(pclass === null)) {svg.classList.add(pclass);}
+    if (!(pclass === null)) { svg.classList.add(pclass); }
     return svg;
 };
 export function generateSVGDel(pclass) {
@@ -97,7 +122,7 @@ export function generateSVGDel(pclass) {
 
     svg.appendChild(rect);
     svg.appendChild(path);
-    if (!(pclass === null)) {svg.classList.add(pclass);}
+    if (!(pclass === null)) { svg.classList.add(pclass); }
     return svg;
 };
 export function generateSVGLine(pclass) {
@@ -115,7 +140,7 @@ export function generateSVGLine(pclass) {
     line.setAttribute("stroke", "#B3B3B3");
 
     svg.appendChild(line);
-    if (!(pclass === null)) {svg.classList.add(pclass);}
+    if (!(pclass === null)) { svg.classList.add(pclass); }
     return svg;
 };
 export function generateSVGAP(pclass) {
@@ -139,7 +164,7 @@ export function generateSVGAP(pclass) {
     path.setAttribute("d", "M7.00004 46C7.23404 46 7.47004 45.918 7.66004 45.751L23.973 31.389L34.275 41.69C34.666 42.081 35.298 42.081 35.689 41.69C36.08 41.299 36.08 40.667 35.689 40.276L30.882 35.469L40.063 25.415L51.324 35.738C51.731 36.111 52.364 36.083 52.737 35.676C53.11 35.269 53.083 34.636 52.675 34.263L40.675 23.263C40.479 23.084 40.218 22.995 39.955 23.001C39.69 23.013 39.44 23.13 39.261 23.326L29.467 34.053L24.724 29.31C24.35 28.937 23.752 28.918 23.356 29.266L6.33904 44.249C5.92404 44.614 5.88404 45.246 6.24904 45.661C6.44704 45.886 6.72304 46 7.00004 46Z");
     path.setAttribute("fill", "#B9C5CC");
     svg.appendChild(path);
-    if (!(pclass === null)) {svg.classList.add(pclass);}
+    if (!(pclass === null)) { svg.classList.add(pclass); }
     return svg;
 };
 
