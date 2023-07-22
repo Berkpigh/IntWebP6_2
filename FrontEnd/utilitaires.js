@@ -17,6 +17,14 @@ export function anyPar(pid,pclass,phtml) {
     if (!(phtml === null)) {x.innerHTML = phtml;}
     return x;
 }
+export function anyLab(pid,pclass,pfor,phtml) {
+    let x = document.createElement("input");
+    if (!(pid === null)) {x.id = pid;}
+    if (!(pclass === null)) {x.classList.add(pclass);}
+    if (!(pfor === null)) {x.for = pfor;}
+    if (!(phtml === null)) {x.innerHTML = phtml;}
+    return x;
+}
 export function anyInp(pid,pclass,ptype) {
     let x = document.createElement("input");
     if (!(pid === null)) {x.id = pid;}
@@ -30,7 +38,14 @@ export function anyImg(pid,pclass,psrc, palt) {
     if (!(pclass === null)) {x.classList.add(pclass);}
     if (!(psrc === null)) {x.src = psrc;}
     if (!(palt === null)) {x.alt = palt;}
-    return x;
+    //console.log(x)
+;   return x;
+}
+
+export function swapClass(pelem, prem, padd) {
+    pelem.classList.remove(prem);
+    pelem.classList.add(padd);
+    return;
 }
 
 export function generateSVGMove(pclass) {
@@ -119,3 +134,4 @@ export function generateSVGAP(pclass) {
     if (!(pclass === null)) {svg.classList.add(pclass);}
     return svg;
 };
+

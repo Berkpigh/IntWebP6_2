@@ -1,4 +1,4 @@
-import { anyFor, anyDiv, anyPar, anyInp, anyImg,
+import { anyFor, anyDiv, anyPar, anyLab, anyInp, anyImg, swapClass,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP  } from "./utilitaires.js";
 const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");
@@ -18,7 +18,7 @@ let cmax = 0;
 let curcat = "0";
 let precat = "";
 let testlog = 0;
-let session = 5;
+let session = 15;
 let ModNum = 0;
 
 let urls = `http://localhost:5678/api/works`
@@ -214,56 +214,26 @@ function removeAPModal() {
         console.log("Erreur removeModal " + error.message);
     } */
 };
-function apbtnaddListener() {
-    const btn = modal.querySelector(".apbtnadd");
-    const fpath = "D:\Documents\_OPENCLASSROOMS\_INTEGRATEUR_WEB\Projet_6\P6_Backend-Frontend\Portfolio-architecte-sophie-bluel\Backend\images"
-    btn.addEventListener("click", (event) => {
-        console.log(event.target);
-        //event.preventDefault();
-    })
-}
 function createAjoutPhotoModal(pwors, pcats)  {
     //try {
         console.log("Début createAjoutPhotoModal");
         ModNum = 2;
         const bback = modal.querySelector(".js-modal-back");
-        bback.classList.remove("js-modal-back-nodis");
-        bback.classList.add("js-modal-back-dis");
+        swapClass(bback, "js-modal-back-nodis", "js-modal-back-dis");
         const modtit = modal.querySelector(".modal-title");
         modtit.innerHTML = "Ajout photo";
 // --- Form
         modgal = anyFor(null, "APmodal-content");
 // --- div ajout
         let div2 = anyDiv(null, "apdiv");
-        //let svg = generateSVGAP();
-        //svg.classList.add("apsvg");
-        div2.appendChild(generateSVGAP("apsvg"));
 //
-        let btn = document.createElement("button");
-        btn.type="button";
-        //btn.innerHTML = "+ Ajouter photo"
-        btn.classList.add("apbtnadd");
+        div2.appendChild(anyImg(null, "apimg", "/Backend/images/kyswqmsva7nlkdxhpgl.svg"));
 //
-        let labfil = document.createElement("label");
-        labfil.for = "upload";
-        labfil.innerHTML = "+ Ajouter photo"
-        btn.appendChild(labfil);
-
-        let inpfil = document.createElement("input");
-        inpfil.classList.add("inpfil");
-        inpfil.id = "upload";
-        inpfil.name = "upload";
-        inpfil.type = "file";
-        //inpfil.style.visibility = "hidden";
-        //div2.appendChild(inpfil);
-        btn.appendChild(inpfil);
-        div2.appendChild(btn);
+        div2.appendChild(anyLab("aplab", "aplab", "apinp", "+ Ajouter photo"));
 //
-        let par = anyPar(null, "appar", "jpg, png : 4mo max");
-        //let par = document.createElement("p");
-        //par.innerHTML = "jpg, png : 4mo max"
-        //par.classList.add("appar");
-        div2.appendChild(par);
+        div2.appendChild(anyInp("apinp", "apinp", "file"));
+//
+        div2.appendChild(anyPar(null, "appar", "jpg, png : 4mo max"));
 // 
         modgal.appendChild(div2);
 // --- zones input
@@ -316,7 +286,6 @@ function createAjoutPhotoModal(pwors, pcats)  {
         modcontent.classList.add("modal-APmodal");
 //
         modcontent.appendChild(modgal);
-        apbtnaddListener();
         //createModalBtns();
         //addListenerDelBtns();
         return true;
