@@ -32,10 +32,16 @@ export function anyInp(pid,pclass,ptype) {
     if (!(ptype === null)) {x.type = ptype;}
     return x;
 }
-export function anyImg(pid,pclass,psrc, palt) {
+function addClass(pelem, classarray) {
+    for (let c = 0; c < classarray.length; c++) {
+        pelem.classList.add(classarray[c]);
+    }
+}
+export function anyImg(pid,pclass,psrc,palt) {
+    console.log(psrc);
     let x = document.createElement("img");
     if (!(pid === null)) {x.id = pid;}
-    if (!(pclass === null)) {x.classList.add(pclass);}
+    if (!(pclass === null)) {x = addClass(x, pclass);}
     if (!(psrc === null)) {x.src = psrc;}
     if (!(palt === null)) {x.alt = palt;}
     //console.log(x)

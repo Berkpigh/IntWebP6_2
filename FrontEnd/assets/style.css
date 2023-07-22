@@ -425,26 +425,11 @@ footer nav ul {
 	align-items: center;
 	background-color: rgba(232, 241, 246, 1);
 }
-.apsvg {
+.apimg {
 	margin: 15px 0 5px 0;
+	background: red;
 }
-.apbtnadd {
-	position: relative;
-	width: 173px;
-	height: 36px;
-	border-radius: 50px 50px;
-	background-color: rgba(174, 197, 214, 0.6);
-	border-width: 0;
-	z-index: 1;
-}
-/*.inpfil {
-	position: absolute;
-	top: 12px;
-	left: 30px;
-	width: 28px;
-	height: 12px;
-	color: transparent;
-}*/
+
 
 .appar {
 	margin-bottom: 25px;

@@ -227,7 +227,9 @@ function createAjoutPhotoModal(pwors, pcats)  {
 // --- div ajout
         let div2 = anyDiv(null, "apdiv");
 //
-        div2.appendChild(anyImg(null, "apimg", "/Backend/images/kyswqmsva7nlkdxhpgl.svg"));
+        let img = anyImg(null, null, "/Backend/images/kyswqmsva7nlkdxhpgl.svg");
+        img.classList.add("apimg","apzer","appho");
+        div2.appendChild(img);
 //
         div2.appendChild(anyLab("aplab", "aplab", "apinp", "+ Ajouter photo"));
 //
