@@ -4,8 +4,17 @@ function anyHeader(ptoken) {
     head.append('Authorization', `Bearer ${ptoken}`);
     return head;
 }
-export async function postLogin(pbodjson) {
-    resp.innerHTML = "";
+function storeResult(plogresult) {
+    const locsto = {
+        userid: plogresult.userId,
+        token: plogresult.token,
+        timenow: Date.now()
+    }
+    const loginfo = JSON.stringify(locsto);
+    window.localStorage.setItem("loginfo", loginfo);
+}
+export async function postLogin(pbodjson,presp) {
+    presp.innerHTML = "";
     const res = await fetch("http://localhost:5678/api/users/login", {
         method: "POST", 
         headers: {"Content-Type": "application/json"}, 
@@ -13,11 +22,11 @@ export async function postLogin(pbodjson) {
     });
     console.log(res);
     if (res.ok === false) {
-        resp.innerHTML = "Erreur : Email ou mot de passe non valables";
+        presp.innerHTML = "Erreur : Email ou mot de passe non valables";
     } else {
-        result = await res.json();
-        console.log(result);
-        storeResult();
+        let logresult = await res.json();
+        console.log(logresult);
+        storeResult(logresult);
         window.location.href="index.html";
     }
 };

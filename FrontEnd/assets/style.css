@@ -337,10 +337,10 @@ footer nav ul {
 	text-align: center;
 	margin: 20px 0 30px 0;
 }
-#modal-add {
+.modal-add {
 	width: 40%;
 }
-#modal-del {
+.modal-del {
 	border-width: 0;
 	color: red;
 	background: #FFF;
@@ -350,7 +350,8 @@ footer nav ul {
 	margin: 30px 0 20px 0;
 }
 .modal-btns {
-	height: 80px;
+	margin-top: 100px;
+	height: 150px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;/*  */
@@ -361,9 +362,9 @@ footer nav ul {
 	/*height: 100%;*/
 	display: grid;
 	grid-template-columns: 76.86px 76.86px 76.86px 76.86px 76.86px;
+/*
 	grid-template-rows: 102.57px 102.57px 102.57px;
-/* 	
-	grid-template-columns: 18% 18% 18% 18% 18%;
+ 	grid-template-columns: 18% 18% 18% 18% 18%;
 	grid-template-rows: 30% 30% 30%;
  */	
  	grid-column-gap: 8.925px;
