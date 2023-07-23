@@ -4,6 +4,24 @@ function anyHeader(ptoken) {
     head.append('Authorization', `Bearer ${ptoken}`);
     return head;
 }
+export async function postLogin(pbodjson) {
+    resp.innerHTML = "";
+    const res = await fetch("http://localhost:5678/api/users/login", {
+        method: "POST", 
+        headers: {"Content-Type": "application/json"}, 
+        body: pbodjson
+    });
+    console.log(res);
+    if (res.ok === false) {
+        resp.innerHTML = "Erreur : Email ou mot de passe non valables";
+    } else {
+        result = await res.json();
+        console.log(result);
+        storeResult();
+        window.location.href="index.html";
+    }
+};
+
 export async function deleteWork(pworkid, ptoken) {
     const urls = "http://localhost:5678/api/works/" + pworkid;
     const res = await fetch(urls, {

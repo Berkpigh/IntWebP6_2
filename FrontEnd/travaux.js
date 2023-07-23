@@ -1,4 +1,4 @@
-import { anyFor, anyDiv, anyPar, anyBtn, anyLab, anyInp, anyImg, anySel, anyOpt, swapClass,
+import { anyElem, addClass, swapClass,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP  } from "./utilitaires.js";
 import { deleteWork, addWork } from "./apifunctions.js";
 const por = document.getElementById("portofolio");
@@ -267,36 +267,36 @@ function createAjoutPhotoModal(pwors, pcats)  {
     const modtit = modal.querySelector(".modal-title");
     modtit.innerHTML = "Ajout photo";
 // --- Form
-    modgal = anyFor(null, "APmodal-content");
+    modgal = anyElem("form","nform",null,"APmodal-content",null,null,null,null,null,null,null)
 // --- div ajout
-    let div2 = anyDiv(null, "apdiv");
+    let div2 = anyElem("div","ndiv",null,"apdiv",null,null,null,null,null,null,null);
 //
-    let img = anyImg(null, null, "/Backend/images/kyswqmsva7nlkdxhpgl.svg");
-    img.classList.add("apimg","apzer");
+    let img = anyElem("img",null,null,"apimg",null,"/Backend/images/kyswqmsva7nlkdxhpgl.svg","image?",null,null,null,null);
+    img.classList.add("apzer");
     div2.appendChild(img);
 //
-    div2.appendChild(anyLab(null, "apilab", "apinp", "+ Ajouter photo"));
+    div2.appendChild(anyElem("label","nlab",null,"apilab",null,null,null,"apinp","+ Ajouter photo",null,null));
 //
-    div2.appendChild(anyInp("apinp", "apifi", "file", null, null));
+    div2.appendChild(anyElem("input","imageUrl","apinp","apifi","file",null,null,null,null,null,true));
 //
-    div2.appendChild(anyPar(null, "appar", "jpg, png : 4mo max"));
+    div2.appendChild(anyElem("p",null,null,"appar",null,null,null,null,"jpg, png : 4mo max",null,null));
 // 
     modgal.appendChild(div2);
 // --- zones input
-    modgal.appendChild(anyLab(null, "aptlab", "aptinp", "Titre"));
-    modgal.appendChild(anyInp("aptinp", "aptinp", "aptinp", "text", true));
+    modgal.appendChild(anyElem("label",null,null,"aptlab",null,null,null,"aptinp","Titre",null,null));
+    modgal.appendChild(anyElem("input","title","aptinp","aptinp","text",null,null,null,null,null,null));
 // --- liste déroulante
-    modgal.appendChild(anyLab(null, "apllab", "aplist", "Catégorie"));
+    modgal.appendChild(anyElem("label",null,null,"apllab",null,null,null,"aplist","Catégorie",null,null));
 //
-    let aplist = anySel("aplist","aplinp", "aplist", true);
+    let aplist = anyElem("select","categoryId","aplist","aplinp",null,null,null,null,null,null,null);
     for (let c = 0; c < pcats.length; c++) {
-        aplist.appendChild(anyOpt(pcats[c].id, pcats[c].name));
+        aplist.appendChild(anyElem("option",null,null,null,null,null,null,null,pcats[c].name,pcats[c].id,null));
     }
     modgal.appendChild(aplist);
 /* --- Ligne --- */
     modgal.appendChild(generateSVGLine("modal-svg"));
 /* --- Bouton valider --- */
-    let apbval = anyBtn(null, "apbval", "button", "Valider");
+    let apbval = anyElem("button",null,null,"apbval","submit",null,null,null,"Valider",null,null);
     apbval.classList.add("apbval_unsel");
     modgal.appendChild(apbval); 
 //               

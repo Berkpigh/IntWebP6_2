@@ -1,74 +1,19 @@
-export function anyFor(pid, pclass) {
-    let x = document.createElement("form");
-    if (!(pid === null)) { x.id = pid; }
-    if (!(pclass === null)) { x.classList.add(pclass); }
-    return x;
-}
-export function anyDiv(pid, pclass) {
-    let x = document.createElement("div");
-    if (!(pid === null)) { x.id = pid; }
-    if (!(pclass === null)) { x.classList.add(pclass); }
-    return x;
-}
-export function anyPar(pid, pclass, phtml) {
-    let x = document.createElement("p");
-    if (!(pid === null)) { x.id = pid; }
-    if (!(pclass === null)) { x.classList.add(pclass); }
-    if (!(phtml === null)) { x.innerHTML = phtml; }
-    return x;
-}
-export function anyBtn(pid, pclass, ptype, phtml) {
-    let x = document.createElement("button");
-    if (!(pid === null)) { x.id = pid; }
-    if (!(pclass === null)) { x.classList.add(pclass); }
-    if (!(ptype === null)) { x.type = ptype; }
-    if (!(phtml === null)) { x.innerHTML = phtml; }
-    return x;
-}
-export function anyLab(pid, pclass, pfor, phtml) {
-    let x = document.createElement("label");
-    if (!(pid === null)) { x.id = pid; }
-    if (!(pclass === null)) { x.classList.add(pclass); }
-    if (!(pfor === null)) { x.htmlFor = pfor; }
-    console.log("pfor " + pfor);
-    if (!(phtml === null)) { x.innerHTML = phtml; }
-    console.log(x)
-    return x;
-}
-export function anyInp(pid, pclass, ptype, pname, preq) {
-    let x = document.createElement("input");
-    if (!(pid === null)) { x.id = pid; }
-    if (!(pclass === null)) { x.classList.add(pclass); }
-    if (!(ptype === null)) { x.type = ptype; }
+export function anyElem(pelem, pname, pid, pclass, ptype, psrc, palt, phtmlfor, phtml, pvalue, preq) {
+    let x = document.createElement(pelem);
     if (!(pname === null)) { x.name = pname; }
-    if (!(preq === null)) { x.req = preq; }
-    return x;
-}
-export function anyImg(pid, pclass, psrc, palt) {
-    console.log(psrc);
-    let x = document.createElement("img");
     if (!(pid === null)) { x.id = pid; }
-    if (!(pclass === null)) { x = addClass(x, pclass); }
+    if (!(pclass === null)) { x.classList.add(pclass); }
+    if (!(ptype === null)) { x.type = ptype; }
     if (!(psrc === null)) { x.src = psrc; }
     if (!(palt === null)) { x.alt = palt; }
-    //console.log(x)
-    ; return x;
-}
-export function anySel(pid, pclass, pname, preq) {
-    let x = document.createElement("select");
-    if (!(pid === null)) { x.id = pid; }
-    if (!(pclass === null)) { x.classList.add(pclass); }
-    if (!(pname === null)) { x.name = pname; }
-    if (!(preq === null)) { x.req = preq; }
-    return x;
-}
-export function anyOpt(pval, phtml) {
-    let x = document.createElement("option");
-    if (!(pval === null)) { x.value = pval; }
+    if (!(phtmlfor === null)) { x.htmlFor = phtmlfor; }
     if (!(phtml === null)) { x.innerHTML = phtml; }
+    if (!(pvalue === null)) { x.value = pvalue; }
+    if (!(preq === null)) { x.required = preq; }
     return x;
 }
-function addClass(pelem, classarray) {
+
+export function addClass(pelem, classarray) {
     for (let c = 0; c < classarray.length; c++) {
         pelem.classList.add(classarray[c]);
     }

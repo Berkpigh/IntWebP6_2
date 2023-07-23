@@ -1,3 +1,5 @@
+import { postLogin } from "./apifunctions.js";
+
 const logf = document.querySelector(".loginform");
 //console.log(logf);
 const resp = document.getElementById("presult");
@@ -13,23 +15,6 @@ function storeResult() {
     window.localStorage.setItem("loginfo", loginfo);
 }
 
-async function postLogin(pbodjson) {
-    resp.innerHTML = "";
-    const res = await fetch("http://localhost:5678/api/users/login", {
-        method: "POST", 
-        headers: {"Content-Type": "application/json"}, 
-        body: pbodjson
-    });
-    console.log(res);
-    if (res.ok === false) {
-        resp.innerHTML = "Erreur : Email ou mot de passe non valables";
-    } else {
-        result = await res.json();
-        console.log(result);
-        storeResult();
-        window.location.href="index.html";
-    }
-};
 
 logf.addEventListener("submit", function(event) {
     console.log("début listener");
