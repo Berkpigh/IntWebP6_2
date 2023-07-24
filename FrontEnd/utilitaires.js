@@ -12,6 +12,24 @@ export function anyElem(pelem, pname, pid, pclass, ptype, psrc, palt, phtmlfor, 
     if (!(preq === null)) { x.required = preq; }
     return x;
 }
+export function displayFormData(pfd) {
+    let i = 0;
+    for (const ke of pfd.keys()) {
+        i++;
+        console.log("name " + i + " - " + ke);
+    };
+    i = 0;
+    for (const va of pfd.values()) {
+        i++;
+        let v = "";
+        if (typeof(va) === "object") {
+            v = va.name;
+        } else {
+            v = va;
+        }
+        console.log("value " + i + " - " + v);
+    };
+}
 
 export function addClass(pelem, classarray) {
     for (let c = 0; c < classarray.length; c++) {

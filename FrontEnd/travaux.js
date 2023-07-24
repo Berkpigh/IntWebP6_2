@@ -1,4 +1,4 @@
-import { anyElem, addClass, swapClass,
+import { anyElem, addClass, swapClass, displayFormData,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP  } from "./utilitaires.js";
 import { deleteWork, addWork } from "./apifunctions.js";
 const por = document.getElementById("portofolio");
@@ -205,10 +205,10 @@ function addListenerAPBtn() {
         apimg.src = URL.createObjectURL(apifi.files[0]);
         swapClass(apilab, "apilab", "apilab-nodis");
         swapClass(apimg, "apzer", "appho");
+/*        
         console.log("file = " + apifi.files[0].type);
         console.log("file = " + APUrl);
         console.log("file = " + apifi.files[0].size);
-
         const tit = modal.querySelector(".aptinp").value;
         const lis = modal.querySelector(".aplinp").value;
         console.log("categoryId: " + lis);
@@ -221,8 +221,8 @@ function addListenerAPBtn() {
         fd.append('imageUrl', apimg.src.substring(27), APUrl);
         fd.append('categoryId', lis);
         fd.append('userId', 1);
-
         addWork(fd, token);
+*/
     };
 };
 function createAjoutPhotoModal(pwors, pcats)  {
@@ -234,42 +234,40 @@ function createAjoutPhotoModal(pwors, pcats)  {
     const modtit = modal.querySelector(".modal-title");
     modtit.innerHTML = "Ajout photo";
 // --- Form
-    modgal = anyElem("form","nform",null,"APmodal-content",null,null,null,null,null,null,null)
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+    modgal = anyElem("form",null,null,"APmodal-content",null,null,null,null,null,null,null)
 // --- div ajout
-    let div2 = anyElem("div","ndiv",null,"apdiv",null,null,null,null,null,null,null);
-//
+// vvvvvvvvvvvvvvvvv
+    let div2 = anyElem("div",null,null,"apdiv",null,null,null,null,null,null,null);
     let img = anyElem("img",null,null,"apimg",null,"/Backend/images/kyswqmsva7nlkdxhpgl.svg","image?",null,null,null,null);
     img.classList.add("apzer");
     div2.appendChild(img);
-//
     div2.appendChild(anyElem("label","nlab",null,"apilab",null,null,null,"apinp","+ Ajouter photo",null,null));
-//
-    div2.appendChild(anyElem("input","imageUrl","apinp","apifi","file",null,null,null,null,null,true));
-//
+    const ipfi = anyElem("input","imageUrl","apinp","apifi","file",null,null,null,null,null,true);
+    ipfi.setAttribute("accept", "image/jpg, image/png");
+    div2.appendChild(ipfi);
+    //div2.appendChild(anyElem("input","imageUrl","apinp","apifi","file",null,null,null,null,null,true));
     div2.appendChild(anyElem("p",null,null,"appar",null,null,null,null,"jpg, png : 4mo max",null,null));
-// 
+// --- Fin div ajout
+// ^^^^^^^^^^^^^^^^^    
     modgal.appendChild(div2);
-// --- zones input
     modgal.appendChild(anyElem("label",null,null,"aptlab",null,null,null,"aptinp","Titre",null,null));
-    modgal.appendChild(anyElem("input","title","aptinp","aptinp","text",null,null,null,null,null,null));
-// --- liste déroulante
+    modgal.appendChild(anyElem("input","title","aptinp","aptinp","text",null,null,null,null,"indiquer un titre",null));
     modgal.appendChild(anyElem("label",null,null,"apllab",null,null,null,"aplist","Catégorie",null,null));
-//
     let aplist = anyElem("select","categoryId","aplist","aplinp",null,null,null,null,null,null,null);
     for (let c = 0; c < pcats.length; c++) {
         aplist.appendChild(anyElem("option",null,null,null,null,null,null,null,pcats[c].name,pcats[c].id,null));
     }
     modgal.appendChild(aplist);
-/* --- Ligne --- */
+    modgal.appendChild(anyElem("input","userId",null,null,"hidden",null,null,null,null,1,null));
     modgal.appendChild(generateSVGLine("modal-svg"));
-/* --- Bouton valider --- */
     let apbval = anyElem("button",null,null,"apbval","submit",null,null,null,"Valider",null,null);
     apbval.classList.add("apbval_unsel");
-    modgal.appendChild(apbval); 
-//               
+    modgal.appendChild(apbval);
+// Fin de la form    
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     const modcontent = modal.querySelector(".modal-wrapper");
     swapClass(modcontent, "modal-modal", "modal-APmodal");
-//
     modcontent.appendChild(modgal);
     addListenerAPBtn();
     return true;
