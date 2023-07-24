@@ -1,4 +1,4 @@
-import { anyElem, addClass, swapClass, displayFormData,
+import { anyElem, addClass, swapClass, displayFormData, testFullForm,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP  } from "./utilitaires.js";
 import { deleteWork, addWork } from "./apifunctions.js";
 const por = document.getElementById("portofolio");
@@ -102,7 +102,7 @@ function createCatBtns() {
     div.appendChild(anyElem("button",null,"0","porcatbtn__btnsel","button",null,null,null,"Tous",null,null));
     for (let c = 0; c <= cmax; c++) {
         let bid = (c + 1).toString();
-        div.appendChild(anyElem("button",null,bid,"porcatbtn__btnsel","button",null,null,null,cats[c].name,null,null));
+        div.appendChild(anyElem("button",null,bid,"porcatbtn__btn","button",null,null,null,cats[c].name,null,null));
     }
     console.log("createCatBtns Ok");
 };
@@ -199,12 +199,14 @@ function addListenerAPBtn() {
     const apimg = modal.querySelector(".apimg");
     const apifi = modal.querySelector(".apifi");
     const apilab = modal.querySelector(".apilab");
+    const aptinp = modal.querySelector(".aptinp");
     apifi.onchange = function() {
         const APFil = apifi.files[0];
         APUrl = APFil.name;
         apimg.src = URL.createObjectURL(apifi.files[0]);
         swapClass(apilab, "apilab", "apilab-nodis");
         swapClass(apimg, "apzer", "appho");
+        testFullForm(APUrl,aptinp.value);
 /*        
         console.log("file = " + apifi.files[0].type);
         console.log("file = " + APUrl);
@@ -228,7 +230,7 @@ function addListenerAPBtn() {
 function createAjoutPhotoModal(pwors, pcats)  {
     console.log("Début createAjoutPhotoModal");
     ModNum = 2;
-    APUrl = "";
+    APUrl = null;
     const bback = modal.querySelector(".js-modal-back");
     swapClass(bback, "js-modal-back-nodis", "js-modal-back-dis");
     const modtit = modal.querySelector(".modal-title");
@@ -262,7 +264,8 @@ function createAjoutPhotoModal(pwors, pcats)  {
     modgal.appendChild(anyElem("input","userId",null,null,"hidden",null,null,null,null,1,null));
     modgal.appendChild(generateSVGLine("modal-svg"));
     let apbval = anyElem("button",null,null,"apbval","submit",null,null,null,"Valider",null,null);
-    apbval.classList.add("apbval_unsel");
+    apbval.classList.add("apbval_disab");
+    apbval.disabled = true;
     modgal.appendChild(apbval);
 // Fin de la form    
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

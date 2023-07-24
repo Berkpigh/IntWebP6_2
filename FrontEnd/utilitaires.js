@@ -30,6 +30,11 @@ export function displayFormData(pfd) {
         console.log("value " + i + " - " + v);
     };
 }
+export function testFullForm(purl,ptit) {
+    if (purl === null) {return false;};
+    if (ptit.length < 4) {return false;};
+    return true;
+}
 
 export function addClass(pelem, classarray) {
     for (let c = 0; c < classarray.length; c++) {
