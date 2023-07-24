@@ -11,7 +11,7 @@ export function anyElem(pelem, pname, pid, pclass, ptype, psrc, palt, phtmlfor, 
     if (!(pvalue === null)) { x.value = pvalue; }
     if (!(preq === null)) { x.required = preq; }
     return x;
-}
+};
 export function displayFormData(pfd) {
     let i = 0;
     for (const ke of pfd.keys()) {
@@ -22,12 +22,11 @@ export function displayFormData(pfd) {
     for (const va of pfd.values()) {
         i++;
         let v = "";
+        console.log("value " + i + " - " + va);
         if (typeof(va) === "object") {
             v = va.name;
-        } else {
-            v = va;
+            console.log("value name " + i + " - " + v);
         }
-        console.log("value " + i + " - " + v);
     };
 };
 export function testFullForm(purl,ptit,pbval) {

@@ -22,7 +22,7 @@ let APUrl = "";
 let urls = `http://localhost:5678/api/works`
 let response = await fetch(urls);
 wors = await response.json();
-//console.log(wors);
+console.log(wors);
 
 urls = `http://localhost:5678/api/categories`
 response = await fetch(urls);
@@ -211,11 +211,16 @@ function addListenerAPBtn() {
     };
 };
 function addListenerValBtn() {
+    const apifi = modal.querySelector(".apifi");
     const fo = modal.querySelector("form");
     fo.addEventListener("submit", (e) => {
         e.preventDefault();
         const fd = new FormData(fo);
+        fd.delete("id");
+        fd.delete("userId");
+        fd.append("imageUrl", apifi.files[0], "imagechoisie.png")
         displayFormData(fd);
+        addWork(fd,token);
     });
 };
 function createAjoutPhotoModal(pwors, pcats)  {
@@ -236,7 +241,7 @@ function createAjoutPhotoModal(pwors, pcats)  {
     img.classList.add("apzer");
     div2.appendChild(img);
     div2.appendChild(anyElem("label","nlab",null,"apilab",null,null,null,"apinp","+ Ajouter photo",null,null));
-    const ipfi = anyElem("input","imageUrl","apinp","apifi","file",null,null,null,null,null,true);
+    const ipfi = anyElem("input",null,"apinp","apifi","file",null,null,null,null,null,true);
     ipfi.setAttribute("accept", "image/jpg, image/png");
     div2.appendChild(ipfi);
     //div2.appendChild(anyElem("input","imageUrl","apinp","apifi","file",null,null,null,null,null,true));
@@ -252,6 +257,7 @@ function createAjoutPhotoModal(pwors, pcats)  {
         aplist.appendChild(anyElem("option",null,null,null,null,null,null,null,pcats[c].name,pcats[c].id,null));
     }
     modgal.appendChild(aplist);
+    modgal.appendChild(anyElem("input","id",null,null,"hidden",null,null,null,null,19,null));
     modgal.appendChild(anyElem("input","userId",null,null,"hidden",null,null,null,null,1,null));
     modgal.appendChild(generateSVGLine("modal-svg"));
     let apbval = anyElem("button",null,null,"apbval","submit",null,null,null,"Valider",null,null);

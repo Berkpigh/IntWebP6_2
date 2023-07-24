@@ -39,16 +39,18 @@ export async function deleteWork(pworkid, ptoken) {
     });
     return;
 };
-export async function addWork(pfd, ptoken) {
+export function addWork(pfd, ptoken) {
     const urls = "http://localhost:5678/api/works";
     const myHeaders = new Headers();
     //myHeaders.append('Content-Type', 'multipart/form-data');
     myHeaders.append('Authorization', `Bearer ${ptoken}`);
     console.log("pfd : " + pfd);
-    const res = await fetch(urls, {
+    fetch(urls, {
         method: "POST", 
         headers: myHeaders,
-        body: pfd
-    });
-    return;
+        body: pfd,
+    })
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err));
 };
