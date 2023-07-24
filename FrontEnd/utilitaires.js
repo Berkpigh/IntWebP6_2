@@ -29,13 +29,17 @@ export function displayFormData(pfd) {
         }
         console.log("value " + i + " - " + v);
     };
-}
-export function testFullForm(purl,ptit) {
-    if (purl === null) {return false;};
-    if (ptit.length < 4) {return false;};
-    return true;
-}
-
+};
+export function testFullForm(purl,ptit,pbval) {
+    if (purl === null || ptit.length < 4) {
+        pbval.disabled = true;
+        swapClass(pbval,"porcatbtn__btnsel","apbval_disab")
+    } else {
+        pbval.removeAttribute("disabled");
+        swapClass(pbval,"apbval_disab","porcatbtn__btnsel")
+    };
+    console.log(pbval);
+};
 export function addClass(pelem, classarray) {
     for (let c = 0; c < classarray.length; c++) {
         pelem.classList.add(classarray[c]);

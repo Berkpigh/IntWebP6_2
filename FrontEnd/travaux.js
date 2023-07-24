@@ -200,32 +200,23 @@ function addListenerAPBtn() {
     const apifi = modal.querySelector(".apifi");
     const apilab = modal.querySelector(".apilab");
     const aptinp = modal.querySelector(".aptinp");
+    const apbval = modal.querySelector(".apbval");
     apifi.onchange = function() {
         const APFil = apifi.files[0];
         APUrl = APFil.name;
         apimg.src = URL.createObjectURL(apifi.files[0]);
         swapClass(apilab, "apilab", "apilab-nodis");
         swapClass(apimg, "apzer", "appho");
-        testFullForm(APUrl,aptinp.value);
-/*        
-        console.log("file = " + apifi.files[0].type);
-        console.log("file = " + APUrl);
-        console.log("file = " + apifi.files[0].size);
-        const tit = modal.querySelector(".aptinp").value;
-        const lis = modal.querySelector(".aplinp").value;
-        console.log("categoryId: " + lis);
-        const fd = new FormData();
-        const lh = "http://localhost:5678/images/" + APUrl;
-        const bl = apimg.src.substring(27);
-        console.log(tit + " - " + bl + " - " + APUrl + " - " + lis + " - " + apimg.src); 
-        fd.append('id', 12);
-        fd.append('title', tit);
-        fd.append('imageUrl', apimg.src.substring(27), APUrl);
-        fd.append('categoryId', lis);
-        fd.append('userId', 1);
-        addWork(fd, token);
-*/
+        testFullForm(APUrl,aptinp.value,apbval);
     };
+};
+function addListenerValBtn() {
+    const fo = modal.querySelector("form");
+    fo.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const fd = new FormData(fo);
+        displayFormData(fd);
+    });
 };
 function createAjoutPhotoModal(pwors, pcats)  {
     console.log("Début createAjoutPhotoModal");
@@ -273,6 +264,7 @@ function createAjoutPhotoModal(pwors, pcats)  {
     swapClass(modcontent, "modal-modal", "modal-APmodal");
     modcontent.appendChild(modgal);
     addListenerAPBtn();
+    addListenerValBtn();
     return true;
 };
 function addModalBtnsListener() {
@@ -478,3 +470,21 @@ main(wors);
 document.querySelectorAll(".js-modal").forEach(a => {
     a.addEventListener('click', openModal)});
  */    
+/*        
+        console.log("file = " + apifi.files[0].type);
+        console.log("file = " + APUrl);
+        console.log("file = " + apifi.files[0].size);
+        const tit = modal.querySelector(".aptinp").value;
+        const lis = modal.querySelector(".aplinp").value;
+        console.log("categoryId: " + lis);
+        const fd = new FormData();
+        const lh = "http://localhost:5678/images/" + APUrl;
+        const bl = apimg.src.substring(27);
+        console.log(tit + " - " + bl + " - " + APUrl + " - " + lis + " - " + apimg.src); 
+        fd.append('id', 12);
+        fd.append('title', tit);
+        fd.append('imageUrl', apimg.src.substring(27), APUrl);
+        fd.append('categoryId', lis);
+        fd.append('userId', 1);
+        addWork(fd, token);
+*/
