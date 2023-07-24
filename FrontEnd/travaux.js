@@ -1,6 +1,7 @@
 import { anyElem, addClass, swapClass, displayFormData, testFullForm,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP  } from "./utilitaires.js";
 import { deleteWork, addWork } from "./apifunctions.js";
+
 const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");
 let alog = document.getElementById("alog");
@@ -220,7 +221,7 @@ function addListenerValBtn() {
         fd.delete("userId");
         fd.append("imageUrl", apifi.files[0], "imagechoisie.png")
         displayFormData(fd);
-        addWork(fd,token);
+        addWork(apifi.files[0],token);
     });
 };
 function createAjoutPhotoModal(pwors, pcats)  {

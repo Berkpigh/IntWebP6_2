@@ -34,15 +34,36 @@ export async function postLogin(pbodjson,presp) {
 export async function deleteWork(pworkid, ptoken) {
     const urls = "http://localhost:5678/api/works/" + pworkid;
     const res = await fetch(urls, {
-        method: "DELETE", 
+        method: "DELETE",       
         headers: anyHeader(ptoken) 
     });
     return;
 };
 export function addWork(pfd, ptoken) {
+//    const {data} = axios.post("http://localhost:5678/api/works", {
+    axios.post("http://localhost:5678/api/works", {
+            title: 'Test1',
+        categoryId: 1,
+        imageUrl: pfd
+        },
+        {
+        headers: {'Authorization': `Bearer ${ptoken}`,
+                  'Content-Type': 'multipart/form-data'}
+        }
+    )
+    .then(function (response) {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      });
+};
+/*
+export function addWork(pfd, ptoken) {
     const urls = "http://localhost:5678/api/works";
     const myHeaders = new Headers();
-    //myHeaders.append('Content-Type', 'multipart/form-data');
+    myHeaders.append('Content-Type', 'multipart/form-data');
     myHeaders.append('Authorization', `Bearer ${ptoken}`);
     console.log("pfd : " + pfd);
     fetch(urls, {
@@ -54,3 +75,4 @@ export function addWork(pfd, ptoken) {
         .then(data => console.log(data))
         .catch(err => console.log(err));
 };
+*/
