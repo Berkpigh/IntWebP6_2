@@ -1,9 +1,28 @@
-function anyHeader(ptoken) {
-    const head = new Headers();
-    head.append('Content-Type', 'application/json');
-    head.append('Authorization', `Bearer ${ptoken}`);
-    return head;
-}
+function constructHeaders(pcont, ptoken){
+    let hea = new Headers();
+    switch (pcont) {
+        case "json":
+            hea.append('Content-Type', 'application/json');
+            break;
+        case "jsonauth":
+            hea.append('Content-Type', 'application/json');
+            hea.append('Authorization', `Bearer ${ptoken}`);
+            break;
+        case "form":
+            break;
+        case "formauth":
+            hea.append('Authorization', `Bearer ${ptoken}`);
+    }
+    return hea;
+};
+function constructRequest(purl, pmet, phea, pbod) {
+  const req = new Request();
+    req.url = purl;
+    req.method = pmet;
+    req.headers = phea;
+    req.body = pbod;
+    return req;
+};
 function storeResult(plogresult) {
     const locsto = {
         userid: plogresult.userId,
