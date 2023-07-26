@@ -1,3 +1,10 @@
+export function lo(ptxt, pval){
+    if (pval == null || pval === 'undefined') {
+        console.log(ptxt + ": ");
+        return;
+    }
+    console.log(ptxt + ": ", pval);
+}
 export function anyElem(pelem, pname, pid, pclass, ptype, psrc, palt, phtmlfor, phtml, pvalue, preq) {
     let x = document.createElement(pelem);
     if (!(pname === null)) { x.name = pname; }

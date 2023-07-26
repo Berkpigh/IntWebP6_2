@@ -1,6 +1,13 @@
+import { lo }  from "./utilitaires.js";
 function constructHeaders(pcont, ptoken){
+    lo("Début constructHeaders");
+    lo("cont", pcont);
+    lo("token", ptoken);
     let hea = new Headers();
     switch (pcont) {
+        case null:
+            hea = null;
+            break;
         case "json":
             hea.append('Content-Type', 'application/json');
             break;
@@ -13,17 +20,47 @@ function constructHeaders(pcont, ptoken){
         case "formauth":
             hea.append('Authorization', `Bearer ${ptoken}`);
     }
+    lo("headers", hea);
     return hea;
 };
 function constructRequest(purl, pmet, phea, pbod) {
-  const req = new Request();
-    req.url = purl;
-    req.method = pmet;
-    req.headers = phea;
-    req.body = pbod;
+    lo("Début constructRequest");
+    lo("u",purl);
+    lo("u",pmet);
+    lo("u",phea);
+    lo("u",pbod);
+    let settingObj = new Object();
+    switch (true) {
+        case (!(pmet === null)):
+            settingObj['method'] = pmet;
+        case (!(phea === null)):
+            settingObj['header'] = phea;
+        case (!(pbod === null)):
+            settingObj['body'] = pbod;
+    };
+    lo("options", settingObj)
+    let req = new Request(purl, settingObj);
     return req;
 };
-function storeResult(plogresult) {
+export function buildFetch(purl, pmet, pcont, ptoken, pbod) {
+    lo("Début buildFetch");
+    const headersObj = constructHeaders(pcont, ptoken);
+    const requestObj = constructRequest(purl, pmet, headersObj, pbod);
+    return requestObj;
+};
+export async function anyFetch(preq) {
+    await fetch(preq)
+    .then((response) => {
+        if (!response.ok) {
+            return false;
+//          throw new Error(`HTTP error: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => { lo("Réponse", data) })
+      .catch((error) => { lo("Problème", error) });
+};
+export function storeResult(plogresult) {
     const locsto = {
         userid: plogresult.userId,
         token: plogresult.token,
@@ -31,7 +68,8 @@ function storeResult(plogresult) {
     }
     const loginfo = JSON.stringify(locsto);
     window.localStorage.setItem("loginfo", loginfo);
-}
+};
+/*
 export async function postLogin(pbodjson,presp) {
     presp.innerHTML = "";
     const res = await fetch("http://localhost:5678/api/users/login", {
@@ -59,7 +97,7 @@ export async function deleteWork(pworkid, ptoken) {
     return;
 };
 export function addWork(pfd, ptoken) {
-//    const {data} = axios.post("http://localhost:5678/api/works", {
+    const {data} = axios.post("http://localhost:5678/api/works", {
     axios.post("http://localhost:5678/api/works", {
             title: 'Test1',
         categoryId: 1,
@@ -78,6 +116,7 @@ export function addWork(pfd, ptoken) {
         console.log(response.config);
       });
 };
+*/
 /*
 export function addWork(pfd, ptoken) {
     const urls = "http://localhost:5678/api/works";

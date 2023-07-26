@@ -1,6 +1,6 @@
-import { anyElem, addClass, swapClass, displayFormData, testFullForm,
+import { anyElem, addClass, swapClass, displayFormData, testFullForm, lo,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP  } from "./utilitaires.js";
-import { deleteWork, addWork } from "./apifunctions.js";
+import { buildFetch, anyFetch, } from "./apifunctions.js";
 
 const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");
@@ -23,13 +23,13 @@ let APUrl = "";
 let urls = `http://localhost:5678/api/works`
 let response = await fetch(urls);
 wors = await response.json();
-console.log(wors);
+lo("wors", wors);
 
 urls = `http://localhost:5678/api/categories`
 response = await fetch(urls);
 cats = await response.json();
 cmax = cats.length -1;
-//console.log(cats);
+//lo("cats", cats);
 
 function swapModifier(pswap) {
     if (pswap > 0) {
@@ -43,7 +43,7 @@ function swapModifier(pswap) {
 function getLSInfo() {
     const getinfo = window.localStorage.getItem("loginfo");
     if (getinfo === null) {
-        console.log("getinfo : null")
+        lo("getinfo : null")
         swapModifier(-1);
         return true;
     }
@@ -52,30 +52,30 @@ function getLSInfo() {
     let dtlog = gijson.timenow;
     let minutes = (dt - dtlog) / 60000;
     if (minutes > session) {
-        console.log("getinfo : > " + session);
+        lo("getinfo > ", session);
         window.localStorage.removeItem("loginfo");
         swapModifier(-1);
         return true;
     }
     token = gijson.token;
-    console.log(token);
-    console.log("getinfo : < " + session);
+    lo("token", token);
+    lo("getinfo < ", session);
     swapModifier(1);
     return false;
 };
 function removeFigures() {
     try {
-        console.log("Début removeFigures");
+        lo("Début removeFigures");
         let figs = document.querySelector(".gallery");
         figs.parentNode.removeChild(figs);
         return true;
     } catch (error) {
-        console.log("Erreur removeFigures " + error.message);
+        lo("Erreur removeFigures " + error.message);
     }
 };
 function createFigures(pwors)  {
     try {
-        console.log("Début createFigures");
+        lo("Début createFigures");
         gal = document.createElement("div");
         gal.classList.add("gallery");
         for (let w = 0; w < pwors.length; w++) {
@@ -90,14 +90,14 @@ function createFigures(pwors)  {
             gal.appendChild(fig);
         }
         por.appendChild(gal);
-        console.log(por);
+        lo("portofolio",por);
         return true;
     } catch (error) {
-        console.log("Erreur createFigures " + error.message);
+        lo("Erreur createFigures " + error.message);
     }
 };
 function createCatBtns() {
-    console.log("Début createCatBtns");
+    lo("Début createCatBtns");
     let div = anyElem("div",null,null,"porcatbtn",null,null,null,null,null,null,null);
     por.appendChild(div);
     div.appendChild(anyElem("button",null,"0","porcatbtn__btnsel","button",null,null,null,"Tous",null,null));
@@ -105,7 +105,7 @@ function createCatBtns() {
         let bid = (c + 1).toString();
         div.appendChild(anyElem("button",null,bid,"porcatbtn__btn","button",null,null,null,cats[c].name,null,null));
     }
-    console.log("createCatBtns Ok");
+    lo("createCatBtns Ok");
 };
 function showSelCatBtn() {
     let btn = document.getElementById(precat);
@@ -124,7 +124,7 @@ function answerCatBtn(pid) {
             return work.categoryId === Number(pid);
         });
         main(worsfiltered);
-        console.log(worsfiltered); 
+        lo("worsfiltered", worsfiltered); 
     };
 };
 function addListenerCatBtns() {
@@ -140,14 +140,14 @@ function addListenerCatBtns() {
 };
 amod.addEventListener("mouseover", (event) => {
     testlog = getLSInfo();
-    console.log("testlog modifier: " + testlog);
+    lo("testlog modifier: ", testlog);
     if (testlog === true) { window.location.href="login.html"; };
 });
 function main(pwors) {
     let b = removeFigures();
-    if (b === true) {console.log("removeFigures Ok");
+    if (b === true) {lo("removeFigures Ok");
                      b = createFigures(pwors)};
-    if (b === true) {console.log("createFigures Ok")};
+    if (b === true) {lo("createFigures Ok")};
 };
 /* ------------------------------------------------------------------------------------------------- */
 /* --- --- --- --- --- --- --- --- --- gestion fenêtre modale --- --- --- --- --- --- --- --- --- ---*/
@@ -160,7 +160,7 @@ document.querySelector(".js-modal-back").addEventListener("click", (event) => {
     mainModal(wors);
 });
 function removeModal() {
-    console.log("Début removeModal - " + ModNum);
+    lo("Début removeModal - ", ModNum);
     let b = false;
     if (ModNum === 1) {
         b = removeMainModal();
@@ -170,7 +170,7 @@ function removeModal() {
     return b;
 };
 function removeMainModal() {
-    console.log("Début removeMainModal");
+    lo("Début removeMainModal");
     let modwrap = modal.querySelector(".modal-wrapper");
     let figs = modal.querySelector(".modal-gallery");
     let modbtns = modal.querySelector(".modal-btns");
@@ -179,7 +179,7 @@ function removeMainModal() {
     return true;
 };
 function removeAPModal() {
-    console.log("Début removeAPModal");
+    lo("Début removeAPModal");
     let modwrap = modal.querySelector(".modal-wrapper");
     let cont = modal.querySelector(".APmodal-content");
     modwrap.removeChild(cont);
@@ -225,7 +225,7 @@ function addListenerValBtn() {
     });
 };
 function createAjoutPhotoModal(pwors, pcats)  {
-    console.log("Début createAjoutPhotoModal");
+    lo("Début createAjoutPhotoModal");
     ModNum = 2;
     APUrl = null;
     const bback = modal.querySelector(".js-modal-back");
@@ -284,7 +284,7 @@ function addModalBtnsListener() {
     });
 };
 function createModalBtns() {
-    console.log("Début createModalBtns");
+    lo("Début createModalBtns");
     const modcontent = modal.querySelector(".modal-wrapper");
 /* --- Ligne --- */
     let div = anyElem("div",null,null,"modal-btns",null,null,null,null,null,null,null);
@@ -300,7 +300,7 @@ function createModalBtns() {
 
     modcontent.appendChild(div);
     addModalBtnsListener();
-    console.log("createModalBtns Ok");
+    lo("createModalBtns Ok");
 };
 function addListenerDelBtns() {
     let alldelbtns = modal.querySelectorAll(".figdelbtn");
@@ -313,15 +313,15 @@ function addListenerDelBtns() {
             let cn = fig.childNodes;
             let imgx = cn[1];
             let workid = parseInt(imgx.id);
-            console.log(workid);
-            console.log(token);
+            lo("workid", workid);
+            lo("token", token);
             deleteWork(workid, token);
         });
     };
 };
 function createMainModal(pwors)  {
     //try {
-        console.log("Début createMainModal");
+        lo("Début createMainModal");
         ModNum = 1;
         const bback = modal.querySelector(".js-modal-back");
         swapClass(bback, "js-modal-back-dis", "js-modal-back-nodis")
@@ -361,29 +361,29 @@ function createMainModal(pwors)  {
         return true;
 /*
     } catch (error) {
-        console.log("Erreur createMainModal " + error.message);
+        lo("Erreur createMainModal " + error.message);
     }
 */
 };
 
 function mainModal(pwors) {
     let b = removeModal();
-    if (b === true) {console.log("removeModal Ok");
+    if (b === true) {lo("removeModal Ok");
                      b = createMainModal(pwors)};
-    if (b === true) {console.log("createMainModal Ok")};
+    if (b === true) {lo("createMainModal Ok")};
 }
 function ajoutPhotoModal() {
     let b = removeMainModal();
-    if (b === true) {console.log("removeMainModal Ok");
+    if (b === true) {lo("removeMainModal Ok");
                      b = createAjoutPhotoModal(wors, cats)};
-    if (b === true) {console.log("createAjoutPhotoModal Ok")};
+    if (b === true) {lo("createAjoutPhotoModal Ok")};
 }
 
 const openModal = async function (e) {
     e.preventDefault()
     const target = e.target.getAttribute('href')
     modal = document.querySelector(target);
-    //console.log(modal);
+    //lo(modal);
     previouslyFocusedElement = document.querySelector(':focus')
     modal.style.display = "flex";
     modal.removeAttribute('aria-hidden')
@@ -394,12 +394,12 @@ const openModal = async function (e) {
 
     mainModal(wors);
     focusables = Array.from(modal.querySelectorAll(focusableSelector))
-    console.log(focusables);
+    lo("focusables", focusables);
     focusables[0].focus()
 }
 
 const closeModal = function (e) {
-    console.log(modal);
+    lo("modal", modal);
     if (modal === null) return 
     if (previouslyFocusedElement !== null) previouslyFocusedElement.focus()
     e.preventDefault()
@@ -467,7 +467,7 @@ window.addEventListener('keydown', function (e) {
 /* ---------------------------------------------------------------------------------- */
 /* --- --- --- --- --- --- --- --- Lancement du script --- --- --- --- --- --- --- -- */
 testlog = getLSInfo();
-console.log("testlog : " + testlog);
+lo("testlog",testlog);
 createCatBtns();
 addListenerCatBtns();
 ModNum = 1;
@@ -478,16 +478,16 @@ document.querySelectorAll(".js-modal").forEach(a => {
     a.addEventListener('click', openModal)});
  */    
 /*        
-        console.log("file = " + apifi.files[0].type);
-        console.log("file = " + APUrl);
-        console.log("file = " + apifi.files[0].size);
+        lo("file = " + apifi.files[0].type);
+        lo("file = " + APUrl);
+        lo("file = " + apifi.files[0].size);
         const tit = modal.querySelector(".aptinp").value;
         const lis = modal.querySelector(".aplinp").value;
-        console.log("categoryId: " + lis);
+        lo("categoryId: " + lis);
         const fd = new FormData();
         const lh = "http://localhost:5678/images/" + APUrl;
         const bl = apimg.src.substring(27);
-        console.log(tit + " - " + bl + " - " + APUrl + " - " + lis + " - " + apimg.src); 
+        lo(tit + " - " + bl + " - " + APUrl + " - " + lis + " - " + apimg.src); 
         fd.append('id', 12);
         fd.append('title', tit);
         fd.append('imageUrl', apimg.src.substring(27), APUrl);
