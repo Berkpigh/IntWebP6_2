@@ -1,4 +1,6 @@
 import { lo }  from "./utilitaires.js";
+const resp = document.getElementById("presult");
+
 function constructHeaders(pcont, ptoken){
     lo("Début constructHeaders");
     lo("cont", pcont);
@@ -23,12 +25,11 @@ function constructHeaders(pcont, ptoken){
     lo("headers", hea);
     return hea;
 };
-function constructRequest(purl, pmet, phea, pbod) {
+function constructRequestOptions(pmet, phea, pbod) {
     lo("Début constructRequest");
-    lo("u",purl);
-    lo("u",pmet);
-    lo("u",phea);
-    lo("u",pbod);
+    lo("m",pmet);
+    lo("h",phea);
+    lo("b",pbod);
     let settingObj = new Object();
     switch (true) {
         case (!(pmet === null)):
@@ -36,29 +37,10 @@ function constructRequest(purl, pmet, phea, pbod) {
         case (!(phea === null)):
             settingObj['header'] = phea;
         case (!(pbod === null)):
-            settingObj['body'] = pbod;
+            settingObj['body'] = pbod; 
     };
-    lo("options", settingObj)
-    let req = new Request(purl, settingObj);
-    return req;
-};
-export function buildFetch(purl, pmet, pcont, ptoken, pbod) {
-    lo("Début buildFetch");
-    const headersObj = constructHeaders(pcont, ptoken);
-    const requestObj = constructRequest(purl, pmet, headersObj, pbod);
-    return requestObj;
-};
-export async function anyFetch(preq) {
-    await fetch(preq)
-    .then((response) => {
-        if (!response.ok) {
-            return false;
-//          throw new Error(`HTTP error: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => { lo("Réponse", data) })
-      .catch((error) => { lo("Problème", error) });
+    lo("options", settingObj);
+    return settingObj;
 };
 export function storeResult(plogresult) {
     const locsto = {
@@ -69,6 +51,93 @@ export function storeResult(plogresult) {
     const loginfo = JSON.stringify(locsto);
     window.localStorage.setItem("loginfo", loginfo);
 };
+export async function loginFetch(purl, pcont, pbod, ptoken) {
+    lo("Début loginFetch");
+    lo("url", purl);
+    const headersObj = constructHeaders(pcont, ptoken);
+    const res = await fetch(purl,
+        {
+            method: "POST",
+            headers: headersObj,
+            body: pbod,
+        }
+    );
+    lo("loginFetch res", res);
+    if (res.ok === false) {
+        resp.innerHTML = "Erreur : Email ou mot de passe non valables";
+    } else {
+        let logresult = await res.json();
+        lo("loginFetch res.json()", logresult);
+        storeResult(logresult);
+        window.location.href="index.html";
+    }
+};
+export async function getFetch(purl) {
+    lo("Début getFetch");
+    lo("url", purl);
+    let res = await fetch(purl);
+    lo("loginFetch res", res);
+    if (res.ok === false) {
+        return res.ok;
+    } else {
+        res = await res.json();
+        lo("res",res);
+        return res;
+    }
+};
+/*
+    if (Object.keys(settingObj).length > 0) {
+        res = await fetch(purl, settingObj);
+    } else {
+        res = await fetch(purl);
+    };
+
+function constructRequest(purl, pmet, phea, pbod) {
+    lo("Début constructRequest");
+    lo("u",purl);
+    lo("m",pmet);
+    lo("h",phea);
+    lo("b",pbod);
+    let settingObj = new Object();
+    switch (true) {
+        case (!(pmet === null)):
+            settingObj['method'] = pmet;
+        case (!(phea === null)):
+            settingObj['header'] = phea;
+        case (!(pbod === null)):
+            settingObj['body'] = pbod; 
+    };
+    lo("options", settingObj);
+    lo("options nb", Object.keys(settingObj).length);
+    if (Object.keys(settingObj).length > 0) { return new Request(purl, settingObj); }
+    return new Request(purl);
+};
+export function buildFetch(purl, pmet, pcont, ptoken, pbod) {
+    lo("Début buildFetch");
+    const headersObj = constructHeaders(pcont, ptoken);
+    const requestObj = constructRequest(purl, pmet, headersObj, pbod)
+    lo("requestObj", requestObj);
+    anyFetch(requestObj);
+};
+
+
+
+/*
+export async function anyFetch(preq) {
+    const res = await fetch(preq);
+    console.log(res);
+    if (res.ok === false) {
+        resp.innerHTML = "Erreur : Email ou mot de passe non valables";
+    } else {
+        let logresult = await res.json();
+        console.log(logresult);
+        storeResult(logresult);
+//        window.location.href="index.html";
+    }
+};
+
+
+
 /*
 export async function postLogin(pbodjson,presp) {
     presp.innerHTML = "";

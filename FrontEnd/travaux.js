@@ -1,6 +1,6 @@
 import { anyElem, addClass, swapClass, displayFormData, testFullForm, lo,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP  } from "./utilitaires.js";
-import { buildFetch, anyFetch, } from "./apifunctions.js";
+import { storeResult, getFetch } from "./apifunctions.js";
 
 const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");
@@ -16,20 +16,27 @@ let cmax = 0;
 let curcat = "0";
 let precat = "";
 let testlog = 0;
-let session = 15;
+let session = 1;
 let ModNum = 0;
 let APUrl = "";
 
 let urls = `http://localhost:5678/api/works`
-let response = await fetch(urls);
-wors = await response.json();
-lo("wors", wors);
+let res = getFetch(urls);
+console.log("fetch wors res", res);
+if (!(res === false)) {
+    wors = res;
+    console.log("cats", cats);
 
-urls = `http://localhost:5678/api/categories`
-response = await fetch(urls);
-cats = await response.json();
-cmax = cats.length -1;
-//lo("cats", cats);
+    urls = `http://localhost:5678/api/categories`
+    res = getFetch(urls);
+    console.log("fetch cats res", res);
+    if (!(res === false)) {
+        cats = res;
+        cmax = cats.length -1;
+        console.log("cats", cats);
+    }
+    console.log("error getFetch");
+}
 
 function swapModifier(pswap) {
     if (pswap > 0) {
@@ -466,12 +473,14 @@ window.addEventListener('keydown', function (e) {
 /* --- --- --- --- --- --- --- --- Fin de la gestion de la fenêtre modale --- --- --- */
 /* ---------------------------------------------------------------------------------- */
 /* --- --- --- --- --- --- --- --- Lancement du script --- --- --- --- --- --- --- -- */
-testlog = getLSInfo();
-lo("testlog",testlog);
-createCatBtns();
-addListenerCatBtns();
-ModNum = 1;
-main(wors);
+
+        testlog = getLSInfo();
+        console.log("testlog",testlog);
+        createCatBtns();
+        addListenerCatBtns();
+        ModNum = 1;
+        main(wors);
+
 /* ---------------------------------------------------------------------------------- */
 /* 
 document.querySelectorAll(".js-modal").forEach(a => {
