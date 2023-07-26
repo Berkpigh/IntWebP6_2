@@ -82,7 +82,7 @@ export async function getFetch(purl) {
     } else {
         res = await res.json();
         lo("res",res);
-        return res;
+//        return res;
     }
 };
 /*
