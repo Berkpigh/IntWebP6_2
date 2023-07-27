@@ -1,5 +1,6 @@
 import { lo }  from "./utilitaires.js";
 const resp = document.getElementById("presult");
+let fetchResponse = "";
 
 function constructHeaders(pcont, ptoken){
     lo("Début constructHeaders");
@@ -72,18 +73,32 @@ export async function loginFetch(purl, pcont, pbod, ptoken) {
         window.location.href="index.html";
     }
 };
-export async function getFetch(purl) {
-    lo("Début getFetch");
-    lo("url", purl);
+export async function fetchWorks(purl) {
+    lo("Début fetchWorks");
     let res = await fetch(purl);
+    fetchResponse = await res.json();
+    lo("fetchResponse",fetchResponse);
+/*
     lo("loginFetch res", res);
     if (res.ok === false) {
         return res.ok;
     } else {
         res = await res.json();
         lo("res",res);
-//        return res;
+        return res;
     }
+ */    
+    lo("Fin fetchWorks");
+};
+export async function fetchCategories(purl) {
+    lo("Début fetchCategories");
+    let res = await fetch(purl);
+    fetchResponse = await res.json();
+    lo("fetchResponse",fetchResponse);
+    lo("Fin fetchCategories");
+};
+export function getFetchResponse() {
+    return fetchResponse;
 };
 /*
     if (Object.keys(settingObj).length > 0) {

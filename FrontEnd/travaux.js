@@ -1,6 +1,6 @@
 import { anyElem, addClass, swapClass, displayFormData, testFullForm, lo,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP  } from "./utilitaires.js";
-import { storeResult, getFetch } from "./apifunctions.js";
+import { storeResult, fetchWorks, fetchCategories, getFetchResponse } from "./apifunctions.js";
 
 const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");
@@ -20,23 +20,16 @@ let session = 1;
 let ModNum = 0;
 let APUrl = "";
 
-let urls = `http://localhost:5678/api/works`
-let res = getFetch(urls);
-console.log("fetch wors res", res);
-if (!(res === false)) {
-    wors = res;
-    console.log("cats", cats);
+let urls = `http://localhost:5678/api/works`;
+let res = await fetch(urls);
+wors = await res.json();
+console.log("wors", wors);
 
-    urls = `http://localhost:5678/api/categories`
-    res = getFetch(urls);
-    console.log("fetch cats res", res);
-    if (!(res === false)) {
-        cats = res;
-        cmax = cats.length -1;
-        console.log("cats", cats);
-    }
-    console.log("error getFetch");
-}
+urls = `http://localhost:5678/api/categories`
+res = await fetch(urls);
+cats = await res.json();
+console.log("cats", cats);
+cmax = cats.length -1;
 
 function swapModifier(pswap) {
     if (pswap > 0) {

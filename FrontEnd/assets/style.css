@@ -361,8 +361,10 @@ footer nav ul {
 	width: 100%;
 	/*height: 100%;*/
 	display: grid;
-	grid-template-columns: 76.86px 76.86px 76.86px 76.86px 76.86px;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-template-rows: 102.57px;
 /*
+	grid-template-columns: 76.86px 76.86px 76.86px 76.86px 76.86px;
 	grid-template-rows: 102.57px 102.57px 102.57px;
  	grid-template-columns: 18% 18% 18% 18% 18%;
 	grid-template-rows: 30% 30% 30%;
@@ -406,8 +408,8 @@ footer nav ul {
 	background-color: rgb(185, 134, 134);
 	opacity: 0.8;
 	height: 13px;
-}a
-.figcap {
+}
+a, .figcap {
 	position: absolute;
 	top: 108px;
 }
