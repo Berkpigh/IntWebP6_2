@@ -1,6 +1,6 @@
 import { anyElem, addClass, swapClass, displayFormData, testFullForm, lo,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP  } from "./utilitaires.js";
-import { storeResult, anyFetch, deleteWork, addWork } from "./apifunctions.js";
+import { fetchResponse, storeResult, anyFetch, deleteWork, addWork } from "./apifunctions.js";
 
 const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");

@@ -1,6 +1,6 @@
 import { lo }  from "./utilitaires.js";
 const resp = document.getElementById("presult");
-let fetchResponse = "";
+export let fetchResponse = "";
 
 function constructHeaders(pcont, ptoken){
     lo("Début constructHeaders");
@@ -54,7 +54,7 @@ export function storeResult(plogresult) {
 };
 export async function anyFetch(purl) {
     const res = await fetch(purl);
-    return res.json();
+    fetchResponse = await res.json();
 };
 
 
