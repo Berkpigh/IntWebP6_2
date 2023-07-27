@@ -52,6 +52,30 @@ export function storeResult(plogresult) {
     const loginfo = JSON.stringify(locsto);
     window.localStorage.setItem("loginfo", loginfo);
 };
+export async function anyFetch(purl) {
+    const res = await fetch(purl);
+    return res.json();
+};
+
+
+
+export function loginFetch(purl, pcont, pbod, ptoken) {
+    lo("Début loginFetch");
+    lo("url", purl);
+    const headersObj = constructHeaders(pcont, ptoken);
+    fetch(purl,
+        {
+            method: "POST",
+            headers: headersObj,
+            body: pbod,
+        }
+    )
+        .then(res => res.json())
+        .then(storeResult(res))
+        //.then(storeResult => lo("storeResult",storeResult))
+        //.then(window.location.href="index.html")
+};
+/*
 export async function loginFetch(purl, pcont, pbod, ptoken) {
     lo("Début loginFetch");
     lo("url", purl);
@@ -73,6 +97,7 @@ export async function loginFetch(purl, pcont, pbod, ptoken) {
         window.location.href="index.html";
     }
 };
+*/
 export async function deleteWork(pworkid, ptoken) {
     const urls = "http://localhost:5678/api/works/" + pworkid;
     const res = await fetch(urls, {
