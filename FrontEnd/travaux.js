@@ -1,6 +1,6 @@
 import { anyElem, addClass, swapClass, displayFormData, testFullForm, lo,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP  } from "./utilitaires.js";
-import { storeResult, fetchWorks, fetchCategories, getFetchResponse } from "./apifunctions.js";
+import { storeResult, deleteWork, addWork } from "./apifunctions.js";
 
 const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");
@@ -217,11 +217,14 @@ function addListenerValBtn() {
     fo.addEventListener("submit", (e) => {
         e.preventDefault();
         const fd = new FormData(fo);
+/*
         fd.delete("id");
         fd.delete("userId");
         fd.append("imageUrl", apifi.files[0], "imagechoisie.png")
+*/
         displayFormData(fd);
-        addWork(apifi.files[0],token);
+        let urls = "http://localhost:5678/api/works";
+        addWork(urls, "formauth", fd, token);
     });
 };
 function createAjoutPhotoModal(pwors, pcats)  {
@@ -241,8 +244,8 @@ function createAjoutPhotoModal(pwors, pcats)  {
     let img = anyElem("img",null,null,"apimg",null,"/Backend/images/kyswqmsva7nlkdxhpgl.svg","image?",null,null,null,null);
     img.classList.add("apzer");
     div2.appendChild(img);
-    div2.appendChild(anyElem("label","nlab",null,"apilab",null,null,null,"apinp","+ Ajouter photo",null,null));
-    const ipfi = anyElem("input",null,"apinp","apifi","file",null,null,null,null,null,true);
+    div2.appendChild(anyElem("label",null,null,"apilab",null,null,null,"apinp","+ Ajouter photo",null,null));
+    const ipfi = anyElem("input","imageUrl","apinp","apifi","file",null,null,null,null,null,true);
     ipfi.setAttribute("accept", "image/jpg, image/png");
     div2.appendChild(ipfi);
     //div2.appendChild(anyElem("input","imageUrl","apinp","apifi","file",null,null,null,null,null,true));
@@ -373,8 +376,8 @@ function mainModal(pwors) {
     if (b === true) {lo("createMainModal Ok")};
 }
 function ajoutPhotoModal() {
-    let b = removeMainModal();
-    if (b === true) {lo("removeMainModal Ok");
+    let b = removeModal();
+    if (b === true) {lo("removeModal Ok");
                      b = createAjoutPhotoModal(wors, cats)};
     if (b === true) {lo("createAjoutPhotoModal Ok")};
 }

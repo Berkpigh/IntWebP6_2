@@ -73,33 +73,34 @@ export async function loginFetch(purl, pcont, pbod, ptoken) {
         window.location.href="index.html";
     }
 };
-export async function fetchWorks(purl) {
-    lo("Début fetchWorks");
-    let res = await fetch(purl);
-    fetchResponse = await res.json();
-    lo("fetchResponse",fetchResponse);
+export async function deleteWork(pworkid, ptoken) {
+    const urls = "http://localhost:5678/api/works/" + pworkid;
+    const res = await fetch(urls, {
+        method: "DELETE",       
+        headers: anyHeader(ptoken) 
+    });
+    return;
+};
+export async function addWork(purl, pcont, pbod, ptoken) {
+    lo("Début addWork");
+    const headersObj = constructHeaders(pcont, ptoken);
+    let res = await fetch(purl, {
+        method: "POST",
+        headers: headersObj,
+        body: pbod,
+    });
+    console.log("addWork res: ", res);
+    let res2 = await res.json();
+    console.log("addWork res2: ", res2);
+};
 /*
-    lo("loginFetch res", res);
-    if (res.ok === false) {
-        return res.ok;
-    } else {
-        res = await res.json();
-        lo("res",res);
-        return res;
-    }
- */    
-    lo("Fin fetchWorks");
-};
-export async function fetchCategories(purl) {
-    lo("Début fetchCategories");
-    let res = await fetch(purl);
-    fetchResponse = await res.json();
-    lo("fetchResponse",fetchResponse);
-    lo("Fin fetchCategories");
-};
-export function getFetchResponse() {
-    return fetchResponse;
-};
+function (response) {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+*/
 /*
     if (Object.keys(settingObj).length > 0) {
         res = await fetch(purl, settingObj);
@@ -134,9 +135,6 @@ export function buildFetch(purl, pmet, pcont, ptoken, pbod) {
     lo("requestObj", requestObj);
     anyFetch(requestObj);
 };
-
-
-
 /*
 export async function anyFetch(preq) {
     const res = await fetch(preq);
@@ -150,9 +148,6 @@ export async function anyFetch(preq) {
 //        window.location.href="index.html";
     }
 };
-
-
-
 /*
 export async function postLogin(pbodjson,presp) {
     presp.innerHTML = "";
@@ -171,35 +166,6 @@ export async function postLogin(pbodjson,presp) {
         window.location.href="index.html";
     }
 };
-
-export async function deleteWork(pworkid, ptoken) {
-    const urls = "http://localhost:5678/api/works/" + pworkid;
-    const res = await fetch(urls, {
-        method: "DELETE",       
-        headers: anyHeader(ptoken) 
-    });
-    return;
-};
-export function addWork(pfd, ptoken) {
-    const {data} = axios.post("http://localhost:5678/api/works", {
-    axios.post("http://localhost:5678/api/works", {
-            title: 'Test1',
-        categoryId: 1,
-        imageUrl: pfd
-        },
-        {
-        headers: {'Authorization': `Bearer ${ptoken}`,
-                  'Content-Type': 'multipart/form-data'}
-        }
-    )
-    .then(function (response) {
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
-      });
-};
 */
 /*
 export function addWork(pfd, ptoken) {
@@ -216,5 +182,32 @@ export function addWork(pfd, ptoken) {
         .then(res => res.json())
         .then(data => console.log(data))
         .catch(err => console.log(err));
+};
+*/
+/*
+export async function fetchWorks(purl) {
+    lo("Début fetchWorks");
+    let res = await fetch(purl);
+    fetchResponse = await res.json();
+    lo("fetchResponse",fetchResponse);
+    lo("loginFetch res", res);
+    if (res.ok === false) {
+        return res.ok;
+    } else {
+        res = await res.json();
+        lo("res",res);
+        return res;
+    }
+     lo("Fin fetchWorks");
+};
+export async function fetchCategories(purl) {
+    lo("Début fetchCategories");
+    let res = await fetch(purl);
+    fetchResponse = await res.json();
+    lo("fetchResponse",fetchResponse);
+    lo("Fin fetchCategories");
+};
+export function getFetchResponse() {
+    return fetchResponse;
 };
 */
