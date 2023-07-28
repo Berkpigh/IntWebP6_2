@@ -114,9 +114,8 @@ export async function addWork(purl, pcont, pbod, ptoken) {
         headers: headersObj,
         body: pbod,
     });
-    //console.log("addWork res: ", res);
     let res2 = await res.json();
-    //console.log("addWork res2: ", res2);
+    console.log("Fin addWork: ");
 };
 /*
 function (response) {

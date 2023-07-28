@@ -218,12 +218,18 @@ function addListenerValBtn() {
         e.preventDefault();
         const fd = new FormData(fo);
         fd.delete("image");
-        const fname = "http://localhost:5678/images/" + apifi.files[0].name;
-        console.log("input file name: ", fname);
+        let ffn = apifi.files[0].name;
+        const posext = ffn.indexOf(".");
+        const fn = ffn.substring(0,posext);
+        const fext = ffn.substring(posext);
+        ffn = fn + Date.now()+ fext;
+        console.log("new filename",ffn);
+        const fname = "http://localhost:5678/images/" + ffn;
         fd.append("image", apifi.files[0], fname)
         displayFormData(fd);
         let urls = "http://localhost:5678/api/works";
         addWork(urls, "formauth", fd, token);
+        console.log("Fin addListenerValBtn()");
     });
 };
 function createAjoutPhotoModal(pwors, pcats)  {
