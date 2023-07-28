@@ -20,7 +20,11 @@ export function anyElem(pelem, pname, pid, pclass, ptype, psrc, palt, phtmlfor, 
     return x;
 };
 export function displayFormData(pfd) {
-    let i = 0;
+    for (const [i, v] of pfd.entries()) {
+        console.log("key: " + i + " - value: " + v);
+    }    
+/*
+     let i = 0;
     for (const ke of pfd.keys()) {
         i++;
         console.log("name " + i + " - " + ke);
@@ -35,6 +39,7 @@ export function displayFormData(pfd) {
             console.log("value name " + i + " - " + v);
         }
     };
+ */
 };
 export function testFullForm(purl,ptit,pbval) {
     if (purl === null || ptit.length < 4) {

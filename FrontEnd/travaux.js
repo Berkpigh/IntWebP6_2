@@ -217,11 +217,10 @@ function addListenerValBtn() {
     fo.addEventListener("submit", (e) => {
         e.preventDefault();
         const fd = new FormData(fo);
-/*
-        fd.delete("id");
-        fd.delete("userId");
-        fd.append("imageUrl", apifi.files[0], "imagechoisie.png")
-*/
+        fd.delete("imageUrl");
+        const fname = "http://localhost:5678/images/" + apifi.files[0].name;
+        console.log("input file name: ", fname);
+        fd.append("imageUrl", apifi.files[0], fname)
         displayFormData(fd);
         let urls = "http://localhost:5678/api/works";
         addWork(urls, "formauth", fd, token);
@@ -248,7 +247,6 @@ function createAjoutPhotoModal(pwors, pcats)  {
     const ipfi = anyElem("input","imageUrl","apinp","apifi","file",null,null,null,null,null,true);
     ipfi.setAttribute("accept", "image/jpg, image/png");
     div2.appendChild(ipfi);
-    //div2.appendChild(anyElem("input","imageUrl","apinp","apifi","file",null,null,null,null,null,true));
     div2.appendChild(anyElem("p",null,null,"appar",null,null,null,null,"jpg, png : 4mo max",null,null));
 // --- Fin div ajout
 // ^^^^^^^^^^^^^^^^^    
@@ -261,8 +259,8 @@ function createAjoutPhotoModal(pwors, pcats)  {
         aplist.appendChild(anyElem("option",null,null,null,null,null,null,null,pcats[c].name,pcats[c].id,null));
     }
     modgal.appendChild(aplist);
-    modgal.appendChild(anyElem("input","id",null,null,"hidden",null,null,null,null,19,null));
-    modgal.appendChild(anyElem("input","userId",null,null,"hidden",null,null,null,null,1,null));
+    modgal.appendChild(anyElem("input",null,null,null,"hidden",null,null,null,null,19,null));
+    modgal.appendChild(anyElem("input",null,null,null,"hidden",null,null,null,null,1,null));
     modgal.appendChild(generateSVGLine("modal-svg"));
     let apbval = anyElem("button",null,null,"apbval","submit",null,null,null,"Valider",null,null);
     apbval.classList.add("apbval_disab");
@@ -318,7 +316,7 @@ function addListenerDelBtns() {
             let workid = parseInt(imgx.id);
             lo("workid", workid);
             lo("token", token);
-            deleteWork(workid, token);
+            deleteWork(workid, "formauth", token);
         });
     };
 };

@@ -1,4 +1,4 @@
-import { lo }  from "./utilitaires.js";
+import { lo, displayFormData }  from "./utilitaires.js";
 const resp = document.getElementById("presult");
 export let fetchResponse = "";
 
@@ -23,7 +23,7 @@ function constructHeaders(pcont, ptoken){
         case "formauth":
             hea.append('Authorization', `Bearer ${ptoken}`);
     }
-    lo("headers", hea);
+    displayFormData(hea);
     return hea;
 };
 function constructRequestOptions(pmet, phea, pbod) {
@@ -57,25 +57,6 @@ export async function anyFetch(purl) {
     fetchResponse = await res.json();
 };
 
-
-
-export function loginFetch(purl, pcont, pbod, ptoken) {
-    lo("Début loginFetch");
-    lo("url", purl);
-    const headersObj = constructHeaders(pcont, ptoken);
-    fetch(purl,
-        {
-            method: "POST",
-            headers: headersObj,
-            body: pbod,
-        }
-    )
-        .then(res => res.json())
-        .then(storeResult(res))
-        //.then(storeResult => lo("storeResult",storeResult))
-        //.then(window.location.href="index.html")
-};
-/*
 export async function loginFetch(purl, pcont, pbod, ptoken) {
     lo("Début loginFetch");
     lo("url", purl);
@@ -97,12 +78,31 @@ export async function loginFetch(purl, pcont, pbod, ptoken) {
         window.location.href="index.html";
     }
 };
+
+
+/*
+export function loginFetch(purl, pcont, pbod, ptoken) {
+    lo("Début loginFetch");
+    lo("url", purl);
+    const headersObj = constructHeaders(pcont, ptoken);
+    fetch(purl,
+        {
+            method: "POST",
+            headers: headersObj,
+            body: pbod,
+        }
+    )
+        .then(res => res.json())
+        .then(res2 => storeResult(res2))
+        .then(window.location.href="index.html")
+};
 */
-export async function deleteWork(pworkid, ptoken) {
+export async function deleteWork(pworkid, pcont, ptoken) {
     const urls = "http://localhost:5678/api/works/" + pworkid;
+    const headersObj = constructHeaders(pcont, ptoken);
     const res = await fetch(urls, {
         method: "DELETE",       
-        headers: anyHeader(ptoken) 
+        headers: headersObj, 
     });
     return;
 };
@@ -114,9 +114,9 @@ export async function addWork(purl, pcont, pbod, ptoken) {
         headers: headersObj,
         body: pbod,
     });
-    console.log("addWork res: ", res);
+    //console.log("addWork res: ", res);
     let res2 = await res.json();
-    console.log("addWork res2: ", res2);
+    //console.log("addWork res2: ", res2);
 };
 /*
 function (response) {
