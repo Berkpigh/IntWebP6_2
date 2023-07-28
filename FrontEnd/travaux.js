@@ -217,10 +217,10 @@ function addListenerValBtn() {
     fo.addEventListener("submit", (e) => {
         e.preventDefault();
         const fd = new FormData(fo);
-        fd.delete("imageUrl");
+        fd.delete("image");
         const fname = "http://localhost:5678/images/" + apifi.files[0].name;
         console.log("input file name: ", fname);
-        fd.append("imageUrl", apifi.files[0], fname)
+        fd.append("image", apifi.files[0], fname)
         displayFormData(fd);
         let urls = "http://localhost:5678/api/works";
         addWork(urls, "formauth", fd, token);
@@ -244,7 +244,7 @@ function createAjoutPhotoModal(pwors, pcats)  {
     img.classList.add("apzer");
     div2.appendChild(img);
     div2.appendChild(anyElem("label",null,null,"apilab",null,null,null,"apinp","+ Ajouter photo",null,null));
-    const ipfi = anyElem("input","imageUrl","apinp","apifi","file",null,null,null,null,null,true);
+    const ipfi = anyElem("input","image","apinp","apifi","file",null,null,null,null,null,true);
     ipfi.setAttribute("accept", "image/jpg, image/png");
     div2.appendChild(ipfi);
     div2.appendChild(anyElem("p",null,null,"appar",null,null,null,null,"jpg, png : 4mo max",null,null));
@@ -254,7 +254,7 @@ function createAjoutPhotoModal(pwors, pcats)  {
     modgal.appendChild(anyElem("label",null,null,"aptlab",null,null,null,"aptinp","Titre",null,null));
     modgal.appendChild(anyElem("input","title","aptinp","aptinp","text",null,null,null,null,"indiquer un titre",null));
     modgal.appendChild(anyElem("label",null,null,"apllab",null,null,null,"aplist","Catégorie",null,null));
-    let aplist = anyElem("select","categoryId","aplist","aplinp",null,null,null,null,null,null,null);
+    let aplist = anyElem("select","category","aplist","aplinp",null,null,null,null,null,null,null);
     for (let c = 0; c < pcats.length; c++) {
         aplist.appendChild(anyElem("option",null,null,null,null,null,null,null,pcats[c].name,pcats[c].id,null));
     }
