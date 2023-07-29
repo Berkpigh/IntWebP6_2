@@ -99,11 +99,11 @@ export async function addWork(purl, pcont, pbod, ptoken) {
     try {
         const res = await fetch(purl, settingObj);
         console.log("loginFetch res", res.status);
-        if (response.status === 201) {
+        if (res.status === 201) {
             alert('image correctement ajoutée');
         } else {
-            alert(response.status);
-            throw new Error(response.status);
+            alert(res.status);
+            throw new Error(res.status);
         };
     } catch (error) {
         console.log(error.message);

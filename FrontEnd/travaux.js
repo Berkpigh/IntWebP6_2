@@ -9,6 +9,7 @@ let amod = document.getElementById("amod");
 let modifier = document.querySelector(".modifier");
 let modgal = document.querySelector(".modal-gallery");
 
+
 let token = "";
 let wors = "";
 let cats = "";
@@ -85,8 +86,8 @@ function createFigures(pwors)  {
         console.log("Erreur createFigures " + error.message);
     }
 };
-function createCatBtns(pcats) {
-    console.log("Début createCatBtns");
+function initialHomePageCreation(pcats) {
+    console.log("Début initialHomePageCreation");
     cats = pcats;
     console.log("pcats --- ", cats);
     cmax = cats.length -1;
@@ -97,8 +98,9 @@ function createCatBtns(pcats) {
         let bid = (c + 1).toString();
         div.appendChild(anyElem("button",null,bid,"porcatbtn__btn","button",null,null,null,cats[c].name,null,null));
     }
-    console.log("createCatBtns Ok");
     addListenerCatBtns();
+    getFetchThenMain();
+    console.log("initialHomePageCreation Ok");
 };
 function showSelCatBtn() {
     let btn = document.getElementById(precat);
@@ -131,6 +133,7 @@ function addListenerCatBtns() {
             }
         });
     };
+    console.log("addListenerCatBtns Ok");
 };
 amod.addEventListener("mouseover", (event) => {
     testlog = getLSInfo();
@@ -181,17 +184,6 @@ function removeAPModal() {
     modwrap.removeChild(cont);
     return true;
 };
-function createJsonObj(pimg) {
-    const lh = "http://localhost:5678/images/" + pimg; 
-    const jo = {
-        id: 0,
-        title: "test1",
-        imageUrl: lh,
-        categoryId: "1",
-        userId: 0
-    }
-    return JSON.stringify(jo);
-};
 function addListenerAPBtn() {
     const apimg = modal.querySelector(".apimg");
     const apifi = modal.querySelector(".apifi");
@@ -225,7 +217,7 @@ function addListenerValBtn() {
         displayFormData(fd);
         let urls = "http://localhost:5678/api/works";
         addWork(urls, "formauth", fd, token);
-        console.log("Fin addListenerValBtn()");
+        getFetchThenMainModal();
     });
 };
 function createAjoutPhotoModal(pwors, pcats)  {
@@ -319,6 +311,7 @@ function addListenerDelBtns() {
             console.log("workid", workid);
             console.log("token", token);
             deleteWork(workid, "formauth", token);
+            getFetchThenMainModal();
         });
     };
 };
@@ -370,6 +363,7 @@ function createMainModal(pwors)  {
 };
 
 function mainModal(pwors) {
+    wors = pwors;
     let b = removeModal();
     if (b === true) {console.log("removeModal Ok");
                      b = createMainModal(pwors)};
@@ -422,7 +416,7 @@ const closeModal = function (e) {
         modal = null
     }
     modal.addEventListener('animationend', hideModal)
-
+    getFetchThenMain();
 }
 
 const stopPropagation = function (e) {
@@ -467,9 +461,12 @@ window.addEventListener('keydown', function (e) {
         focusInModal(e)
     }
 })
-function refreshWorks() {
+function getFetchThenMainModal() {
+    getFetch(`http://localhost:5678/api/works`).then(w => mainModal(w),);
+};
+function getFetchThenMain() {
     getFetch(`http://localhost:5678/api/works`).then(w => main(w),);
-}
+};
 /* --- --- --- --- --- --- --- --- Fin de la gestion de la fenêtre modale --- --- --- */
 /* ---------------------------------------------------------------------------------- */
 /* --- --- --- --- --- --- --- --- Lancement du script --- --- --- --- --- --- --- -- */
@@ -477,6 +474,5 @@ function refreshWorks() {
 testlog = getLSInfo();
 console.log("testlog",testlog);
 ModNum = 1;
-getFetch(`http://localhost:5678/api/categories`).then(c => createCatBtns(c),);
-refreshWorks();
+getFetch(`http://localhost:5678/api/categories`).then(c => initialHomePageCreation(c),);
 /* ---------------------------------------------------------------------------------- */
