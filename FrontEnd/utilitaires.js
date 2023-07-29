@@ -23,23 +23,16 @@ export function displayFormData(pfd) {
     for (const [i, v] of pfd.entries()) {
         console.log("key: " + i + " - value: " + v);
     }    
-/*
-     let i = 0;
-    for (const ke of pfd.keys()) {
-        i++;
-        console.log("name " + i + " - " + ke);
-    };
-    i = 0;
-    for (const va of pfd.values()) {
-        i++;
-        let v = "";
-        console.log("value " + i + " - " + va);
-        if (typeof(va) === "object") {
-            v = va.name;
-            console.log("value name " + i + " - " + v);
-        }
-    };
- */
+};
+export function displayObject(pobj) {
+    for (const [key, value] of Object.entries(pobj)) {
+        console.log(`${key}: ${value}`);
+    }    
+};
+export function displayHeaders(phea) {
+    for (const pair of phea.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);      
+    }
 };
 export function testFullForm(purl,ptit,pbval) {
     if (purl === null || ptit.length < 4) {

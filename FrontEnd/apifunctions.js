@@ -1,10 +1,8 @@
-import { lo, displayFormData }  from "./utilitaires.js";
+import { lo, displayFormData, displayObject, displayHeaders }  from "./utilitaires.js";
 const resp = document.getElementById("presult");
 
 function constructHeaders(pcont, ptoken){
-    lo("Début constructHeaders");
-    lo("cont", pcont);
-    lo("token", ptoken);
+    console.log("Début constructHeaders");
     let hea = new Headers();
     switch (pcont) {
         case null:
@@ -22,24 +20,28 @@ function constructHeaders(pcont, ptoken){
         case "formauth":
             hea.append('Authorization', `Bearer ${ptoken}`);
     }
-    displayFormData(hea);
+    displayHeaders(hea);
     return hea;
 };
-function constructRequestOptions(pmet, phea, pbod) {
-    lo("Début constructRequest");
-    lo("m",pmet);
-    lo("h",phea);
-    lo("b",pbod);
+function constructRequestOptions(pfun, phea, pbod) {
+    console.log("Début constructRequest");
     let settingObj = new Object();
-    switch (true) {
-        case (!(pmet === null)):
-            settingObj['method'] = pmet;
-        case (!(phea === null)):
-            settingObj['header'] = phea;
-        case (!(pbod === null)):
+    switch (pfun) {
+        case ("login"):
+            settingObj['method'] = "POST";
+            settingObj['headers'] = phea;
+            settingObj['body'] = pbod; 
+            break;
+        case ("delete"):
+            settingObj['method'] = "DELETE";
+            settingObj['headers'] = phea;
+            break;
+        case ("add"):
+            settingObj['method'] = "POST";
+            settingObj['headers'] = phea;
             settingObj['body'] = pbod; 
     };
-    lo("options", settingObj);
+    displayObject(settingObj);
     return settingObj;
 };
 export function storeResult(plogresult) {
@@ -51,37 +53,31 @@ export function storeResult(plogresult) {
     const loginfo = JSON.stringify(locsto);
     window.localStorage.setItem("loginfo", loginfo);
 };
+/* ---  Récupération des données provenant du back-end --- */
 export async function getFetch(purl) {
-    // Récupération des données provenant du back-end pour les travaux
     const response = await fetch(purl);
-    const works = await response.json();
-    return works;
-};
-
-export async function anyFetch(purl) {
-    const res = await fetch(purl);
-    fetchResponse = await res.json();
+    const respjson = await response.json();
+    return respjson;
 };
 
 export async function loginFetch(purl, pcont, pbod, ptoken) {
-    lo("Début loginFetch");
-    lo("url", purl);
+    console.log("Début loginFetch");
+    console.log("url", purl);
     const headersObj = constructHeaders(pcont, ptoken);
-    const res = await fetch(purl,
-        {
-            method: "POST",
-            headers: headersObj,
-            body: pbod,
+    const settingObj = constructRequestOptions("login", headersObj, pbod);
+    try {
+        const res = await fetch(purl, settingObj);
+        console.log("loginFetch res", res.status);
+        if (res.ok === false) {
+            resp.innerHTML = "Erreur : Email ou mot de passe non valables";
+        } else {
+            let logresult = await res.json();
+            console.log("loginFetch res.json()", logresult);
+            storeResult(logresult);
+            window.location.href="index.html";
         }
-    );
-    lo("loginFetch res", res);
-    if (res.ok === false) {
-        resp.innerHTML = "Erreur : Email ou mot de passe non valables";
-    } else {
-        let logresult = await res.json();
-        lo("loginFetch res.json()", logresult);
-        storeResult(logresult);
-        window.location.href="index.html";
+    } catch (error) {
+        console.log(error.message);
     }
 };
 
@@ -96,7 +92,7 @@ export async function deleteWork(pworkid, pcont, ptoken) {
     return;
 };
 export async function addWork(purl, pcont, pbod, ptoken) {
-    lo("Début addWork");
+    console.log("Début addWork");
     const headersObj = constructHeaders(pcont, ptoken);
     let res = await fetch(purl, {
         method: "POST",
@@ -122,11 +118,11 @@ function (response) {
     };
 
 function constructRequest(purl, pmet, phea, pbod) {
-    lo("Début constructRequest");
-    lo("u",purl);
-    lo("m",pmet);
-    lo("h",phea);
-    lo("b",pbod);
+    console.log("Début constructRequest");
+    console.log("u",purl);
+    console.log("m",pmet);
+    console.log("h",phea);
+    console.log("b",pbod);
     let settingObj = new Object();
     switch (true) {
         case (!(pmet === null)):
@@ -136,16 +132,16 @@ function constructRequest(purl, pmet, phea, pbod) {
         case (!(pbod === null)):
             settingObj['body'] = pbod; 
     };
-    lo("options", settingObj);
-    lo("options nb", Object.keys(settingObj).length);
+    console.log("options", settingObj);
+    console.log("options nb", Object.keys(settingObj).length);
     if (Object.keys(settingObj).length > 0) { return new Request(purl, settingObj); }
     return new Request(purl);
 };
 export function buildFetch(purl, pmet, pcont, ptoken, pbod) {
-    lo("Début buildFetch");
+    console.log("Début buildFetch");
     const headersObj = constructHeaders(pcont, ptoken);
     const requestObj = constructRequest(purl, pmet, headersObj, pbod)
-    lo("requestObj", requestObj);
+    console.log("requestObj", requestObj);
     anyFetch(requestObj);
 };
 /*
@@ -199,26 +195,26 @@ export function addWork(pfd, ptoken) {
 */
 /*
 export async function fetchWorks(purl) {
-    lo("Début fetchWorks");
+    console.log("Début fetchWorks");
     let res = await fetch(purl);
     fetchResponse = await res.json();
-    lo("fetchResponse",fetchResponse);
-    lo("loginFetch res", res);
+    console.log("fetchResponse",fetchResponse);
+    console.log("loginFetch res", res);
     if (res.ok === false) {
         return res.ok;
     } else {
         res = await res.json();
-        lo("res",res);
+        console.log("res",res);
         return res;
     }
-     lo("Fin fetchWorks");
+     console.log("Fin fetchWorks");
 };
 export async function fetchCategories(purl) {
-    lo("Début fetchCategories");
+    console.log("Début fetchCategories");
     let res = await fetch(purl);
     fetchResponse = await res.json();
-    lo("fetchResponse",fetchResponse);
-    lo("Fin fetchCategories");
+    console.log("fetchResponse",fetchResponse);
+    console.log("Fin fetchCategories");
 };
 export function getFetchResponse() {
     return fetchResponse;
@@ -226,8 +222,8 @@ export function getFetchResponse() {
 */
 /*
 export function loginFetch(purl, pcont, pbod, ptoken) {
-    lo("Début loginFetch");
-    lo("url", purl);
+    console.log("Début loginFetch");
+    console.log("url", purl);
     const headersObj = constructHeaders(pcont, ptoken);
     fetch(purl,
         {
