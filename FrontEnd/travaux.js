@@ -1,6 +1,6 @@
 import { anyElem, addClass, swapClass, displayFormData, testFullForm, lo,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP  } from "./utilitaires.js";
-import { getAllWorks, storeResult, anyFetch, deleteWork, addWork } from "./apifunctions.js";
+import { getAllWorks, storeResult, deleteWork, addWork } from "./apifunctions.js";
 
 const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");
@@ -24,9 +24,8 @@ wors = getAllWorks(urls);
 console.log("nouveaux wors: ", wors);
 
 urls = `http://localhost:5678/api/categories`
-res = await fetch(urls);
-cats = await res.json();
-console.log("cats", cats);
+cats = getAllWorks(cats);
+console.log("nouveaux wors: ", cats);
 cmax = cats.length -1;
 
 function swapModifier(pswap) {
