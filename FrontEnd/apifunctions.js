@@ -55,7 +55,7 @@ export async function getAllWorks(purl) {
     // Récupération des données provenant du back-end pour les travaux
     const response = await fetch(purl);
     const works = await response.json();
-    //return works;
+    return works;
 };
 
 export async function anyFetch(purl) {

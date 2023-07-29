@@ -19,14 +19,6 @@ let testlog = 0;
 let session = 1;
 let ModNum = 0;
 let APUrl = "";
-let urls = `http://localhost:5678/api/works`;
-wors = getAllWorks(urls);
-console.log("nouveaux wors: ", wors);
-
-urls = `http://localhost:5678/api/categories`
-cats = getAllWorks(cats);
-console.log("nouveaux wors: ", cats);
-cmax = cats.length -1;
 
 function swapModifier(pswap) {
     if (pswap > 0) {
@@ -40,7 +32,7 @@ function swapModifier(pswap) {
 function getLSInfo() {
     const getinfo = window.localStorage.getItem("loginfo");
     if (getinfo === null) {
-        lo("getinfo : null")
+        console.log("getinfo : null")
         swapModifier(-1);
         return true;
     }
@@ -49,30 +41,30 @@ function getLSInfo() {
     let dtlog = gijson.timenow;
     let minutes = (dt - dtlog) / 60000;
     if (minutes > session) {
-        lo("getinfo > ", session);
+        console.log("getinfo > ", session);
         window.localStorage.removeItem("loginfo");
         swapModifier(-1);
         return true;
     }
     token = gijson.token;
-    lo("token", token);
-    lo("getinfo < ", session);
+    console.log("token", token);
+    console.log("getinfo < ", session);
     swapModifier(1);
     return false;
 };
 function removeFigures() {
     try {
-        lo("Début removeFigures");
+        console.log("Début removeFigures");
         let figs = document.querySelector(".gallery");
         figs.parentNode.removeChild(figs);
         return true;
     } catch (error) {
-        lo("Erreur removeFigures " + error.message);
+        console.log("Erreur removeFigures " + error.message);
     }
 };
 function createFigures(pwors)  {
     try {
-        lo("Début createFigures");
+        console.log("Début createFigures");
         gal = document.createElement("div");
         gal.classList.add("gallery");
         for (let w = 0; w < pwors.length; w++) {
@@ -87,14 +79,17 @@ function createFigures(pwors)  {
             gal.appendChild(fig);
         }
         por.appendChild(gal);
-        lo("portofolio",por);
+        console.log("portofolio",por);
         return true;
     } catch (error) {
-        lo("Erreur createFigures " + error.message);
+        console.log("Erreur createFigures " + error.message);
     }
 };
-function createCatBtns() {
-    lo("Début createCatBtns");
+function createCatBtns(pcats) {
+    console.log("Début createCatBtns");
+    cats = pcats;
+    console.log("pcats --- ", cats);
+    cmax = cats.length -1;
     let div = anyElem("div",null,null,"porcatbtn",null,null,null,null,null,null,null);
     por.appendChild(div);
     div.appendChild(anyElem("button",null,"0","porcatbtn__btnsel","button",null,null,null,"Tous",null,null));
@@ -102,7 +97,8 @@ function createCatBtns() {
         let bid = (c + 1).toString();
         div.appendChild(anyElem("button",null,bid,"porcatbtn__btn","button",null,null,null,cats[c].name,null,null));
     }
-    lo("createCatBtns Ok");
+    console.log("createCatBtns Ok");
+    addListenerCatBtns();
 };
 function showSelCatBtn() {
     let btn = document.getElementById(precat);
@@ -121,10 +117,11 @@ function answerCatBtn(pid) {
             return work.categoryId === Number(pid);
         });
         main(worsfiltered);
-        lo("worsfiltered", worsfiltered); 
+        console.log("worsfiltered", worsfiltered); 
     };
 };
 function addListenerCatBtns() {
+    console.log("Début addListenerCatBtns");
     let allcatbtns = document.querySelectorAll(".porcatbtn button");
     for (let c = 0; c < allcatbtns.length; c++) {
         allcatbtns[c].addEventListener("click", (event) => {
@@ -137,14 +134,16 @@ function addListenerCatBtns() {
 };
 amod.addEventListener("mouseover", (event) => {
     testlog = getLSInfo();
-    lo("testlog modifier: ", testlog);
+    console.log("testlog modifier: ", testlog);
     if (testlog === true) { window.location.href="login.html"; };
 });
 function main(pwors) {
+    wors = pwors;
+    console.log("wors --- ", wors);
     let b = removeFigures();
-    if (b === true) {lo("removeFigures Ok");
+    if (b === true) {console.log("removeFigures Ok");
                      b = createFigures(pwors)};
-    if (b === true) {lo("createFigures Ok")};
+    if (b === true) {console.log("createFigures Ok")};
 };
 /* ------------------------------------------------------------------------------------------------- */
 /* --- --- --- --- --- --- --- --- --- gestion fenêtre modale --- --- --- --- --- --- --- --- --- ---*/
@@ -157,7 +156,7 @@ document.querySelector(".js-modal-back").addEventListener("click", (event) => {
     mainModal(wors);
 });
 function removeModal() {
-    lo("Début removeModal - ", ModNum);
+    console.log("Début removeModal - ", ModNum);
     let b = false;
     if (ModNum === 1) {
         b = removeMainModal();
@@ -167,7 +166,7 @@ function removeModal() {
     return b;
 };
 function removeMainModal() {
-    lo("Début removeMainModal");
+    console.log("Début removeMainModal");
     let modwrap = modal.querySelector(".modal-wrapper");
     let figs = modal.querySelector(".modal-gallery");
     let modbtns = modal.querySelector(".modal-btns");
@@ -176,7 +175,7 @@ function removeMainModal() {
     return true;
 };
 function removeAPModal() {
-    lo("Début removeAPModal");
+    console.log("Début removeAPModal");
     let modwrap = modal.querySelector(".modal-wrapper");
     let cont = modal.querySelector(".APmodal-content");
     modwrap.removeChild(cont);
@@ -230,7 +229,7 @@ function addListenerValBtn() {
     });
 };
 function createAjoutPhotoModal(pwors, pcats)  {
-    lo("Début createAjoutPhotoModal");
+    console.log("Début createAjoutPhotoModal");
     ModNum = 2;
     APUrl = null;
     const bback = modal.querySelector(".js-modal-back");
@@ -288,7 +287,7 @@ function addModalBtnsListener() {
     });
 };
 function createModalBtns() {
-    lo("Début createModalBtns");
+    console.log("Début createModalBtns");
     const modcontent = modal.querySelector(".modal-wrapper");
 /* --- Ligne --- */
     let div = anyElem("div",null,null,"modal-btns",null,null,null,null,null,null,null);
@@ -304,7 +303,7 @@ function createModalBtns() {
 
     modcontent.appendChild(div);
     addModalBtnsListener();
-    lo("createModalBtns Ok");
+    console.log("createModalBtns Ok");
 };
 function addListenerDelBtns() {
     let alldelbtns = modal.querySelectorAll(".figdelbtn");
@@ -317,15 +316,15 @@ function addListenerDelBtns() {
             let cn = fig.childNodes;
             let imgx = cn[1];
             let workid = parseInt(imgx.id);
-            lo("workid", workid);
-            lo("token", token);
+            console.log("workid", workid);
+            console.log("token", token);
             deleteWork(workid, "formauth", token);
         });
     };
 };
 function createMainModal(pwors)  {
     //try {
-        lo("Début createMainModal");
+        console.log("Début createMainModal");
         ModNum = 1;
         const bback = modal.querySelector(".js-modal-back");
         swapClass(bback, "js-modal-back-dis", "js-modal-back-nodis")
@@ -365,29 +364,29 @@ function createMainModal(pwors)  {
         return true;
 /*
     } catch (error) {
-        lo("Erreur createMainModal " + error.message);
+        console.log("Erreur createMainModal " + error.message);
     }
 */
 };
 
 function mainModal(pwors) {
     let b = removeModal();
-    if (b === true) {lo("removeModal Ok");
+    if (b === true) {console.log("removeModal Ok");
                      b = createMainModal(pwors)};
-    if (b === true) {lo("createMainModal Ok")};
+    if (b === true) {console.log("createMainModal Ok")};
 }
 function ajoutPhotoModal() {
     let b = removeModal();
-    if (b === true) {lo("removeModal Ok");
+    if (b === true) {console.log("removeModal Ok");
                      b = createAjoutPhotoModal(wors, cats)};
-    if (b === true) {lo("createAjoutPhotoModal Ok")};
+    if (b === true) {console.log("createAjoutPhotoModal Ok")};
 }
 
 const openModal = async function (e) {
     e.preventDefault()
     const target = e.target.getAttribute('href')
     modal = document.querySelector(target);
-    //lo(modal);
+    //console.log(modal);
     previouslyFocusedElement = document.querySelector(':focus')
     modal.style.display = "flex";
     modal.removeAttribute('aria-hidden')
@@ -398,12 +397,12 @@ const openModal = async function (e) {
 
     mainModal(wors);
     focusables = Array.from(modal.querySelectorAll(focusableSelector))
-    lo("focusables", focusables);
+    console.log("focusables", focusables);
     focusables[0].focus()
 }
 
 const closeModal = function (e) {
-    lo("modal", modal);
+    console.log("modal", modal);
     if (modal === null) return 
     if (previouslyFocusedElement !== null) previouslyFocusedElement.focus()
     e.preventDefault()
@@ -471,29 +470,28 @@ window.addEventListener('keydown', function (e) {
 /* ---------------------------------------------------------------------------------- */
 /* --- --- --- --- --- --- --- --- Lancement du script --- --- --- --- --- --- --- -- */
 
-        testlog = getLSInfo();
-        console.log("testlog",testlog);
-        createCatBtns();
-        addListenerCatBtns();
-        ModNum = 1;
-        main(wors);
-
+testlog = getLSInfo();
+console.log("testlog",testlog);
+ModNum = 1;
+let urls = 
+getAllWorks(`http://localhost:5678/api/categories`).then(c => createCatBtns(c),);
+getAllWorks(`http://localhost:5678/api/works`).then(w => main(w),);
 /* ---------------------------------------------------------------------------------- */
 /* 
 document.querySelectorAll(".js-modal").forEach(a => {
     a.addEventListener('click', openModal)});
  */    
 /*        
-        lo("file = " + apifi.files[0].type);
-        lo("file = " + APUrl);
-        lo("file = " + apifi.files[0].size);
+        console.log("file = " + apifi.files[0].type);
+        console.log("file = " + APUrl);
+        console.log("file = " + apifi.files[0].size);
         const tit = modal.querySelector(".aptinp").value;
         const lis = modal.querySelector(".aplinp").value;
-        lo("categoryId: " + lis);
+        console.log("categoryId: " + lis);
         const fd = new FormData();
         const lh = "http://localhost:5678/images/" + APUrl;
         const bl = apimg.src.substring(27);
-        lo(tit + " - " + bl + " - " + APUrl + " - " + lis + " - " + apimg.src); 
+        console.log(tit + " - " + bl + " - " + APUrl + " - " + lis + " - " + apimg.src); 
         fd.append('id', 12);
         fd.append('title', tit);
         fd.append('imageUrl', apimg.src.substring(27), APUrl);
