@@ -422,7 +422,7 @@ const closeModal = function (e) {
         modal = null
     }
     modal.addEventListener('animationend', hideModal)
-    main(wors);
+
 }
 
 const stopPropagation = function (e) {
