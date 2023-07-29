@@ -422,6 +422,7 @@ const closeModal = function (e) {
         modal = null
     }
     modal.addEventListener('animationend', hideModal)
+    main(wors);
 }
 
 const stopPropagation = function (e) {
@@ -466,6 +467,9 @@ window.addEventListener('keydown', function (e) {
         focusInModal(e)
     }
 })
+function refreshWorks() {
+    getFetch(`http://localhost:5678/api/works`).then(w => main(w),);
+}
 /* --- --- --- --- --- --- --- --- Fin de la gestion de la fenêtre modale --- --- --- */
 /* ---------------------------------------------------------------------------------- */
 /* --- --- --- --- --- --- --- --- Lancement du script --- --- --- --- --- --- --- -- */
@@ -473,29 +477,6 @@ window.addEventListener('keydown', function (e) {
 testlog = getLSInfo();
 console.log("testlog",testlog);
 ModNum = 1;
-let urls = 
 getFetch(`http://localhost:5678/api/categories`).then(c => createCatBtns(c),);
-getFetch(`http://localhost:5678/api/works`).then(w => main(w),);
+refreshWorks();
 /* ---------------------------------------------------------------------------------- */
-/* 
-document.querySelectorAll(".js-modal").forEach(a => {
-    a.addEventListener('click', openModal)});
- */    
-/*        
-        console.log("file = " + apifi.files[0].type);
-        console.log("file = " + APUrl);
-        console.log("file = " + apifi.files[0].size);
-        const tit = modal.querySelector(".aptinp").value;
-        const lis = modal.querySelector(".aplinp").value;
-        console.log("categoryId: " + lis);
-        const fd = new FormData();
-        const lh = "http://localhost:5678/images/" + APUrl;
-        const bl = apimg.src.substring(27);
-        console.log(tit + " - " + bl + " - " + APUrl + " - " + lis + " - " + apimg.src); 
-        fd.append('id', 12);
-        fd.append('title', tit);
-        fd.append('imageUrl', apimg.src.substring(27), APUrl);
-        fd.append('categoryId', lis);
-        fd.append('userId', 1);
-        addWork(fd, token);
-*/
