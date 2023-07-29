@@ -51,7 +51,7 @@ export function storeResult(plogresult) {
     const loginfo = JSON.stringify(locsto);
     window.localStorage.setItem("loginfo", loginfo);
 };
-export async function getAllWorks(purl) {
+export async function getFetch(purl) {
     // Récupération des données provenant du back-end pour les travaux
     const response = await fetch(purl);
     const works = await response.json();

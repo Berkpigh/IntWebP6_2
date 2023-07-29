@@ -1,6 +1,6 @@
 import { anyElem, addClass, swapClass, displayFormData, testFullForm, lo,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP  } from "./utilitaires.js";
-import { getAllWorks, storeResult, deleteWork, addWork } from "./apifunctions.js";
+import { getFetch, storeResult, deleteWork, addWork } from "./apifunctions.js";
 
 const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");
@@ -474,8 +474,8 @@ testlog = getLSInfo();
 console.log("testlog",testlog);
 ModNum = 1;
 let urls = 
-getAllWorks(`http://localhost:5678/api/categories`).then(c => createCatBtns(c),);
-getAllWorks(`http://localhost:5678/api/works`).then(w => main(w),);
+getFetch(`http://localhost:5678/api/categories`).then(c => createCatBtns(c),);
+getFetch(`http://localhost:5678/api/works`).then(w => main(w),);
 /* ---------------------------------------------------------------------------------- */
 /* 
 document.querySelectorAll(".js-modal").forEach(a => {
