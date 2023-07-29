@@ -1,6 +1,6 @@
 import { anyElem, addClass, swapClass, displayFormData, testFullForm, lo,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP  } from "./utilitaires.js";
-import { fetchResponse, storeResult, anyFetch, deleteWork, addWork } from "./apifunctions.js";
+import { getAllWorks, storeResult, anyFetch, deleteWork, addWork } from "./apifunctions.js";
 
 const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");
@@ -19,11 +19,9 @@ let testlog = 0;
 let session = 1;
 let ModNum = 0;
 let APUrl = "";
-
 let urls = `http://localhost:5678/api/works`;
-let res = await fetch(urls);
-wors = await res.json();
-console.log("wors", wors);
+wors = getAllWorks(urls);
+console.log("nouveaux wors: ", wors);
 
 urls = `http://localhost:5678/api/categories`
 res = await fetch(urls);

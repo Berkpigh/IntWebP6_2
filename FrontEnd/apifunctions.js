@@ -1,6 +1,5 @@
 import { lo, displayFormData }  from "./utilitaires.js";
 const resp = document.getElementById("presult");
-export let fetchResponse = "";
 
 function constructHeaders(pcont, ptoken){
     lo("Début constructHeaders");
@@ -52,6 +51,13 @@ export function storeResult(plogresult) {
     const loginfo = JSON.stringify(locsto);
     window.localStorage.setItem("loginfo", loginfo);
 };
+export async function getAllWorks(purl) {
+    // Récupération des données provenant du back-end pour les travaux
+    const response = await fetch(purl);
+    const works = await response.json();
+    //return works;
+};
+
 export async function anyFetch(purl) {
     const res = await fetch(purl);
     fetchResponse = await res.json();
@@ -80,23 +86,6 @@ export async function loginFetch(purl, pcont, pbod, ptoken) {
 };
 
 
-/*
-export function loginFetch(purl, pcont, pbod, ptoken) {
-    lo("Début loginFetch");
-    lo("url", purl);
-    const headersObj = constructHeaders(pcont, ptoken);
-    fetch(purl,
-        {
-            method: "POST",
-            headers: headersObj,
-            body: pbod,
-        }
-    )
-        .then(res => res.json())
-        .then(res2 => storeResult(res2))
-        .then(window.location.href="index.html")
-};
-*/
 export async function deleteWork(pworkid, pcont, ptoken) {
     const urls = "http://localhost:5678/api/works/" + pworkid;
     const headersObj = constructHeaders(pcont, ptoken);
@@ -233,5 +222,22 @@ export async function fetchCategories(purl) {
 };
 export function getFetchResponse() {
     return fetchResponse;
+};
+*/
+/*
+export function loginFetch(purl, pcont, pbod, ptoken) {
+    lo("Début loginFetch");
+    lo("url", purl);
+    const headersObj = constructHeaders(pcont, ptoken);
+    fetch(purl,
+        {
+            method: "POST",
+            headers: headersObj,
+            body: pbod,
+        }
+    )
+        .then(res => res.json())
+        .then(res2 => storeResult(res2))
+        .then(window.location.href="index.html")
 };
 */
