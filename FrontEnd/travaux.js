@@ -74,6 +74,7 @@ function createFigures(pwors)  {
             let fic = document.createElement("figcaption");
             ima.src = pwors[w].imageUrl;
             ima.alt = pwors[w].title;
+            ima.crossOrigin = "Anonymous";
             fic.innerHTML  = pwors[w].title;
             fig.appendChild(ima);
             fig.appendChild(fic);
@@ -337,6 +338,7 @@ function createMainModal(pwors)  {
             div.appendChild(bdel);
 // --- image et caption
             let ima = anyElem("img",null,pwors[w].id,"figimg",null,pwors[w].imageUrl,pwors[w].title,null,null,null,null);
+            ima.crossOrigin = "Anonymous";
             let afic = document.createElement("a");
             afic.href = "#figbtn" + w.toString();
             afic.classList.add("figcap");
