@@ -11,6 +11,7 @@ let gal = document.querySelector(".gallery");
 let alog = document.getElementById("alog");
 let admb = document.querySelector(".adminbar");
 let modifier = document.querySelector(".modifier");
+let outbtn = document.getElementById("outbtn");
 document.querySelector(".js-modal").addEventListener('click', (e) => {
     openModal(e, wors);
 });
@@ -28,6 +29,10 @@ let testlog = false;
 let session = 1;
 let ModNum = 0;
 let APUrl = "";
+
+outbtn.addEventListener("click", (e) => {
+    window.localStorage.removeItem("loginfo");
+});
 
 function swapModifier(pswap) {
     console.log("Début swapModifier : ", pswap)
