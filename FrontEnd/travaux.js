@@ -4,7 +4,7 @@ import { removeModal, removeMainModal, removeAPModal, addListenerAPBtn,
     addListenerValBtn, createAjoutPhotoModal, addModalBtnsListener, 
     createModalBtns, addListenerDelBtns, createMainModal, 
     ajoutPhotoModal, showMainModal, openModal, closeModal } from "./modales.js";
-import { getFetch, storeResult, deleteWork, addWork } from "./apifunctions.js";
+import { getFetch } from "./apifunctions.js";
 
 const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");
@@ -26,9 +26,6 @@ let cmax = 0;
 let curcat = "0";
 let precat = "";
 let testlog = false;
-let session = 1;
-let ModNum = 0;
-let APUrl = "";
 
 outbtn.addEventListener("click", (e) => {
     window.localStorage.removeItem("loginfo");
@@ -182,6 +179,5 @@ function getFetchThenMainHomePage() {
 
 testlog = getLSInfo();
 console.log("testlog : ",testlog);
-ModNum = 1;
 getFetch(`http://localhost:5678/api/categories`).then(c => initialHomePageCreation(c),);
 /* ---------------------------------------------------------------------------------- */

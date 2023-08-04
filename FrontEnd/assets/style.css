@@ -426,12 +426,19 @@ footer nav ul {
  	grid-template-columns: 18% 18% 18% 18% 18%;
 	grid-template-rows: 30% 30% 30%;
  */	
- 	grid-column-gap: 8.925px;
+ 	/*grid-column-gap: 8.925px;*/
 	grid-row-gap: 35px;
 }
-.modal-gallery img {
-	width: 100%;
+
+.figimg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	idth: 76.86px;
+	height: 102.57px;
+	object-fit: cover;
 }
+
 .modal[aria-hidden="true"] {
     animation-name: fadeOut; 
     /* animation-direction: reverse; */
@@ -442,21 +449,21 @@ footer nav ul {
 }
 .figs {
 	position: relative;
-}
-.figimg {
-	position: absolute;
-	top: 0;
-	left: 0;
+	margin-block: 0;
+	margin-inline: 0;
 }
 .figbtns {
 	position: absolute;
 	top: 8px;
-	right: 6px;
+	left: 40px;
+	width: 40px;
 	z-index: 1;
+	display: flex;
+	justify-content: center;
 }
 .figsvg {
 	border-radius: 2px 2px;
-	margin-left: 5px;
+	margin-left: 15px;
 }
 .figdelbtn {
 	box-sizing: unset;
@@ -486,11 +493,16 @@ footer nav ul {
 	position: absolute;
 	top: 0;
 }
+.apimg-nodis {
+	display: none;
+}
 .appho {
 	position: absolute;
 	top: 0;	width: 420px;
 	height: 169px;
+	display: inline;
 	object-fit: contain;
+	z-index: 1;
 }
 .apzer {
 	position: absolute;
@@ -565,6 +577,12 @@ footer nav ul {
 	border-radius: 35px;
 	background: grey;
 	padding: 10px;
+}
+.pmesred {
+	color: red;
+}
+.pmes {
+	color: black;
 }
 @keyframes fadeIn {
     from { opacity: 0; }
