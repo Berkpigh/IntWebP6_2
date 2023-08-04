@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------------------------------- */
 /* --- --- --- --- --- --- --- --- --- gestion fenêtre modale --- --- --- --- --- --- --- --- --- ---*/
 /* ------------------------------------------------------------------------------------------------- */
-import { anyElem, addClass, swapClass, displayFormData, testFullForm, lo,
+import { anyElem, swapClass, displayFormData, testFullForm, lo,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP } from "./utilitaires.js";
 
 const focusableSelector = 'button, a, input, textarea'
@@ -255,8 +255,7 @@ export const openModal = async function (e, wors) {
     focusables = Array.from(modal.querySelectorAll(focusableSelector))
     console.log("focusables", focusables);
     focusables[0].focus()
-}
-
+};
 export const closeModal = function (e) {
     console.log("Début closeModal");
     console.log("modal", modal);

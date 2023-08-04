@@ -1,4 +1,4 @@
-import { anyElem, addClass, swapClass, displayFormData, testFullForm, lo,
+import { anyElem, swapClass, displayFormData, testFullForm, lo,
     generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP  } from "./utilitaires.js";
 import { removeModal, removeMainModal, removeAPModal, addListenerAPBtn, 
     addListenerValBtn, createAjoutPhotoModal, addModalBtnsListener, 
@@ -9,7 +9,7 @@ import { getFetch, storeResult, deleteWork, addWork } from "./apifunctions.js";
 const por = document.getElementById("portofolio");
 let gal = document.querySelector(".gallery");
 let alog = document.getElementById("alog");
-let amod = document.getElementById("amod");
+let admb = document.querySelector(".adminbar");
 let modifier = document.querySelector(".modifier");
 document.querySelector(".js-modal").addEventListener('click', (e) => {
     openModal(e, wors);
@@ -24,18 +24,21 @@ let cats = "";
 let cmax = 0;
 let curcat = "0";
 let precat = "";
-let testlog = 0;
+let testlog = false;
 let session = 1;
 let ModNum = 0;
 let APUrl = "";
 
 function swapModifier(pswap) {
+    console.log("Début swapModifier : ", pswap)
     if (pswap > 0) {
         swapClass(alog,"navenabled","navdisabled");
         swapClass(modifier, "modinvisible", "modvisible");
+        alog.innerHTML = "logout";
     } else {
         swapClass(alog,"navdisabled", "navenabled");
         swapClass(modifier, "modvisible", "modinvisible");
+        alog.innerHTML = "login";
     }
 };
 function getLSInfo() {
@@ -43,7 +46,7 @@ function getLSInfo() {
     if (getinfo === null) {
         console.log("getinfo : null")
         swapModifier(-1);
-        return true;
+        return false;
     }
     const gijson = JSON.parse(getinfo);
     let dt = Date.now();
@@ -61,7 +64,7 @@ function getLSInfo() {
     console.log("token", token);
     //console.log("getinfo < ", session);
     swapModifier(1);
-    return false;
+    return true;
 };
 function removeFigures() {
     try {
@@ -80,6 +83,7 @@ function createFigures(pwork)  {
         gal.classList.add("gallery");
         for (let w = 0; w < pwork.length; w++) {
             let fig = document.createElement("figure");
+            fig.classList.add("homefig");
             let ima = document.createElement("img");
             let fic = document.createElement("figcaption");
             ima.src = pwork[w].imageUrl;
@@ -99,17 +103,22 @@ function createFigures(pwork)  {
 };
 function initialHomePageCreation(pcats) {
     console.log("Début initialHomePageCreation");
-    cats = pcats;
-    console.log("pcats --- ", cats);
-    cmax = cats.length -1;
-    let div = anyElem("div",null,null,"porcatbtn",null,null,null,null,null,null,null);
-    por.appendChild(div);
-    div.appendChild(anyElem("button",null,"0","porcatbtn__btnsel","button",null,null,null,"Tous",null,null));
-    for (let c = 0; c <= cmax; c++) {
-        let bid = (c + 1).toString();
-        div.appendChild(anyElem("button",null,bid,"porcatbtn__btn","button",null,null,null,cats[c].name,null,null));
+    if (testlog === true) {
+        swapClass(admb, "adminbar-nodis", "adminbar-dis");
+    } else {
+        swapClass(admb, "adminbar-dis", "adminbar-nodis");
+        cats = pcats;
+        console.log("pcats --- ", cats);
+        cmax = cats.length -1;
+        let div = anyElem("div",null,null,"porcatbtn",null,null,null,null,null,null,null);
+        por.appendChild(div);
+        div.appendChild(anyElem("button",null,"0","porcatbtn__btnsel","button",null,null,null,"Tous",null,null));
+        for (let c = 0; c <= cmax; c++) {
+            let bid = (c + 1).toString();
+            div.appendChild(anyElem("button",null,bid,"porcatbtn__btn","button",null,null,null,cats[c].name,null,null));
+        }
+        addListenerCatBtns();
     }
-    addListenerCatBtns();
     getFetchThenMainHomePage();
     console.log("initialHomePageCreation Ok");
 };
@@ -167,7 +176,7 @@ function getFetchThenMainHomePage() {
 /* --- --- --- --- --- --- --- --- Lancement du script --- --- --- --- --- --- --- -- */
 
 testlog = getLSInfo();
-console.log("testlog",testlog);
+console.log("testlog : ",testlog);
 ModNum = 1;
 getFetch(`http://localhost:5678/api/categories`).then(c => initialHomePageCreation(c),);
 /* ---------------------------------------------------------------------------------- */
