@@ -1,13 +1,15 @@
 /* ------------------------------------------------------------------------------------------------- */
 /* --- --- --- --- --- --- --- --- --- gestion fenêtre modale --- --- --- --- --- --- --- --- --- ---*/
 /* ------------------------------------------------------------------------------------------------- */
-import { anyElem, swapClass, displayFormData, testFullForm, lo,
-    generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP } from "./utilitaires.js";
+import { anyElem, swapClass, displayFormData, testFullForm, 
+        generateSVGMove, generateSVGDel, generateSVGLine, generateSVGAP } from "./utilitaires.js";
 import { getFetch, deleteWork, addWork } from "./apifunctions.js";
 
 const focusableSelector = 'button, a, input, textarea'
 let modgal = document.querySelector(".modal-gallery");
 
+// --- taille max. de l'image (fixée à 1Mo pour avoir des cas de dépassement)
+const sizemax = 1000000;
 let wors = "";
 let cats = "";
 let token ="";
@@ -16,9 +18,12 @@ let modal = null
 let focusables = []
 let previouslyFocusedElement = null
 
+// --- lecture des projets et lancement de la modale
 function getFetchThenMainModal() {
+    console.log("Début getFetchThenMainModal");
     getFetch(`http://localhost:5678/api/works`).then(w => showMainModal(w),);
 };
+// --- lecture du local storage pour le token
 function getLocalStorage() {
     const getinfo = window.localStorage.getItem("loginfo");
     if (getinfo === null) {
@@ -29,7 +34,9 @@ function getLocalStorage() {
     token = gijson.token;
     return true;
 };
-
+// --- suppression des éléments de la modale
+// --- 1 --> main modale
+// --- 2 --> modale Ajout Photo
 export  function removeModal() {
     console.log("Début removeModal - ", ModNum);
     let b = false;
@@ -40,6 +47,7 @@ export  function removeModal() {
     };
     return b;
 };
+// --- suppression des éléments de la main modale
 export function removeMainModal() {
     console.log("Début removeMainModal");
     let modwrap = modal.querySelector(".modal-wrapper");
@@ -49,6 +57,7 @@ export function removeMainModal() {
     modwrap.removeChild(modbtns);
     return true;
 };
+// --- suppression des éléments de la modale Ajout Photo
 export function removeAPModal() {
     console.log("Début removeAPModal");
     let modwrap = modal.querySelector(".modal-wrapper");
@@ -56,6 +65,7 @@ export function removeAPModal() {
     modwrap.removeChild(cont);
     return true;
 };
+// --- listener bouton Ajout Photo
 export function addListenerAPBtn() {
     const apimg = modal.querySelector(".apimg");
     const apifi = modal.querySelector(".apifi");
@@ -63,14 +73,25 @@ export function addListenerAPBtn() {
     const aptinp = modal.querySelector(".aptinp");
     const apbval = modal.querySelector(".apbval");
     const pmes = modal.querySelector(".pmes");
+    let mes = "";
     apifi.onchange = function() {
-        const APFil = apifi.files[0];
-        apimg.src = URL.createObjectURL(apifi.files[0]);
-        swapClass(apilab, "apilab", "apilab-nodis");
-        swapClass(apimg, "apimg-nodis", "appho");
-        const mes = testFullForm(APFil,aptinp.value,apbval,pmes);
+        let APFil = apifi.files[0];
+        if (APFil.size > sizemax)  {
+            console.log("img size : ", APFil.size, " - ", sizemax);
+            mes = "- La taille de l'image est supérieure à la limite<br>"
+            APFil = null;
+            apifi.value = null;
+        } else {
+            mes = "";
+            apimg.src = URL.createObjectURL(apifi.files[0]);
+            swapClass(apilab, "apilab", "apilab-nodis");
+            swapClass(apimg, "apimg-nodis", "appho");
+        }
+        testFullForm(mes,APFil,aptinp.value,apbval,pmes);
+        mes = "";
     };
 };
+// --- listener saisie du titre
 export function addListenerTitleInput() {
     const apifi = modal.querySelector(".apifi");
     const aptinp = modal.querySelector(".aptinp");
@@ -78,9 +99,10 @@ export function addListenerTitleInput() {
     const pmes = modal.querySelector(".pmes");
     aptinp.onchange = function() {
         const APFil = apifi.files[0];
-        const mes = testFullForm(APFil,aptinp.value,apbval,pmes);
+        testFullForm("",APFil,aptinp.value,apbval,pmes);
     }
 };
+// --- listener bouton valide ajout photo
 export function addListenerValBtn() {
     const apifi = modal.querySelector(".apifi");
     const fo = modal.querySelector("form");
@@ -98,12 +120,13 @@ export function addListenerValBtn() {
         fd.append("image", apifi.files[0], fname)
         displayFormData(fd);
         let urls = "http://localhost:5678/api/works";
-        addWork(urls, "formauth", fd, token);
-        getFetchThenMainModal();
+        addWork(urls, "formauth", fd, token).then(() => getFetchThenMainModal());
+        //getFetchThenMainModal();
     });
 };
-export function createAjoutPhotoModal(pwork, pcats)  {
-    console.log("Début createAjoutPhotoModal");
+// --- céation de la modale Ajout Photo
+export function createAPhotoModal(pwork, pcats)  {
+    console.log("Début createAPhotoModal");
     ModNum = 2;
     const bback = modal.querySelector(".js-modal-back");
     swapClass(bback, "js-modal-back-nodis", "js-modal-back-dis");
@@ -126,7 +149,8 @@ export function createAjoutPhotoModal(pwork, pcats)  {
     const ipfi = anyElem("input","image","apinp","apifi","file",null,null,null,null,null,true);
     ipfi.setAttribute("accept", "image/jpg, image/png");
     div2.appendChild(ipfi);
-    div2.appendChild(anyElem("p",null,null,"appar",null,null,null,null,"jpg, png : 4mo max",null,null));
+    let txt = "jpg, png : " + (sizemax/1000000).toString() + "mo max";
+    div2.appendChild(anyElem("p",null,null,"appar",null,null,null,null,txt,null,null));
 // --- Fin div ajout
 // ^^^^^^^^^^^^^^^^^    
     modgal.appendChild(div2);
@@ -159,15 +183,17 @@ export function createAjoutPhotoModal(pwork, pcats)  {
     addListenerValBtn();
     return true;
 };
+// --- listener des boutons de la main modale
 export function addModalBtnsListener() {
     const madd = modal.querySelector(".modal-add");
     madd.addEventListener("click", (event) => {
-        getFetch(`http://localhost:5678/api/categories`).then(c => ajoutPhotoModal(c),);
+        getFetch(`http://localhost:5678/api/categories`).then(c => showAPhotoModal(c),);
     });
     const mdel = modal.querySelector(".modal-del");
     mdel.addEventListener("click", (event) => {
     });
 };
+// --- création des boutons de la main modale
 export function createModalBtns() {
     console.log("Début createModalBtns");
     const modcontent = modal.querySelector(".modal-wrapper");
@@ -187,6 +213,7 @@ export function createModalBtns() {
     addModalBtnsListener();
     console.log("createModalBtns Ok");
 };
+// --- listener des boutons de suppression d'images
 export function addListenerDelBtns() {
     let alldelbtns = modal.querySelectorAll(".figdelbtn");
     for (let i = 0; i < alldelbtns.length; i++) {
@@ -205,71 +232,70 @@ export function addListenerDelBtns() {
         });
     };
 };
+// --- création de la main modale
 export function createMainModal(pwork)  {
-    //try {
-        console.log("Début createMainModal");
-        console.log("pwork : ", pwork);
-        ModNum = 1;
-        if (getLocalStorage() === false) { return false };
-        const bback = modal.querySelector(".js-modal-back");
-        swapClass(bback, "js-modal-back-dis", "js-modal-back-nodis")
-        const modtit = modal.querySelector(".modal-title");
-        modtit.innerHTML = "Galerie photo";
+    console.log("Début createMainModal");
+    console.log("pwork : ", pwork);
+    ModNum = 1;
+    if (getLocalStorage() === false) { return false };
+    const bback = modal.querySelector(".js-modal-back");
+    swapClass(bback, "js-modal-back-dis", "js-modal-back-nodis")
+    const modtit = modal.querySelector(".modal-title");
+    modtit.innerHTML = "Galerie photo";
 //        
-        modgal = anyElem("div",null,null,"modal-gallery",null,null,null,null,null,null,null);
-        for (let w = 0; w < pwork.length; w++) {
-            let fig = anyElem("figure",null,null,"figs",null,null,null,null,null,null,null);
+    modgal = anyElem("div",null,null,"modal-gallery",null,null,null,null,null,null,null);
+    for (let w = 0; w < pwork.length; w++) {
+        let fig = anyElem("figure",null,null,"figs",null,null,null,null,null,null,null);
 // --- div avec les boutons
-            let div = anyElem("div",null,null,"figbtns",null,null,null,null,null,null,null);
-            if (w === 0) { div.appendChild(generateSVGMove()); };
-            let bdel = anyElem("button",null,null,"figdelbtn","button",null,null,null,null,null,null,null);
-            let svg = generateSVGDel();
-            svg.id = "figbtn" + w.toString();
-            bdel.appendChild(svg);
-            div.appendChild(bdel);
+        let div = anyElem("div",null,null,"figbtns",null,null,null,null,null,null,null);
+        if (w === 0) { div.appendChild(generateSVGMove()); };
+        let bdel = anyElem("button",null,null,"figdelbtn","button",null,null,null,null,null,null,null);
+        let svg = generateSVGDel();
+        svg.id = "figbtn" + w.toString();
+        bdel.appendChild(svg);
+        div.appendChild(bdel);
 // --- image et caption
-            let ima = anyElem("img",null,pwork[w].id,"figimg",null,pwork[w].imageUrl,pwork[w].title,null,null,null,null);
-            ima.crossOrigin = "Anonymous";
-            let afic = document.createElement("a");
-            afic.href = "#figbtn" + w.toString();
-            afic.classList.add("figcap");
-            let fic = document.createElement("figcaption");
-            fic.innerHTML  = "éditer";
+        let ima = anyElem("img",null,pwork[w].id,"figimg",null,pwork[w].imageUrl,pwork[w].title,null,null,null,null);
+        ima.crossOrigin = "Anonymous";
+        let afic = document.createElement("a");
+        afic.href = "#figbtn" + w.toString();
+        afic.classList.add("figcap");
+        let fic = document.createElement("figcaption");
+        fic.innerHTML  = "éditer";
 // --- rattachement au parent
-            fig.appendChild(div);
-            afic.appendChild(fic);
-            fig.appendChild(ima);
-            fig.appendChild(afic);
-            modgal.appendChild(fig);
-        }
-        const modcontent = modal.querySelector(".modal-wrapper");
-        swapClass(modcontent, "modal-APmodal", "modal-modal");
-        modcontent.appendChild(modgal);
-        console.log("modcontent : ", modcontent);
-        createModalBtns();
-        addListenerDelBtns();
-        return true;
-/*
-    } catch (error) {
-        console.log("Erreur createMainModal " + error.message);
+        fig.appendChild(div);
+        afic.appendChild(fic);
+        fig.appendChild(ima);
+        fig.appendChild(afic);
+        modgal.appendChild(fig);
     }
-*/
+    const modcontent = modal.querySelector(".modal-wrapper");
+    swapClass(modcontent, "modal-APmodal", "modal-modal");
+    modcontent.appendChild(modgal);
+    console.log("modcontent : ", modcontent);
+    createModalBtns();
+    addListenerDelBtns();
+    return true;
 };
-export function ajoutPhotoModal(pcate) {
+// --- lancement création de la modale Ajout Photo
+export function showAPhotoModal(pcate) {
+    console.log("Début showAPhotoModal");
     cats = pcate;
     let b = removeModal();
     if (b === true) {console.log("removeModal Ok");
-                     b = createAjoutPhotoModal(wors, cats)};
-    if (b === true) {console.log("createAjoutPhotoModal Ok")};
+                     b = createAPhotoModal(wors, cats)};
+    if (b === true) {console.log("createAPhotoModal Ok")};
 }
+// --- lancement création de la main modale
 export function showMainModal(pwork) {
+    console.log("Début showMainModal");
     wors = pwork;
     let b = removeModal();
     if (b === true) {console.log("removeModal Ok");
                      b = createMainModal(pwork)};
     if (b === true) {console.log("createMainModal Ok")};
 };
-
+// --- ouverture de la main modale (code de Grafikart)
 export const openModal = async function (e, wors) {
     console.log("Début openModal");
     e.preventDefault()
@@ -283,23 +309,18 @@ export const openModal = async function (e, wors) {
     modal.addEventListener('click', closeModal)
     modal.querySelector('.js-modal-close').addEventListener('click', closeModal)
     modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation)
-
     showMainModal(wors);
     focusables = Array.from(modal.querySelectorAll(focusableSelector))
     console.log("focusables", focusables);
     focusables[0].focus()
 };
+// --- fermeture de la main modale (code de Grafikart)
 export const closeModal = function (e) {
     console.log("Début closeModal");
     console.log("modal", modal);
     if (modal === null) return 
     if (previouslyFocusedElement !== null) previouslyFocusedElement.focus()
     e.preventDefault()
-    /* Animation-direction reversed
-    modal.style.display = "none"
-    modal.offsetWidth
-    modal.style.display = null
-     */
     modal.setAttribute('aria-hidden', 'true')
     modal.removeAttribute('aria-modal')
     modal.removeEventListener('click', closeModal)
@@ -312,13 +333,14 @@ export const closeModal = function (e) {
     }
     modal.addEventListener('animationend', hideModal)
     location.reload();
-    //getFetchThenMainHomePage();
 }
-
+// --- stop la propagation de l'événement 
+// --- aussi bien en direction des parents que des enfants de l'élément
 const stopPropagation = function (e) {
     e.stopPropagation()
 }
-
+// --- création de la table des éléments pouvant recevoir le focus
+// --- code de grafikart
 const focusInModal = function (e) {
     e.preventDefault()
     let index = focusables.findIndex(f => f === modal.querySelector(':focus'))
@@ -335,19 +357,7 @@ const focusInModal = function (e) {
     }
     focusables[index].focus()
 }
-
-const loadModal = async function (url) {
-    // TODO : Afficher un loader
-    const target = '#' + url.split('#')[1]
-    const exitingModal = document.querySelector(target)
-    if (exitingModal !== null) return exitingModal
-    const html = await fetch(url).then(response => response.text())
-    const element = document.createRange().createContextualFragment(html).querySelector(target)
-    if (element === null) throw `L'élément ${target} n'a pas été trouvé dans la page ${url}`
-    document.body.append(element)
-    return element
-}
-
+// --- listener touches clavier pour accessibilité (code de Grafikart)
 window.addEventListener('keydown', function (e) {
     if (e.key === "Escape" || e.key === "Esc") {
         closeModal(e)

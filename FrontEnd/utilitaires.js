@@ -1,10 +1,4 @@
-export function lo(ptxt, pval){
-    if (pval == null || pval === 'undefined') {
-        console.log(ptxt + ": ");
-        return;
-    }
-    console.log(ptxt + ": ", pval);
-}
+// création de tout élément du DOM avec les principaux attributs
 export function anyElem(pelem, pname, pid, pclass, ptype, psrc, palt, phtmlfor, phtml, pvalue, preq) {
     let x = document.createElement(pelem);
     if (!(pname === null)) { x.name = pname; }
@@ -19,25 +13,30 @@ export function anyElem(pelem, pname, pid, pclass, ptype, psrc, palt, phtmlfor, 
     if (!(preq === null)) { x.required = preq; }
     return x;
 };
+// --- log d'objets formData
 export function displayFormData(pfd) {
     for (const [i, v] of pfd.entries()) {
         console.log("key: " + i + " - value: " + v);
     }    
 };
+// --- log d'Objets
 export function displayObject(pobj) {
     for (const [key, value] of Object.entries(pobj)) {
         console.log(`${key}: ${value}`);
     }    
 };
+// --- log d'objets Headers
 export function displayHeaders(phea) {
     for (const pair of phea.entries()) {
         console.log(`${pair[0]}: ${pair[1]}`);      
     }
 };
-export function testFullForm(papfil,ptit,pbval,ppmes) {
+// --- test de remplissage de la form Ajout Photo
+export function testFullForm(pmes, papfil,ptit,pbval,ppmes) {
     console.log("Début testFullForm", papfil);
-    let mes = "";
-    if (papfil == null || papfil === "undefined") { mes = "- Choisir une image"};
+    let mes = pmes;
+    pmes = "";
+    if (papfil == null || papfil === "undefined") { mes = mes + "- Choisir une image"};
     if (ptit.length < 4) { mes = mes + "<br>- Indiquer un titre d'au moins 4 caractères"};
     if (!(mes === "")) {
         pbval.disabled = true;
@@ -50,11 +49,13 @@ export function testFullForm(papfil,ptit,pbval,ppmes) {
     };
     ppmes.innerHTML = mes;
 };
+// --- échange de classes d'un élément
 export function swapClass(pelem, prem, padd) {
     pelem.classList.remove(prem);
     pelem.classList.add(padd);
     return;
 };
+// --- génération svg
 export function generateSVGMove(pclass) {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
@@ -77,6 +78,7 @@ export function generateSVGMove(pclass) {
     if (!(pclass === null)) { svg.classList.add(pclass); }
     return svg;
 };
+// --- génération svg
 export function generateSVGDel(pclass) {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
@@ -99,6 +101,7 @@ export function generateSVGDel(pclass) {
     if (!(pclass === null)) { svg.classList.add(pclass); }
     return svg;
 };
+// --- génération svg
 export function generateSVGLine(pclass) {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -117,6 +120,7 @@ export function generateSVGLine(pclass) {
     if (!(pclass === null)) { svg.classList.add(pclass); }
     return svg;
 };
+// --- génération svg
 export function generateSVGAP(pclass) {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("width", "58");
@@ -141,4 +145,3 @@ export function generateSVGAP(pclass) {
     if (!(pclass === null)) { svg.classList.add(pclass); }
     return svg;
 };
-
